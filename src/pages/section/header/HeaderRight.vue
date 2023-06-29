@@ -10,11 +10,11 @@
             <input type="text" placeholder="搜索音乐">
         </div>
         <div class="img">
-            <img src="../../../assets/听歌识曲.png" alt="听歌识曲" title="听歌识曲">
+            <img src="../../../assets/img/听歌识曲.png" alt="听歌识曲" title="听歌识曲">
         </div>
         <div class="user">
             <div class="headshot">
-                <img src="../../../assets/headshot.png" alt="">
+                <img src="../../../assets/img/headshot.png" alt="">
             </div>
             <div class="username">
                 面向慈善

@@ -4,8 +4,28 @@
       <input type="range" />
     </div>
     <div class="playback">
-        <div class="img">
-            <img src="../../../assets/playback.png" alt="">
+        <div class="musicMsg">
+            <div class="img">
+                <img src="../../../assets/img/playback.png" alt="">
+            </div>
+            <div class="message">
+                <div class="title">QQ音乐 听我想听</div>
+                <div class="menu">
+                    <div class="love">喜</div>
+                    <div class="download">下</div>
+                    <div class="more">更</div>
+                    <div class="review">评</div>
+                </div>
+            </div>
+        </div>
+        <div class="player">
+
+        </div>
+        <div class="lyrics" title="打开歌词">
+            词
+        </div>
+        <div class="queue" title="播放队列">
+
         </div>
     </div>
   </div>
@@ -64,20 +84,52 @@ export default {
     #footerRight>.playback {
         width: 810px;
         height: 60px;
-        background-color: red;
+        display: flex;
     }
 
-    #footerRight>.playback>.img{
+    #footerRight>.playback>.musicMsg{
+        width: 300px;
+        height: 60px;
+        display: flex;
+    }
+
+    #footerRight>.playback>.musicMsg>.img{
         width: 40px;
         height: 40px;
-        margin-left: 38px;
+        margin-left: 40px;
         position: relative;
         top:5px;
     }
 
-    #footerRight>.playback>.img>img{
+    #footerRight>.playback>.musicMsg>.img>img{
         width: 40px;
         height: 40px;
         border-radius: 5px;
+    }
+
+    #footerRight>.playback>.musicMsg>.message{
+        width: 220px;
+        height: 60px;
+        margin-left:10px;
+    }
+
+    #footerRight>.playback>.musicMsg>.message>.title{
+        font-size:13.8px;
+        position: relative;
+        top:5px;
+    }
+
+    #footerRight>.playback>.musicMsg>.message>.menu{
+        display: flex;
+        margin-top:5px;
+    }
+
+    #footerRight>.playback>.musicMsg>.message>.menu>div{
+        margin-right:17px;
+    }
+
+    #footerRight>.playback>.player{
+        width: 410px;
+        height: 60px;
     }
 </style>

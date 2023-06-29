@@ -2,7 +2,7 @@
   <div id="app">
     <nav>
       <div class="header">
-        <img src="./assets/logo.png" alt="logo">
+        <img src="./assets/img/logo.png" alt="logo">
         <p>QQ音乐</p>
       </div>
       <div class="menu">
@@ -51,7 +51,7 @@ export default {
     background-color: black;
     margin: 0 auto;
     display: flex;
-    background-image: url(assets/背景图片.jpg);
+    background-image: url(assets/img/背景图片.jpg);
   }
 
   nav>.header{
