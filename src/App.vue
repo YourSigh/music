@@ -14,7 +14,7 @@
         <HeaderRight></HeaderRight>
       </header>
       <article>
-
+        <router-view></router-view>
       </article>
       <footer>
         <FooterRight></FooterRight>
@@ -27,9 +27,11 @@
 import NavLeft from './pages/nav/NavLeft.vue';
 import FooterRight from './pages/section/footer/FooterRight.vue';
 import HeaderRight from './pages/section/header/HeaderRight.vue'
+import router from './router/index';
 
 export default {
   name: 'App',
+  router,
   components: {
     NavLeft,
     HeaderRight,
@@ -93,7 +95,6 @@ export default {
   section>article{
     width: 810px;
     height: 535px;
-    background-color: blue;
   }
 
   section>footer{

@@ -1,8 +1,8 @@
 <template>
-    <div id="suggest">
+    <div id="musicHall">
         <div class="left"></div>
         <div class="content">
-            <h1 class="title">推荐</h1>
+            <h1 class="title">音乐馆</h1>
         </div>
         <div class="right"></div>
     </div>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-    name: 'Suggest',
+    name: 'MusicHall',
 
     data() {
         return {
@@ -29,14 +29,14 @@ export default {
 </script>
 
 <style>
-    #suggest{
+    #musicHall{
         width: 810px;
         height: 535px;
         overflow: auto;
         display: flex;
     }
 
-    #suggest::-webkit-scrollbar{
+    #musicHall::-webkit-scrollbar{
         width: 10px;
     }
 
@@ -45,24 +45,24 @@ export default {
         background-color: rgba(255, 255, 255, 0.5);
     }
 
-    #suggest>.left{
+    #musicHall>.left{
         width: 38px;
         height: 535px;
         
     }
 
-    #suggest>.content{
+    #musicHall>.content{
         width: 724px;
         height: 1000px;
         background-color: red;
     }
 
-    #suggest>.right{
+    #musicHall>.right{
         width: 38px;
         height: 535px;
     }
 
-    #suggest>.content>.title{
+    #musicHall>.content>.title{
         font-size:34px;
         color:white;
     }
