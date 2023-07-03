@@ -7,7 +7,8 @@
             &gt;
         </div>
         <div class="select">
-            <input type="text" placeholder="搜索音乐">
+            <input type="text" placeholder="搜索音乐" @keyup.enter="selectMusic" id="select">
+            <img src="../../../assets/img/搜索.png" title="搜索" @click="selectMusic">
         </div>
         <div class="img">
             <img src="../../../assets/img/听歌识曲.png" alt="听歌识曲" title="听歌识曲">
@@ -62,6 +63,16 @@ export default {
     methods: {
         close() {
             document.getElementById("app").style.visibility = "hidden";
+        },
+        selectMusic() {
+            this.$router.push("/suggest");
+            var text = document.getElementById('select').value;
+            if (text == "") {
+                alert("请输入您要搜索的内容！");
+            } else {
+                alert(text);
+                
+            }
         }
     },
 };
@@ -94,6 +105,7 @@ export default {
         height: 40px;
         line-height: 35px;
         width: 160px;
+        display: flex;
     }
 
     #headerRight>.select>input{
@@ -104,6 +116,20 @@ export default {
         border: 0;
         border-radius: 20px;
         outline: none;
+    }
+
+    #headerRight>.select>img{
+        width: 15px;
+        height: 15px;
+        filter:grayscale(100%);
+        -webkit-filter:grayscale(100%);
+        position: relative;
+        top:12px;
+        right:25px;
+    }
+
+    #headerRight>.select>img:hover{
+        filter:none;
     }
 
     #headerRight>.img{

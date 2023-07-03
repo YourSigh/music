@@ -5,6 +5,15 @@ import Suggest from "../pages/section/article/onlineMusic/suggest.vue"
 
 Vue.use(VueRouter)
 
+const RouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (to) {
+  return RouterPush.call(this, to).catch(err => err)
+}
+const RouterReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function replace (to) {
+  return RouterReplace.call(this, to).catch(err => err)
+}
+
 const router = new VueRouter({
     routes:[
         {

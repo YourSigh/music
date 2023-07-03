@@ -28,6 +28,7 @@ import NavLeft from './pages/nav/NavLeft.vue';
 import FooterRight from './pages/section/footer/FooterRight.vue';
 import HeaderRight from './pages/section/header/HeaderRight.vue'
 import router from './router/index';
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -36,6 +37,15 @@ export default {
     NavLeft,
     HeaderRight,
     FooterRight
+  },
+  mounted(){
+    axios.get("/music.json").then(response => {
+      console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    })
+  },
+  methods:{
   }
 }
 </script>
