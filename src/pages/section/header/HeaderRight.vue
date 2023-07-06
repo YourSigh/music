@@ -1,9 +1,9 @@
 <template>
     <div id="headerRight">
-        <div class="return" title="后退">
+        <div class="back" title="后退" @click="back">
             &lt;
         </div>
-        <div class="forward" title="前进">
+        <div class="forward" title="前进" @click="forward">
             &gt;
         </div>
         <div class="select">
@@ -47,9 +47,10 @@
 </template>
 
 <script>
+import store from "../../../store"
 export default {
     name: 'HeaderRight',
-
+    store,
     data() {
         return {
             
@@ -61,17 +62,22 @@ export default {
     },
 
     methods: {
+        back(){
+            history.back();
+        },
+        forward(){
+            history.forward();
+        },
         close() {
             document.getElementById("app").style.visibility = "hidden";
         },
         selectMusic() {
-            this.$router.push("/suggest");
             var text = document.getElementById('select').value;
             if (text == "") {
                 alert("请输入您要搜索的内容！");
             } else {
                 alert(text);
-                
+                this.$router.push("/selectResult");
             }
         }
     },
@@ -86,7 +92,7 @@ export default {
         display: flex;
     }
 
-    #headerRight>.return{
+    #headerRight>.back{
         width: 35px;
         height: 40px;
         line-height: 40px;
