@@ -5,7 +5,7 @@
         <div class="select">
             <input type="text" placeholder="搜索音乐" @keyup.enter="selectMusic" id="select" @input="select" />
             <img src="../../../assets/img/搜索.png" title="搜索" @click="selectMusic" />
-            <div class="selectResults">
+            <div class="selectResults" v-show="selectResults.length != 0">
                 <ul>
                     <li v-for="i in selectResults">
                         {{ i }}
@@ -90,9 +90,9 @@ export default {
         },
         select() {
             var text = document.getElementById("select").value;
-            var results = document.querySelector(".selectResults");
-            if (text == "") {
-                results.style.display = null;
+            if (text == '') {
+                this.selectResults = [];
+                clearTimeout(this.timer);
             } else {
                 this.selectResults = [];
                 // 防抖实现用户搜索提示内容列表
@@ -101,12 +101,16 @@ export default {
                 }
                 var that = this;
                 this.timer = setTimeout(function () {
+                    let flg = true;
                     for (var i in that.music) {
                         if (that.music[i].name.indexOf(text) != -1) {
                             that.selectResults.push(that.music[i].name);
+                            flg = false;
                         }
                     }
-                    console.log(that.selectResults);
+                    if (flg) {
+                        that.selectResults.push("未搜索到相关歌曲！");
+                    }
                 }, 1000);
             }
         },
@@ -166,6 +170,14 @@ export default {
 
 #headerRight>.select>img:hover {
     filter: none;
+}
+
+#headerRight>.select>.selectResults{
+    width: 300px;
+    height: 300px;
+    background-color: black;
+    top:60px;
+    position: absolute;
 }
 
 #headerRight>.img {
