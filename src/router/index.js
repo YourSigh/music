@@ -19,7 +19,7 @@ const router = new VueRouter({
     routes:[
         {
             component:SelectResult,
-            path:"/selectResult"
+            path:"/selectResult/:name"
         },
         {
             component:MusicHall,

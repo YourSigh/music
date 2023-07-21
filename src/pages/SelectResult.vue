@@ -2,7 +2,11 @@
     <div id="selectResult">
         <div class="left"></div>
         <div class="content">
-            <h1 class="title">搜索结果</h1>
+            <ul>
+                <li v-for = "i in selectResults" :key="i">
+                    {{ i }}
+                </li>
+            </ul>
         </div>
         <div class="right"></div>
     </div>
@@ -14,8 +18,27 @@ export default {
 
     data() {
         return {
-            
+            music: [
+                {
+                    name: "歌曲1",
+                    src: "",
+                },
+                {
+                    name: "歌曲2",
+                    src: "",
+                },
+                {
+                    name: "你好",
+                    src: "",
+                },
+            ],
+            selectResults:[],
+            selectContent:this.$route.params.name
         };
+    },
+
+    created() {
+        this.updateSelectResult();
     },
 
     mounted() {
@@ -23,8 +46,21 @@ export default {
     },
 
     methods: {
-        
+      updateSelectResult() {
+        this.selectResults = [];
+        for (var i in this.music) {
+            if (this.music[i].name.indexOf(this.selectContent) != -1) {
+                this.selectResults.push(this.music[i].name);
+            }
+        }
+      }  
     },
+    watch:{
+        selectContent(){
+            //this.updateSelectResult();
+            
+        }
+    }
 };
 </script>
 
@@ -55,6 +91,20 @@ export default {
         width: 724px;
         height: 1000px;
         background-color: red;
+    }
+
+    #selectResult>.content>ul>li {
+        width: 724px;
+        height: 50px;
+        line-height: 50px;
+        list-style-type: none;
+        background-color: black;
+        color:white;
+        font-size: 14px;
+    }
+
+    #selectResult>.content>ul>li:hover{
+        background-color: rgba(255, 255, 255, 0.5);
     }
 
     #selectResult>.right{

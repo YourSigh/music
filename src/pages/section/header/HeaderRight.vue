@@ -3,11 +3,12 @@
         <div class="back" title="后退" @click="back">&lt;</div>
         <div class="forward" title="前进" @click="forward">&gt;</div>
         <div class="select">
-            <input type="text" placeholder="搜索音乐" @keyup.enter="selectMusic" id="select" @input="select" />
-            <img src="../../../assets/img/搜索.png" title="搜索" @click="selectMusic" />
-            <div class="selectResults" v-show="selectResults.length != 0">
+            <input type="text" placeholder="搜索音乐" @keyup.enter="selectMusic('')" id="select" @input="select" />
+            <img src="../../../assets/img/搜索.png" title="搜索" @click="selectMusic('')" />
+            <div class="selectResults" v-show="selectResults[0] != ''">
+                <p v-show="selectResults.length == 0">未搜索到相关歌曲！</p>
                 <ul>
-                    <li v-for="i in selectResults">
+                    <li v-for="i in selectResults" @click = "selectMusic(i)" key="selectResult">
                         {{ i }}
                     </li>
                 </ul>
@@ -63,7 +64,7 @@ export default {
                     src: "",
                 },
             ],
-            selectResults: [],
+            selectResults: [""],
         };
     },
 
@@ -79,40 +80,40 @@ export default {
         close() {
             document.getElementById("app").style.visibility = "hidden";
         },
-        selectMusic() {
+        selectMusic(i) {
             var text = document.getElementById("select").value;
             if (text == "") {
                 alert("请输入您要搜索的内容！");
             } else {
-                alert(text);
-                this.$router.push("/selectResult");
+                this.selectResults = [''];
+                if (i != '') {
+                    //alert(i);
+                    this.$router.push(`/selectResult/${i}`);
+                } else {
+                    //alert(text);
+                    this.$router.push(`/selectResult/${text}`);
+                }
             }
         },
         select() {
-            var text = document.getElementById("select").value;
-            if (text == '') {
-                this.selectResults = [];
+            // 防抖实现用户搜索提示内容列表
+            if (this.timer != null) {
                 clearTimeout(this.timer);
-            } else {
-                this.selectResults = [];
-                // 防抖实现用户搜索提示内容列表
-                if (this.timer != null) {
-                    clearTimeout(this.timer);
-                }
-                var that = this;
-                this.timer = setTimeout(function () {
-                    let flg = true;
+            }
+            var that = this;
+            this.timer = setTimeout(function () {
+                that.selectResults = [];
+                var text = document.getElementById("select").value;
+                if (text == "") {
+                    that.selectResults[0] = "";
+                } else {
                     for (var i in that.music) {
                         if (that.music[i].name.indexOf(text) != -1) {
                             that.selectResults.push(that.music[i].name);
-                            flg = false;
                         }
                     }
-                    if (flg) {
-                        that.selectResults.push("未搜索到相关歌曲！");
-                    }
-                }, 1000);
-            }
+                }
+            }, 500);
         },
     },
 };
@@ -172,12 +173,20 @@ export default {
     filter: none;
 }
 
-#headerRight>.select>.selectResults{
+#headerRight>.select>.selectResults {
     width: 300px;
     height: 300px;
     background-color: black;
-    top:60px;
+    top: 60px;
     position: absolute;
+}
+
+#headerRight>.select>.selectResults>ul {
+    list-style-type: none;
+}
+
+#headerRight>.select>.selectResults>ul>li:hover {
+    background-color: #aaa;
 }
 
 #headerRight>.img {
