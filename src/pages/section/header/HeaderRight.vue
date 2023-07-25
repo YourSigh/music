@@ -3,12 +3,12 @@
         <div class="back" title="后退" @click="back">&lt;</div>
         <div class="forward" title="前进" @click="forward">&gt;</div>
         <div class="select">
-            <input type="text" placeholder="搜索音乐" @keyup.enter="selectMusic('')" id="select" @input="select" />
+            <input type="text" placeholder="搜索音乐" id="select" @keyup.enter="selectMusic('')" @input="select" @focus="select" @blur="hide"/>
             <img src="../../../assets/img/搜索.png" title="搜索" @click="selectMusic('')" />
             <div class="selectResults" v-show="selectResults[0] != ''">
                 <p v-show="selectResults.length == 0">未搜索到相关歌曲！</p>
                 <ul>
-                    <li v-for="i in selectResults" @click = "selectMusic(i)" key="selectResult">
+                    <li v-for="i in selectResults" @click="selectMusic(i)" :key="i">
                         {{ i }}
                     </li>
                 </ul>
@@ -81,19 +81,19 @@ export default {
             document.getElementById("app").style.visibility = "hidden";
         },
         selectMusic(i) {
-            var text = document.getElementById("select").value;
-            if (text == "") {
-                alert("请输入您要搜索的内容！");
-            } else {
-                this.selectResults = [''];
-                if (i != '') {
-                    //alert(i);
-                    this.$router.push(`/selectResult/${i}`);
+            setTimeout(() => {
+                var text = document.getElementById("select").value;
+                if (text == "") {
+                    alert("请输入您要搜索的内容！");
                 } else {
-                    //alert(text);
-                    this.$router.push(`/selectResult/${text}`);
+                    if (i != '') {
+                        this.$router.push(`/selectResult/${i}`);
+                    } else {
+                        this.$router.push(`/selectResult/${text}`);
+                    }
+                    this.selectResults = [''];
                 }
-            }
+            }, 500);
         },
         select() {
             // 防抖实现用户搜索提示内容列表
@@ -115,6 +115,9 @@ export default {
                 }
             }, 500);
         },
+        hide(){
+            setTimeout(() => this.selectResults = [''], 500);
+        }
     },
 };
 </script>
@@ -179,6 +182,7 @@ export default {
     background-color: black;
     top: 60px;
     position: absolute;
+    z-index: 2;
 }
 
 #headerRight>.select>.selectResults>ul {
