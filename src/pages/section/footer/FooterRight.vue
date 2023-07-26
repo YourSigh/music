@@ -1,10 +1,11 @@
 <template>
     <div id="footerRight">
-        <div class="wrapper">
-            <input type="range" />
+        <div class="wrapper" @mousedown="isMouseDown = true" @mouseup="isMouseDown = false">
+            <input type="range" @change="onChange" ref="range" />
         </div>
         <div class="playback iconfont">
-            <audio style="display: none" :src="music_url" controls ref="audio"></audio>
+            <audio style="display: none" :src="music_url" controls ref="audio" @canplay="getDuration"
+                @timeupdate="update"></audio>
             <div class="musicMsg">
                 <div class="img">
                     <img src="../../../assets/img/playback.png" alt="">
@@ -27,13 +28,20 @@
                     &#xe800;
                 </div>
                 <div class="b_play" @click="play" v-html="b_play">
-                    
+
                 </div>
                 <div class="b_next">
                     &#xe7ff;
                 </div>
-                <div class="b_loudness">
+                <div class="b_loudness" @click="loudness_v">
                     &#xe801;
+                </div>
+                <div class="loudness" style="visibility: hidden;" ref="loudness" @click="$event.stopPropagation();">
+                    <input type="range" class="range" />
+                    <div> {{ loudness }}% </div>
+                </div>
+                <div class="time">
+                    {{ getTime(nowTime) }} / {{ getTime(totalTime) }}
                 </div>
             </div>
             <div class="lyrics" title="打开歌词">
@@ -52,17 +60,27 @@ export default {
 
     data() {
         return {
-            b_play:'&#xe658',
+            b_play: '&#xe658',
             music_url: '/music/Alan Walker - Fade.ogg',
-            isPlay:false,
+            isPlay: false,
+            nowTime: 0,
+            totalTime: 0,
+            loudness: 0,
+            isMouseDown: false
         };
     },
 
-    mounted() { },
+    created() {
+
+    },
+
+    mounted() {
+        
+    },
 
     methods: {
         play() {
-            this.b_play == '&#xe658'?this.b_play = '&#xe6f7':this.b_play = '&#xe658';
+            this.b_play == '&#xe658' ? this.b_play = '&#xe6f7' : this.b_play = '&#xe658';
             let audio = this.$refs.audio;
             if (this.isPlay) {
                 audio.pause();
@@ -72,6 +90,37 @@ export default {
                 this.isPlay = true;
             }
         },
+        onChange() {
+            // 鼠标拖动进度条时改变歌曲的播放进度
+            let value = this.$refs.range.value;
+            let audio = this.$refs.audio;
+            audio.currentTime = value / 100 * this.totalTime;
+        },
+        update() {
+            // 防止鼠标拖动进度条时触发该事件
+            if (this.isMouseDown) {
+                return;
+            }
+            // 歌曲播放时改变进度条
+            let audio = this.$refs.audio;
+            let range = this.$refs.range;
+            range.value = (audio.currentTime / this.totalTime).toFixed(3) * 100;
+            this.nowTime = audio.currentTime;
+        },
+        getTime(t) {
+            let m, s;
+            m = parseInt((t / 60)).toString().padStart(2, '0');
+            s = parseInt((t % 60)).toString().padStart(2, '0');
+            return m + ":" + s;
+        },
+        loudness_v(e) {
+            let loidness = this.$refs.loudness;
+            loidness.style.visibility == 'hidden' ? loidness.style.visibility = 'visible' : loidness.style.visibility = 'hidden';
+            e.stopPropagation(); // 阻止事件冒泡，防止事件冒泡导致无法显示音乐控制面板
+        },
+        getDuration() {
+            this.totalTime = this.$refs.audio.duration;
+        }
     },
 };
 </script>
@@ -175,37 +224,67 @@ export default {
     display: flex;
 }
 
-#footerRight>.playback>.player>div:hover {
+#footerRight>.playback>.player>div:not(:last-child):hover {
     color: aqua;
 }
 
 #footerRight>.playback>.player>.b_kind {
-    width: 28px;
-    height: 60px;
     margin-left: 27px;
 }
 
 #footerRight>.playback>.player>.b_last {
-    width: 35px;
-    height: 60px;
     font-size: 25px;
+    margin-left: 12px;
 }
 
 #footerRight>.playback>.player>.b_play {
-    width: 46px;
-    height: 60px;
-    font-size:35px;
-    color:aqua;
+    font-size: 35px;
+    color: aqua;
+    margin-left: 10px;
 }
 
 #footerRight>.playback>.player>.b_next {
-    width: 38px;
-    height: 60px;
     font-size: 25px;
+    margin-left: 10px;
 }
 
 #footerRight>.playback>.player>.b_loudness {
-    height: 60px;
+    margin-left: 10px;
 }
 
+#footerRight>.playback>.player>.loudness {
+    width: 60px;
+    height: 250px;
+    right: 35px;
+    bottom: 230px;
+    background-color: black;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+}
+
+#footerRight>.playback>.player>.loudness>.range {
+    margin-top: 20px;
+    -webkit-appearance: none;
+    appearance: slider-vertical;
+    background-color: transparent;
+    width: 5px;
+    height: 120px;
+    background-color: #ccc;
+}
+
+#footerRight>.playback>.player>.loudness>.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    width: 10px;
+    border-radius: 10%;
+    /* border: 1px solid transparent;
+    border-image: linear-gradient(rgb(0, 150, 255), rgb(0, 150, 255)) 0 fill / 4 0 4 0 / 0px 0px 0 2000px; */
+}
+
+#footerRight>.playback>.player>.time {
+    font-size: 10px;
+    margin-left: 80px;
+}
 </style>
