@@ -33,12 +33,11 @@
                 <div class="b_next">
                     &#xe7ff;
                 </div>
-                <div class="b_loudness" @click="loudness_v">
-                    &#xe801;
-                </div>
+                <div class="b_loudness" @click="loudness_v" v-html="mute_icon"></div>
                 <div class="loudness" style="visibility: hidden;" ref="loudness" @click="$event.stopPropagation();">
-                    <input type="range" class="range" />
-                    <div> {{ loudness }}% </div>
+                    <input type="range" class="range" @change="changeLoudness" ref="loudness_range"/>
+                    <div class="loudness_percentage"> {{ loudness }}% </div>
+                    <div class="mute" @click="mute" v-html="mute_icon"></div>
                 </div>
                 <div class="time">
                     {{ getTime(nowTime) }} / {{ getTime(totalTime) }}
@@ -66,16 +65,18 @@ export default {
             nowTime: 0,
             totalTime: 0,
             loudness: 0,
-            isMouseDown: false
+            isMouseDown: false,
+            mute_icon:'&#xe641;'
         };
     },
 
     created() {
-
+        
     },
 
     mounted() {
-        
+        this.loudness = this.$refs.audio.volume * 100;
+        this.$refs.loudness_range.value = this.$refs.audio.volume * 100;
     },
 
     methods: {
@@ -117,6 +118,25 @@ export default {
             let loidness = this.$refs.loudness;
             loidness.style.visibility == 'hidden' ? loidness.style.visibility = 'visible' : loidness.style.visibility = 'hidden';
             e.stopPropagation(); // 阻止事件冒泡，防止事件冒泡导致无法显示音乐控制面板
+        },
+        changeLoudness() {
+            let audio = this.$refs.audio;
+            audio.volume = this.$refs.loudness_range.value / 100;
+            this.loudness = this.$refs.loudness_range.value;
+            if (audio.muted) {
+                audio.muted = false;
+                this.mute_icon = '&#xe641;';
+            }
+        },
+        mute() {
+            var audio = this.$refs.audio;
+            if (audio.muted) {
+                audio.muted = false;
+                this.mute_icon = '&#xe641;';
+            } else {
+                audio.muted = true;
+                this.mute_icon = '&#xe640;';
+            }
         },
         getDuration() {
             this.totalTime = this.$refs.audio.duration;
@@ -224,7 +244,7 @@ export default {
     display: flex;
 }
 
-#footerRight>.playback>.player>div:not(:last-child):hover {
+#footerRight>.playback>.player>div:not(:nth-child(6),:nth-child(7)):hover {
     color: aqua;
 }
 
@@ -281,6 +301,15 @@ export default {
     border-radius: 10%;
     /* border: 1px solid transparent;
     border-image: linear-gradient(rgb(0, 150, 255), rgb(0, 150, 255)) 0 fill / 4 0 4 0 / 0px 0px 0 2000px; */
+}
+
+#footerRight>.playback>.player>.loudness>.loudness_percentage {
+    margin-top: -35px;
+    border-bottom: 1px solid #aaa;
+}
+
+#footerRight>.playback>.player>.loudness>.mute:hover {
+    color:aqua;
 }
 
 #footerRight>.playback>.player>.time {

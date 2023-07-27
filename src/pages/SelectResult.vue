@@ -14,9 +14,7 @@
                     <div class="musicName">
                         {{ i }}
                     </div>
-                    <div class="play">
-                        &#xe7fd;
-                    </div>
+                    <div class="play" v-html="play_icon" @click="play"></div>
                     <div class="singer">歌手</div>
                     <div class="album">专辑</div>
                     <div class="time">时长</div>
@@ -48,7 +46,8 @@ export default {
                 },
             ],
             selectResults: [],
-            selectContent: this.$route.params.name
+            selectContent: this.$route.params.name,
+            play_icon:'&#xe7fe;'
         };
     },
 
@@ -67,6 +66,13 @@ export default {
                 if (this.music[i].name.indexOf(this.selectContent) != -1) {
                     this.selectResults.push(this.music[i].name);
                 }
+            }
+        },
+        play(i) {
+            if (this.play_icon == '&#xe7fd;') {
+                this.play_icon = '&#xe7fe;';
+            } else {
+                this.play_icon = '&#xe7fd;'
             }
         }
     },
@@ -154,7 +160,6 @@ export default {
     height: 50px;
     line-height: 50px;
     list-style-type: none;
-    background-color: black;
     color: white;
     display: flex;
     font-size: 14px;
@@ -166,7 +171,7 @@ export default {
 }
 
 #selectResult>.content>ul>li:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 #selectResult>.content>ul>li>.like{

@@ -29,6 +29,7 @@ import FooterRight from "./pages/section/footer/FooterRight.vue";
 import HeaderRight from "./pages/section/header/HeaderRight.vue";
 import router from "./router/index";
 import axios from "axios";
+import {mapState,mapMutations} from 'vuex'
 
 export default {
   name: "App",
@@ -38,15 +39,11 @@ export default {
     HeaderRight,
     FooterRight,
   },
+  created() {
+    this.$nextTick
+    this.$store.dispatch('fetchMusic', '');
+  },
   mounted() {
-    axios
-      .get("/music.json")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   },
   methods: {
     stopBubbling(e) {

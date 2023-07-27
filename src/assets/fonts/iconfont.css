@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1690295570063') format('truetype');
+  src: url('iconfont.ttf?t=1690469474094') format('truetype');
 }
 
 .iconfont {
@@ -19,16 +19,24 @@
   content: "\e800";
 }
 
+.icon-jingyin:before {
+  content: "\e640";
+}
+
+.icon-yinliang:before {
+  content: "\e641";
+}
+
 .icon-zantingbofang:before {
   content: "\e6f7";
 }
 
-.icon-bofang:before {
+.icon-zanting:before {
   content: "\e7fd";
 }
 
-.icon-yinliang:before {
-  content: "\e801";
+.icon-bofang:before {
+  content: "\e7fe";
 }
 
 .icon-zantingbofang1:before {

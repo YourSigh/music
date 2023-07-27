@@ -50,25 +50,17 @@ export default {
     data() {
         return {
             timer: null,
-            music: [
-                {
-                    name: "歌曲1",
-                    src: "",
-                },
-                {
-                    name: "歌曲2",
-                    src: "",
-                },
-                {
-                    name: "你好",
-                    src: "",
-                },
-            ],
+            music: this.$store.state.music,
             selectResults: [""],
         };
     },
 
-    mounted() { },
+    mounted() { 
+        this.$nextTick(() => {
+            console.log(this.$store.state.music);
+        })
+        
+    },
 
     methods: {
         back() {
@@ -107,6 +99,7 @@ export default {
                 if (text == "") {
                     that.selectResults[0] = "";
                 } else {
+                    //console.log(that.music);
                     for (var i in that.music) {
                         if (that.music[i].name.indexOf(text) != -1) {
                             that.selectResults.push(that.music[i].name);

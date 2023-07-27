@@ -20,6 +20,20 @@
       "unicode_decimal": 59392
     },
     {
+      "icon_id": "8341788",
+      "name": "静音",
+      "font_class": "jingyin",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "8341789",
+      "name": "音量",
+      "font_class": "yinliang",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
       "icon_id": "14471059",
       "name": "暂停播放",
       "font_class": "zantingbofang",
@@ -27,18 +41,18 @@
       "unicode_decimal": 59127
     },
     {
-      "icon_id": "19654118",
-      "name": "播放",
-      "font_class": "bofang",
+      "icon_id": "19654112",
+      "name": "暂停",
+      "font_class": "zanting",
       "unicode": "e7fd",
       "unicode_decimal": 59389
     },
     {
-      "icon_id": "19654135",
-      "name": "音量",
-      "font_class": "yinliang",
-      "unicode": "e801",
-      "unicode_decimal": 59393
+      "icon_id": "19654118",
+      "name": "播放",
+      "font_class": "bofang",
+      "unicode": "e7fe",
+      "unicode_decimal": 59390
     },
     {
       "icon_id": "20498900",

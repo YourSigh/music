@@ -1,8 +1,312 @@
 {
-    "data":{
-        "1":{
+    "data":[
+        {
+            "name":"Fade",
+            "src":"music/Alan Walker - Fade.ogg",
+            "singer":"Alan Walker",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"On My Own",
+            "src":"music/Ashes Remain - On My Own.ogg",
+            "singer":"Ashes Remain",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Nothin' On You (Radio Edit)",
+            "src":"music/B_o_B _ Bruno Mars - Nothin' On You (Radio Edit).ogg",
+            "singer":"B_o_B _ Bruno Mars",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Sweet But Psycho (DJ AVENSO Remix)",
+            "src":"music/Burak Cilt _ DJ AVENSO - Sweet But Psycho (DJ AVENSO Remix).ogg",
+            "singer":"Burak Cilt _ DJ AVENSO",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Outside",
+            "src":"music/Calvin Harris _ Ellie Goulding - Outside.ogg",
+            "singer":"Calvin Harris _ Ellie Goulding",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Frontier (Cargo Remix)",
+            "src":"music/Cargo _ VINAI _ SCNDL - Frontier (Cargo Remix).ogg",
+            "singer":"Cargo _ VINAI _ SCNDL",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"打上花火",
+            "src":"music/DAOKO (ダヲコ) _ 米津玄師 (よねづ けんし) - 打上花火.ogg",
+            "singer":"music/DAOKO (ダヲコ) _ 米津玄師 (よねづ けんし)",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Not the One",
+            "src":"music/DJ HAI CENA - Not the One.ogg",
+            "singer":"DJ HAI CENA",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Vagrant",
+            "src":"music/Feint _ Veela - Vagrant.ogg",
+            "singer":"Feint _ Veela",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Mystic Tides",
+            "src":"music/FEWZ - Mystic Tides.ogg",
+            "singer":"FEWZ",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Cyberangel",
+            "src":"music/hanser - Cyberangel.ogg",
+            "singer":"hanser",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"室内系的TrackMaker",
+            "src":"music/hanser - 室内系的TrackMaker.ogg",
+            "singer":"hanser",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"野火 Wildfire",
+            "src":"music/HOYO-MiX _ Jonathan Steingard - 野火 Wildfire.ogg",
+            "singer":"HOYO-MiX _ Jonathan Steingard",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Tales of the Electric Romeo",
+            "src":"music/Immediate _ Yoav Goren - Tales of the Electric Romeo.ogg",
+            "singer":"Immediate _ Yoav Goren",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"芒种 (小提琴版)",
+            "src":"music/Liu 9 - 芒种 (小提琴版).ogg",
+            "singer":"Liu 9",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"As Long As You Love Me & I Knew You Were Trouble (混音)",
+            "src":"music/Mashup - As Long As You Love Me & I Knew You Were Trouble (混音).ogg",
+            "singer":"Mashup",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Once upon a Time (Bonzana Remix)",
+            "src":"music/Max Oazo _ Moonessa - Once upon a Time (Bonzana Remix).ogg",
+            "singer":"Max Oazo _ Moonessa",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"尽管我们的手中空无一物",
+            "src":"music/RAM WIRE (ラムワイヤー) - 尽管我们的手中空无一物.ogg",
+            "singer":"RAM WIRE (ラムワイヤー)",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Croatian Rhapsody (3D环绕)",
+            "src":"music/Scott - Croatian Rhapsody (3D环绕).ogg",
+            "singer":"Scott",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"I'm Coming Home (Remix)",
+            "src":"music/Ultimate Pop Hits! - I'm Coming Home (Remix).ogg",
+            "singer":"Ultimate Pop Hits!",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"哈尼宝贝",
+            "src":"music/南征北战NZBZ _ 米线 - 哈尼宝贝.ogg",
+            "singer":"南征北战NZBZ _ 米线",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"勾指起誓",
+            "src":"music/宴宁 - 勾指起誓.ogg",
+            "singer":"宴宁",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"Nevada (改编版原唱_ Vicetone_remix)",
+            "src":"music/小肥猪 - Nevada (改编版原唱_ Vicetone_remix).ogg",
+            "singer":"小肥猪",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"问心",
+            "src":"music/就是南方凯 - 问心.mp3",
+            "singer":"就是南方凯",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"A Little Love (DJ版)",
+            "src":"music/搬运工 - A Little Love (DJ版).ogg",
+            "singer":"搬运工",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"画离弦 (柯柯版)",
+            "src":"music/柯柯柯啊 - 画离弦 (柯柯版).mp3",
+            "singer":"柯柯柯啊",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"My Heart Will Go On",
+            "src":"music/满舒克 _ MuSik I _ 廖伟珊 - My Heart Will Go On.ogg",
+            "singer":"满舒克 _ MuSik I _ 廖伟珊",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"我爱她",
+            "src":"music/神说 - 我爱她.ogg",
+            "singer":"神说",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"下落不明",
+            "src":"music/肖小蚊子 - 下落不明.ogg",
+            "singer":"肖小蚊子",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"你走以后",
+            "src":"music/靳国强 - 你走以后.mp3",
+            "singer":"靳国强",
+            "album":"",
+            "time":""
+        },
+        {
             "name":"",
-            "src":""
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
+        },
+        {
+            "name":"",
+            "src":"music",
+            "singer":"",
+            "album":"",
+            "time":""
         }
-    }
+    ]
 }
