@@ -50,16 +50,16 @@ export default {
     data() {
         return {
             timer: null,
-            music: this.$store.state.music,
             selectResults: [""],
         };
     },
 
+    props:{
+        music:Array,
+        required:true,
+    },
+
     mounted() { 
-        this.$nextTick(() => {
-            console.log(this.$store.state.music);
-        })
-        
     },
 
     methods: {
@@ -176,6 +176,16 @@ export default {
     top: 60px;
     position: absolute;
     z-index: 2;
+    overflow: auto;
+}
+
+#headerRight>.select>.selectResults::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 #headerRight>.select>.selectResults>ul {

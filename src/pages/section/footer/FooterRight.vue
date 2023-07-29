@@ -69,6 +69,10 @@ export default {
             mute_icon:'&#xe641;'
         };
     },
+    props:{
+        music:Array,
+        required:true,
+    },
 
     created() {
         

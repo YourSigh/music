@@ -11,10 +11,10 @@
     </nav>
     <section>
       <header>
-        <HeaderRight></HeaderRight>
+        <HeaderRight :music = "music"></HeaderRight>
       </header>
       <article>
-        <router-view></router-view>
+        <router-view :music = "music"></router-view>
       </article>
       <footer>
         <FooterRight></FooterRight>
@@ -29,7 +29,7 @@ import FooterRight from "./pages/section/footer/FooterRight.vue";
 import HeaderRight from "./pages/section/header/HeaderRight.vue";
 import router from "./router/index";
 import axios from "axios";
-import {mapState,mapMutations} from 'vuex'
+import {mapState,mapMutations,mapGetters, mapActions} from 'vuex'
 
 export default {
   name: "App",
@@ -39,13 +39,23 @@ export default {
     HeaderRight,
     FooterRight,
   },
+  data() {
+    return {
+      music:[],
+    }
+  },
   created() {
-    this.$nextTick
-    this.$store.dispatch('fetchMusic', '');
+    this.fetchDataAsync();
   },
   mounted() {
   },
   methods: {
+    ...mapActions(['fetchMusic']),
+    async fetchDataAsync() {
+      this.fetchMusic().then(() => {
+        this.music = this.$store.state.music;
+      })
+    },
     stopBubbling(e) {
       this.$children[3].$refs.loudness.style.visibility = 'hidden';
     },

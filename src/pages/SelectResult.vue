@@ -9,15 +9,21 @@
         </div>
         <div class="content">
             <ul>
-                <li v-for="i in selectResults" :key="i" class="iconfont">
+                <li v-for="i in selectResults" :key="i.name" class="iconfont">
                     <div class="like"></div>
                     <div class="musicName">
-                        {{ i }}
+                        {{ i.name }}
                     </div>
                     <div class="play" v-html="play_icon" @click="play"></div>
-                    <div class="singer">歌手</div>
-                    <div class="album">专辑</div>
-                    <div class="time">时长</div>
+                    <div class="singer">
+                        {{ i.singer }}
+                    </div>
+                    <div class="album">
+                        {{ i.album }}
+                    </div>
+                    <div class="time">
+                        {{ i.time }}
+                    </div>
                 </li>
             </ul>
         </div>
@@ -31,24 +37,14 @@ export default {
 
     data() {
         return {
-            music: [
-                {
-                    name: "歌曲1",
-                    src: "",
-                },
-                {
-                    name: "歌曲2",
-                    src: "",
-                },
-                {
-                    name: "你好",
-                    src: "",
-                },
-            ],
             selectResults: [],
             selectContent: this.$route.params.name,
             play_icon:'&#xe7fe;'
         };
+    },
+    props:{
+        music:Array,
+        required:true,
     },
 
     created() {
@@ -64,9 +60,10 @@ export default {
             this.selectResults = [];
             for (var i in this.music) {
                 if (this.music[i].name.indexOf(this.selectContent) != -1) {
-                    this.selectResults.push(this.music[i].name);
+                    this.selectResults.push(this.music[i]);
                 }
             }
+            console.log(this.music);
         },
         play(i) {
             if (this.play_icon == '&#xe7fd;') {
@@ -164,6 +161,10 @@ export default {
     display: flex;
     font-size: 14px;
     z-index: 0;
+}
+
+#selectResult>.content>ul>li>div {
+    overflow: hidden;
 }
 
 #selectResult>.content>ul{
