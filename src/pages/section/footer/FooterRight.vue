@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import bus from '../../../bus'
 export default {
     name: "FooterRight",
 
@@ -81,6 +82,13 @@ export default {
     mounted() {
         this.loudness = this.$refs.audio.volume * 100;
         this.$refs.loudness_range.value = this.$refs.audio.volume * 100;
+        var that = this;
+        bus.$on('music', (music, isPlay) => {
+            that.music_url = music.src;
+            setTimeout(() => {
+                that.play();
+            }, 100);
+        })
     },
 
     methods: {
@@ -146,6 +154,9 @@ export default {
             this.totalTime = this.$refs.audio.duration;
         }
     },
+    watch:{
+        
+    }
 };
 </script>
 

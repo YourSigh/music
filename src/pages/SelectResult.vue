@@ -14,7 +14,7 @@
                     <div class="musicName">
                         {{ i.name }}
                     </div>
-                    <div class="play" v-html="play_icon" @click="play"></div>
+                    <div class="play" v-html="play_icon" @click="play($event, i)"></div>
                     <div class="singer">
                         {{ i.singer }}
                     </div>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import bus from '../bus.js'
 export default {
     name: 'SelectResult',
 
@@ -39,7 +40,9 @@ export default {
         return {
             selectResults: [],
             selectContent: this.$route.params.name,
-            play_icon:'&#xe7fe;'
+            play_icon:'&#xe7fe;',
+            stop_icon:'&#xe7fd;',
+            play_target:null,
         };
     },
     props:{
@@ -65,11 +68,20 @@ export default {
             }
             console.log(this.music);
         },
-        play(i) {
-            if (this.play_icon == '&#xe7fd;') {
-                this.play_icon = '&#xe7fe;';
+        play(e, i) {
+            if (e.target != this.play_target) {
+                if (this.play_target != null) {
+                    // 已经有歌曲在播放
+                    this.play_target.innerHTML = this.play_icon;
+                    bus.$emit('music', i, true);
+                }
+                this.play_target = e.target;
+                e.target.innerHTML = this.stop_icon;
+                bus.$emit('music', i, true);
             } else {
-                this.play_icon = '&#xe7fd;'
+                e.target.innerHTML = this.play_icon;
+                this.play_target = null;
+                bus.$emit('music', i, false);
             }
         }
     },

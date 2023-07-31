@@ -17,7 +17,7 @@
         <router-view :music = "music"></router-view>
       </article>
       <footer>
-        <FooterRight></FooterRight>
+        <FooterRight ref="footComponents"></FooterRight>
       </footer>
     </section>
   </div>
@@ -57,7 +57,7 @@ export default {
       })
     },
     stopBubbling(e) {
-      this.$children[3].$refs.loudness.style.visibility = 'hidden';
+      this.$refs.footComponents.$refs.loudness.style.visibility = 'hidden';
     },
   },
 };
