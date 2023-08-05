@@ -54,7 +54,7 @@ export default {
     #suggest>.content{
         width: 724px;
         height: 1000px;
-        background-color: red;
+        background-color: black;
     }
 
     #suggest>.right{

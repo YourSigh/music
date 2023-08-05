@@ -11,7 +11,7 @@
                     <img src="../../../assets/img/playback.png" alt="">
                 </div>
                 <div class="message">
-                    <div class="title">QQ音乐 听我想听</div>
+                    <div class="title">{{ music_name }}</div>
                     <div class="menu">
                         <div class="love">喜</div>
                         <div class="download">下</div>
@@ -67,7 +67,8 @@ export default {
             totalTime: 0,
             loudness: 0,
             isMouseDown: false,
-            mute_icon:'&#xe641;'
+            mute_icon:'&#xe641;',
+            music_name:'QQ音乐 听我想听'
         };
     },
     props:{
@@ -80,11 +81,15 @@ export default {
     },
 
     mounted() {
+        // 设置默认音量为10%
+        this.$refs.audio.volume = 0.1;
         this.loudness = this.$refs.audio.volume * 100;
         this.$refs.loudness_range.value = this.$refs.audio.volume * 100;
         var that = this;
+        // 组件传值音乐信息
         bus.$on('music', (music, isPlay) => {
             that.music_url = music.src;
+            that.music_name = music.name;
             setTimeout(() => {
                 that.play();
             }, 100);
@@ -98,9 +103,11 @@ export default {
             if (this.isPlay) {
                 audio.pause();
                 this.isPlay = false;
+                bus.$emit('isPlay', false);
             } else {
                 audio.play();
                 this.isPlay = true;
+                bus.$emit('isPlay', true);
             }
         },
         onChange() {
@@ -132,15 +139,18 @@ export default {
             e.stopPropagation(); // 阻止事件冒泡，防止事件冒泡导致无法显示音乐控制面板
         },
         changeLoudness() {
+            // 改变音量条
             let audio = this.$refs.audio;
             audio.volume = this.$refs.loudness_range.value / 100;
             this.loudness = this.$refs.loudness_range.value;
             if (audio.muted) {
+                // 如果此时为静音则取消静音
                 audio.muted = false;
                 this.mute_icon = '&#xe641;';
             }
         },
         mute() {
+            // 按下静音按钮
             var audio = this.$refs.audio;
             if (audio.muted) {
                 audio.muted = false;
@@ -197,8 +207,8 @@ export default {
     height: 10px;
     width: 10px;
     border-radius: 50%;
-    border: 1px solid transparent;
-    border-image: linear-gradient(rgb(0, 150, 255), rgb(0, 150, 255)) 0 fill / 4 0 4 0 / 0px 0px 0 2000px;
+    border: 1px solid transparent; /*控制滑块的大小*/
+    border-image: linear-gradient(rgb(0, 150, 255), rgb(0, 150, 255)) 0 fill / 4 5 4 0 / 0px 0px 0 2000px;
 }
 
 #footerRight>.wrapper:hover>input::-webkit-slider-thumb {
@@ -240,6 +250,9 @@ export default {
 #footerRight>.playback>.musicMsg>.message>.title {
     font-size: 13.8px;
     position: relative;
+    width: 210px;
+    height: 18.4px;
+    overflow: hidden;
     top: 5px;
 }
 

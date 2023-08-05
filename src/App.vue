@@ -28,7 +28,6 @@ import NavLeft from "./pages/nav/NavLeft.vue";
 import FooterRight from "./pages/section/footer/FooterRight.vue";
 import HeaderRight from "./pages/section/header/HeaderRight.vue";
 import router from "./router/index";
-import axios from "axios";
 import {mapState,mapMutations,mapGetters, mapActions} from 'vuex'
 
 export default {
@@ -42,6 +41,7 @@ export default {
   data() {
     return {
       music:[],
+      window:window
     }
   },
   created() {

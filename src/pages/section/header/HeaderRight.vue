@@ -99,7 +99,6 @@ export default {
                 if (text == "") {
                     that.selectResults[0] = "";
                 } else {
-                    //console.log(that.music);
                     for (var i in that.music) {
                         if (that.music[i].name.indexOf(text) != -1) {
                             that.selectResults.push(that.music[i].name);
@@ -193,7 +192,7 @@ export default {
 }
 
 #headerRight>.select>.selectResults>ul>li:hover {
-    background-color: #aaa;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #headerRight>.img {

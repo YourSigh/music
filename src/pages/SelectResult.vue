@@ -43,6 +43,8 @@ export default {
             play_icon:'&#xe7fe;',
             stop_icon:'&#xe7fd;',
             play_target:null,
+            isRefresh:false,
+            isPlay:false
         };
     },
     props:{
@@ -52,10 +54,14 @@ export default {
 
     created() {
         this.updateSelectResult();
+        var that = this;
+        bus.$on('isPlay', isPlay => {
+            that.isPlay = isPlay;
+        });
+
     },
 
     mounted() {
-
     },
 
     methods: {
@@ -69,18 +75,26 @@ export default {
             console.log(this.music);
         },
         play(e, i) {
-            if (e.target != this.play_target) {
-                if (this.play_target != null) {
-                    // 已经有歌曲在播放
-                    this.play_target.innerHTML = this.play_icon;
+            if (this.isPlay) {
+                // 有歌曲在播放
+                if (e.target != this.play_target) {
+                    // 当前播放的歌曲不是该歌曲
+                    this.play_target.innerHTML = this.play_icon; // 使之前的图标换成暂停播放
+                    this.play_target = e.target;
+                    this.play_target.innerHTML = this.play_icon; // 使当前的选中的图标为播放
+                    this.isPlay = true;
                     bus.$emit('music', i, true);
+                    bus.$emit('music', i, true);
+                } else {
+                    this.play_target.innerHTML = this.stop_icon;
+                    this.isPlay = false;
+                    bus.$emit('music', i, false);
                 }
-                this.play_target = e.target;
-                e.target.innerHTML = this.stop_icon;
-                bus.$emit('music', i, true);
             } else {
+                // 没有歌曲在播放
                 e.target.innerHTML = this.play_icon;
-                this.play_target = null;
+                this.isPlay = true;
+                this.play_target = e.target;
                 bus.$emit('music', i, false);
             }
         }
@@ -89,7 +103,18 @@ export default {
         $route() {
             this.selectContent = this.$route.params.name;
             this.updateSelectResult();
-        }
+        },
+        isPlay(){
+            if (this.isPlay) {
+                if (this.play_target) {
+                    this.play_target.innerHTML = this.stop_icon;
+                }
+            } else {
+                this.play_target.innerHTML = this.play_icon;
+            }
+        },
+    },
+    computed: {
     }
 };
 </script>
@@ -123,7 +148,6 @@ export default {
 #selectResult>.left {
     width: 38px;
     height: 535px;
-
 }
 
 #selectResult>.content {

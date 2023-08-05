@@ -5,12 +5,12 @@
                 在线音乐
             </div>
         </div>
-        <div>
+        <div @click="gotoSuggest" class="suggest">
             <div>
                 推荐
             </div>
         </div>
-        <div>
+        <div @click="gotoMusicHall" class="musicHall">
             <div>
                 音乐馆
             </div>
@@ -31,7 +31,11 @@
 <script>
 export default {
     name: 'OnlineMusic',
-
+    props:{
+        selectComponent:{
+            type:String,
+        }
+    },
     data() {
         return {
             
@@ -39,11 +43,17 @@ export default {
     },
 
     mounted() {
-        
     },
 
     methods: {
-        
+        gotoMusicHall() {
+            this.$router.push('/musicHall');
+            this.$emit('update:selectComponent', 'musicHall');
+        },
+        gotoSuggest() {
+            this.$router.push('/suggest');
+            this.$emit('update:selectComponent', 'suggest');
+        }
     },
 };
 </script>

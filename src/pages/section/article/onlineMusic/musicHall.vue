@@ -3,67 +3,235 @@
         <div class="left"></div>
         <div class="content">
             <h1 class="title">音乐馆</h1>
+            <div class="menu">
+                <div class="t_music">歌曲</div>
+                <div class="t_singer">歌手</div>
+                <div class="t_album">专辑</div>
+                <div class="t_time">时长</div>
+            </div>
+            <ul>
+                <li v-for="i in selectResults" :key="i.name + 'musicHall'" class="iconfont">
+                    <div class="like"></div>
+                    <div class="musicName">
+                        {{ i.name }}
+                    </div>
+                    <div class="play" v-html="play_icon" @click="play($event, i)"></div>
+                    <div class="singer">
+                        {{ i.singer }}
+                    </div>
+                    <div class="album">
+                        {{ i.album }}
+                    </div>
+                    <div class="time">
+                        {{ i.time }}
+                    </div>
+                </li>
+            </ul>
         </div>
         <div class="right"></div>
     </div>
 </template>
 
 <script>
+import bus from '../../../../bus'
 export default {
     name: 'MusicHall',
 
     data() {
         return {
-            
+            selectResults: [],
+            selectContent: this.$route.params.name,
+            play_icon: '&#xe7fe;',
+            stop_icon: '&#xe7fd;',
+            play_target: null,
+            isRefresh: false,
+            isPlay: false
         };
+    },
+    props: {
+        music: Array,
+        required: true,
+    },
+
+    created() {
+        this.selectResults = this.music;
+        var that = this;
+        bus.$on('isPlay', isPlay => {
+            that.isPlay = isPlay;
+        });
     },
 
     mounted() {
-        
+
     },
 
     methods: {
-        
+        play(e, i) {
+            if (this.isPlay) {
+                // 有歌曲在播放
+                if (e.target != this.play_target) {
+                    // 当前播放的歌曲不是该歌曲
+                    this.play_target.innerHTML = this.play_icon; // 使之前的图标换成暂停播放
+                    this.play_target = e.target;
+                    this.play_target.innerHTML = this.play_icon; // 使当前的选中的图标为播放
+                    this.isPlay = true;
+                    bus.$emit('music', i, true);
+                    bus.$emit('music', i, true);
+                } else {
+                    this.play_target.innerHTML = this.stop_icon;
+                    this.isPlay = false;
+                    bus.$emit('music', i, false);
+                }
+            } else {
+                // 没有歌曲在播放
+                e.target.innerHTML = this.play_icon;
+                this.isPlay = true;
+                this.play_target = e.target;
+                bus.$emit('music', i, false);
+            }
+        }
+    },
+    watch: {
+        isPlay() {
+            if (this.isPlay) {
+                if (this.play_target) {
+                    this.play_target.innerHTML = this.stop_icon;
+                }
+            } else {
+                this.play_target.innerHTML = this.play_icon;
+            }
+        }
     },
 };
 </script>
 
 <style>
-    #musicHall{
-        width: 810px;
-        height: 535px;
-        overflow: auto;
-        display: flex;
-    }
+#musicHall {
+    width: 810px;
+    height: 535px;
+    overflow: auto;
+    display: flex;
+}
 
-    #musicHall::-webkit-scrollbar{
-        width: 10px;
-    }
+@font-face {
+    font-family: "iconfont logo";
+    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834');
+    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834#iefix') format('embedded-opentype'),
+        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.woff?t=1545807318834') format('woff'),
+        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.ttf?t=1545807318834') format('truetype'),
+        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.svg?t=1545807318834#iconfont') format('svg');
+}
 
-    ::-webkit-scrollbar-thumb{
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.5);
-    }
+#musicHall::-webkit-scrollbar {
+    width: 10px;
+}
 
-    #musicHall>.left{
-        width: 38px;
-        height: 535px;
-        
-    }
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
 
-    #musicHall>.content{
-        width: 724px;
-        height: 1000px;
-        background-color: red;
-    }
+#musicHall>.left {
+    width: 38px;
+    height: 535px;
+}
 
-    #musicHall>.right{
-        width: 38px;
-        height: 535px;
-    }
+#musicHall>.content {
+    width: 724px;
+    height: 1000px;
+}
 
-    #musicHall>.content>.title{
-        font-size:34px;
-        color:white;
-    }
+#musicHall>.content>.menu {
+    width: 724px;
+    height: 50px;
+    display: flex;
+    line-height: 50px;
+    position: sticky;
+    background-color: rgba(0, 0, 0, 1);
+    top:0px;
+}
+
+#musicHall>.content>.menu>div{
+    color: #aaa;
+    font-size: 14px;
+}
+
+#musicHall>.content>.menu>.t_music{
+    margin-left: 10px;
+}
+
+#musicHall>.content>.menu>.t_singer{
+    margin-left: 290px;
+}
+
+#musicHall>.content>.menu>.t_album {
+    margin-left: 100px;
+}
+
+#musicHall>.content>.menu>.t_time {
+    margin-left: 120px;
+}
+
+#musicHall>.content>ul>li {
+    width: 724px;
+    height: 50px;
+    line-height: 50px;
+    list-style-type: none;
+    color: white;
+    display: flex;
+    font-size: 14px;
+    z-index: 0;
+}
+
+#musicHall>.content>ul>li>div {
+    overflow: hidden;
+}
+
+#musicHall>.content>ul>li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#musicHall>.content>ul>li>.like{
+    width: 30px;
+    height: 50px;
+}
+
+#musicHall>.content>ul>li>.musicName{
+    width: 200px;
+    height: 50px;
+}
+
+#musicHall>.content>ul>li>.play {
+    width: 100px;
+    height: 50px;
+    visibility: hidden;
+}
+
+#musicHall>.content>ul>li>.play:hover{
+    color:aqua;
+}
+
+#musicHall>.content>ul>li:hover>.play{
+    visibility: visible;
+}
+
+#musicHall>.content>ul>li>.singer {
+    width: 130px;
+    height: 50px;
+}
+
+#musicHall>.content>ul>li>.album {
+    width: 145px;
+    height: 50px;
+}
+
+#musicHall>.right {
+    width: 38px;
+    height: 535px;
+}
+
+#musicHall>.content>.title {
+    font-size: 34px;
+    color: white;
+}
 </style>

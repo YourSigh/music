@@ -1,6 +1,6 @@
 <template>
     <div id="navLeft">
-        <OnlineMusic></OnlineMusic>
+        <OnlineMusic :selectComponent.sync = "selectComponent" ></OnlineMusic>
         <MyMusic></MyMusic>
         <CreatePlayList></CreatePlayList>
         <FavoritePlayList></FavoritePlayList>
@@ -23,17 +23,24 @@ export default {
     },
     data() {
         return {
-            
+            selectComponent:'suggest',
         };
     },
 
     mounted() {
-        
+        document.querySelector(".suggest").style.background = 'rgba(0, 0, 0, 0.2)'
     },
 
     methods: {
-        
     },
+    watch:{
+        selectComponent(n, o) {
+            if (o != '' || n == '') {
+                document.querySelector("." + o).style.background = null;
+            }
+            document.querySelector("." + n).style.background = 'rgba(0, 0, 0, 0.2)';
+        }
+    }
 };
 </script>
 
