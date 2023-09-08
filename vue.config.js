@@ -2,15 +2,16 @@ const { defineConfig } = require('@vue/cli-service')
 
 'use strict'
 const path = require('path')
- 
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  lintOnSave:false,
-  chainWebpack (config) {
+  lintOnSave: false,
+  publicPath: './',
+  chainWebpack(config) {
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
     // set svg-sprite-loader
@@ -31,16 +32,29 @@ module.exports = defineConfig({
       .end()
   },
   devServer: {
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8080',
+    //     changeOrigin: true, //是否跨域
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   },
+
+    // },
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true, //是否跨域
-        pathRewrite: {
-          '^/api': ''
+      '/api': { // 请求的代称，写在Axios里的BaseUrl
+        target: 'http://yoursigh.top', // 真实请求URl
+        ws: true,
+        changeOrigin: true, // 允许跨域
+        pathRewrite: { 
+          '^/api': '' 
         }
       }
     },
-    host: 'localhost', //
-    port: 8080, //
+    // host: 'localhost', //
+    // port: 8080, //
   },
+
+
 })

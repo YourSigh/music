@@ -4,7 +4,7 @@
         <div class="forward" title="前进" @click="forward">&gt;</div>
         <div class="select">
             <input type="text" placeholder="搜索音乐" id="select" @keyup.enter="selectMusic('')" @input="select" @focus="select" @blur="hide"/>
-            <img src="../../../assets/img/搜索.png" title="搜索" @click="selectMusic('')" />
+            <img src="../../../assets/img/select.png" title="搜索" @click="selectMusic('')" />
             <div class="selectResults" v-show="selectResults[0] != ''">
                 <p v-show="selectResults.length == 0">未搜索到相关歌曲！</p>
                 <ul>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="img">
-            <img src="../../../assets/img/听歌识曲.png" alt="听歌识曲" title="听歌识曲" />
+            <img src="../../../assets/img/listen.png" alt="听" title="听歌识曲" />
         </div>
         <div class="user">
             <div class="headshot">

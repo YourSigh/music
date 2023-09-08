@@ -18,7 +18,7 @@ const store = new Vuex.Store({
         fetchMusic({ commit }) {
             return new Promise((resolve, reject) => {
                 axios
-                .get("/music.json")
+                .get("/music/music.json")
                 .then(response => {
                     commit('getMusic', response.data.data);
                     resolve();

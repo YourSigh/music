@@ -67,7 +67,10 @@ export default {
 * {
   margin: 0;
   padding: 0;
-  user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none; /* Chrome, Safari, Opera */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
 }
 
 #app {
@@ -76,7 +79,7 @@ export default {
   background-color: black;
   margin: 0 auto;
   display: flex;
-  background-image: url(assets/img/背景图片.jpg);
+  background-image: url(assets/img/background.jpg);
 }
 
 nav>.header {
