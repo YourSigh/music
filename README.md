@@ -24,11 +24,11 @@ npm run serve
 
 音乐馆界面
 
-![{36804FBA-25E2-4c2e-90E9-9AA6F4CC7608}](C:\Users\ASUS\AppData\Local\Temp\{36804FBA-25E2-4c2e-90E9-9AA6F4CC7608}.png)
+![{音乐馆}](./image/%E9%9F%B3%E4%B9%90%E9%A6%86.png)
 
 搜索音乐
 
-![image-20230908102848961](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20230908102848961.png)
+![搜索](./image/%E6%90%9C%E7%B4%A2.png)
 
 ## 自定义配置
 
