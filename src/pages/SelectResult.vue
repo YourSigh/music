@@ -141,7 +141,6 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -153,7 +152,6 @@ export default {
 #selectResult>.content {
     width: 724px;
     height: 1000px;
-    /* background-color: red; */
 }
 
 #selectResult>.title {
@@ -163,12 +161,25 @@ export default {
     line-height: 50px;
     position: fixed;
     margin-left: 38px;
-    background-color: rgba(0, 0, 0, 1);
+    background-image: url('../assets/img/background.jpg');
+    background-position: -248px -80px;
     top:80px;
 }
 
+#selectResult>.title:after {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
 #selectResult>.title>div{
-    color: #aaa;
+    color: white;
+    z-index: 2;
     font-size: 14px;
 }
 

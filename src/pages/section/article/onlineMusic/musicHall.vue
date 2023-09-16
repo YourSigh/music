@@ -1,9 +1,9 @@
 <template>
-    <div id="musicHall">
+    <div id="musicHall" @scroll="scrollChange" ref="musicHall">
         <div class="left"></div>
         <div class="content">
             <h1 class="title">音乐馆</h1>
-            <div class="menu">
+            <div class="menu" ref="menu">
                 <div class="t_music">歌曲</div>
                 <div class="t_singer">歌手</div>
                 <div class="t_album">专辑</div>
@@ -66,6 +66,12 @@ export default {
     },
 
     methods: {
+        scrollChange() {
+            if (this.$refs['musicHall'].scrollTop < 50) {
+                var str = '-248px ' + (this.$refs['musicHall'].scrollTop - 125) + 'px';
+                this.$refs['menu'].style.backgroundPosition = str;
+            }
+        },
         play(e, i) {
             if (this.isPlay) {
                 // 有歌曲在播放
@@ -147,20 +153,34 @@ export default {
     display: flex;
     line-height: 50px;
     position: sticky;
-    background-color: rgba(0, 0, 0, 1);
-    top:0px;
+    margin-left: 0;
+    background-image: url('../../../../assets/img/background.jpg');
+    background-position: -248px -125px;
+    top: 0px;
 }
 
-#musicHall>.content>.menu>div{
-    color: #aaa;
+#musicHall>.content>.menu:after {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+#musicHall>.content>.menu>div {
+    color: white;
+    z-index: 2;
     font-size: 14px;
 }
 
-#musicHall>.content>.menu>.t_music{
+#musicHall>.content>.menu>.t_music {
     margin-left: 10px;
 }
 
-#musicHall>.content>.menu>.t_singer{
+#musicHall>.content>.menu>.t_singer {
     margin-left: 290px;
 }
 
@@ -191,12 +211,12 @@ export default {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-#musicHall>.content>ul>li>.like{
+#musicHall>.content>ul>li>.like {
     width: 30px;
     height: 50px;
 }
 
-#musicHall>.content>ul>li>.musicName{
+#musicHall>.content>ul>li>.musicName {
     width: 200px;
     height: 50px;
 }
@@ -207,11 +227,11 @@ export default {
     visibility: hidden;
 }
 
-#musicHall>.content>ul>li>.play:hover{
-    color:aqua;
+#musicHall>.content>ul>li>.play:hover {
+    color: aqua;
 }
 
-#musicHall>.content>ul>li:hover>.play{
+#musicHall>.content>ul>li:hover>.play {
     visibility: visible;
 }
 

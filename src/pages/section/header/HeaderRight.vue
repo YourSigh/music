@@ -172,6 +172,7 @@ export default {
     width: 300px;
     height: 300px;
     background-color: black;
+    border-radius: 10px;
     top: 60px;
     position: absolute;
     z-index: 2;
