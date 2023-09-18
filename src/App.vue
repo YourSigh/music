@@ -45,21 +45,24 @@ export default {
     }
   },
   created() {
-    this.fetchDataAsync();
+    
   },
-  mounted() {
+  mounted() {this.fetchDataAsync();
   },
   methods: {
     ...mapActions(['fetchMusic']),
     async fetchDataAsync() {
-      this.fetchMusic().then(() => {
-        this.music = this.$store.state.music;
-      })
+      await this.fetchMusic();
+      this.music = this.$store.state.music;
+      // console.log(this.music);
     },
     stopBubbling(e) {
       this.$refs.footComponents.$refs.loudness.style.visibility = 'hidden';
     },
   },
+  watch: {
+    
+  }
 };
 </script>
 

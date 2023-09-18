@@ -72,7 +72,7 @@ export default {
                     this.selectResults.push(this.music[i]);
                 }
             }
-            console.log(this.music);
+            // console.log(this.music);
         },
         play(e, i) {
             if (this.isPlay) {
@@ -113,6 +113,9 @@ export default {
                 this.play_target.innerHTML = this.play_icon;
             }
         },
+        music() {
+            this.updateSelectResult();
+        }
     },
     computed: {
     }

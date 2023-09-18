@@ -45,7 +45,7 @@ export default {
             stop_icon: '&#xe7fd;',
             play_target: null,
             isRefresh: false,
-            isPlay: false
+            isPlay: false,
         };
     },
     props: {
@@ -62,7 +62,6 @@ export default {
     },
 
     mounted() {
-
     },
 
     methods: {
@@ -106,6 +105,9 @@ export default {
             } else {
                 this.play_target.innerHTML = this.play_icon;
             }
+        },
+        music() {
+            this.selectResults = this.music;
         }
     },
 };

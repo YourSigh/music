@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import createPersistedstate from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
@@ -31,7 +32,13 @@ const store = new Vuex.Store({
     },
     getters: {
 
-    }
+    },
+    plugins: [
+        createPersistedstate({
+          key: 'music',
+          paths: ['music']
+        })
+    ]
 })
 
 export default store;
