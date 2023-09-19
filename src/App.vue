@@ -58,6 +58,7 @@ export default {
     },
     stopBubbling(e) {
       this.$refs.footComponents.$refs.loudness.style.visibility = 'hidden';
+      this.$refs.footComponents.$refs.kind.style.visibility = 'hidden';
     },
   },
   watch: {

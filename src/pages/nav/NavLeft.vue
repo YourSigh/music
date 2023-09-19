@@ -23,12 +23,12 @@ export default {
     },
     data() {
         return {
-            selectComponent:'suggest',
+            selectComponent:this.$route.path.slice(1),
         };
     },
 
     mounted() {
-        document.querySelector(".suggest").style.background = 'rgba(0, 0, 0, 0.2)'
+        document.querySelector('.' + this.selectComponent).style.background = 'rgba(0, 0, 0, 0.2)';
     },
 
     methods: {
@@ -39,7 +39,10 @@ export default {
                 document.querySelector("." + o).style.background = null;
             }
             document.querySelector("." + n).style.background = 'rgba(0, 0, 0, 0.2)';
+            console.log(n+o);
         }
+    },
+    computed:{
     }
 };
 </script>

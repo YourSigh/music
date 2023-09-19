@@ -13,28 +13,30 @@
                 <div class="message">
                     <div class="title">{{ music_name }}</div>
                     <div class="menu">
-                        <div class="love">喜</div>
-                        <div class="download">下</div>
-                        <div class="more">更</div>
-                        <div class="review">评</div>
+                        <div class="love">&#xe761;</div>
+                        <div class="download">&#xe646;</div>
+                        <div class="more">&#xe626;</div>
+                        <div class="review">&#xe6ad;</div>
                     </div>
                 </div>
             </div>
             <div class="player">
-                <div class="b_kind">
-                    顺
+                <div class="b_kind" @click="kind_v" v-html="kind_icon"></div>
+                <div class="kind" style="visibility: hidden;" ref="kind" @click = $event.stopPropagation();>
+                    <div>随机播放</div>
+                    <div>顺序播放</div>
+                    <div>单曲循环</div>
+                    <div>列表循环</div>
                 </div>
                 <div class="b_last">
                     &#xe800;
                 </div>
-                <div class="b_play" @click="play" v-html="b_play">
-
-                </div>
+                <div class="b_play" @click="play" v-html="b_play"></div>
                 <div class="b_next">
                     &#xe7ff;
                 </div>
                 <div class="b_loudness" @click="loudness_v" v-html="mute_icon"></div>
-                <div class="loudness" style="visibility: hidden;" ref="loudness" @click="$event.stopPropagation();">
+                <div class="loudness" style="visibility: hidden;" ref="loudness" @click=$event.stopPropagation();>
                     <input type="range" class="range" @change="changeLoudness" ref="loudness_range"/>
                     <div class="loudness_percentage"> {{ loudness }}% </div>
                     <div class="mute" @click="mute" v-html="mute_icon"></div>
@@ -68,6 +70,7 @@ export default {
             loudness: 0,
             isMouseDown: false,
             mute_icon:'&#xe641;',
+            kind_icon:'&#xe871;',
             music_name:'QQ音乐 听我想听'
         };
     },
@@ -98,6 +101,8 @@ export default {
 
     methods: {
         play() {
+            if(this.music_name == 'QQ音乐 听我想听')
+                this.music_name = 'Fade';
             this.b_play == '&#xe658' ? this.b_play = '&#xe6f7' : this.b_play = '&#xe658';
             let audio = this.$refs.audio;
             if (this.isPlay) {
@@ -133,9 +138,14 @@ export default {
             s = parseInt((t % 60)).toString().padStart(2, '0');
             return m + ":" + s;
         },
+        kind_v(e) {
+            let kind = this.$refs.kind;
+            kind.style.visibility == 'hidden' ? kind.style.visibility = 'visible' : kind.style.visibility = 'hidden';
+            e.stopPropagation(); // 阻止事件冒泡，防止事件冒泡导致无法显示循环方式控制面板
+        },
         loudness_v(e) {
-            let loidness = this.$refs.loudness;
-            loidness.style.visibility == 'hidden' ? loidness.style.visibility = 'visible' : loidness.style.visibility = 'hidden';
+            let loudness = this.$refs.loudness;
+            loudness.style.visibility == 'hidden' ? loudness.style.visibility = 'visible' : loudness.style.visibility = 'hidden';
             e.stopPropagation(); // 阻止事件冒泡，防止事件冒泡导致无法显示音乐控制面板
         },
         changeLoudness() {
@@ -170,7 +180,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #footerRight {
     width: 810px;
     height: 75px;
@@ -208,11 +218,11 @@ export default {
     width: 10px;
     border-radius: 50%;
     border: 1px solid transparent; /*控制滑块的大小*/
-    border-image: linear-gradient(rgb(0, 150, 255), rgb(0, 150, 255)) 0 fill / 4 5 4 0 / 0px 0px 0 2000px;
+    border-image: linear-gradient(#aaccee, #aaccee) 0 fill / 4 5 4 0 / 0px 0px 0 2000px;
 }
 
 #footerRight>.wrapper:hover>input::-webkit-slider-thumb {
-    background-color: rgb(0, 150, 255);
+    background-color: #aaccee;
 }
 
 #footerRight>.playback {
@@ -270,14 +280,32 @@ export default {
     height: 60px;
     line-height: 60px;
     display: flex;
+    position: relative;
 }
 
-#footerRight>.playback>.player>div:not(:nth-child(6),:nth-child(7)):hover {
-    color: aqua;
+#footerRight>.playback>.player>div:not(:nth-child(2),:nth-child(7),:nth-child(8)):hover {
+    color: #aaccee;
 }
 
 #footerRight>.playback>.player>.b_kind {
     margin-left: 27px;
+}
+
+#footerRight>.playback>.player>.kind {
+    width: 130px;
+    height: 180px;
+    left: -30px;
+    bottom: 50px;
+    background-color: rgb(40, 50, 100);
+    border-radius: 10px;
+    position: absolute;
+    text-align: center;
+}
+
+#footerRight>.playback>.player>.kind>div {
+    font-size:16px;
+    height: 45px;
+    line-height: 45px;
 }
 
 #footerRight>.playback>.player>.b_last {
@@ -287,7 +315,7 @@ export default {
 
 #footerRight>.playback>.player>.b_play {
     font-size: 35px;
-    color: aqua;
+    color: #aaccee;
     margin-left: 10px;
 }
 
@@ -303,11 +331,11 @@ export default {
 #footerRight>.playback>.player>.loudness {
     width: 60px;
     height: 250px;
-    right: 35px;
-    bottom: 230px;
-    background-color: black;
+    left: 150px;
+    bottom: 50px;
+    background-color: rgb(40, 50, 100);
     border-radius: 10px;
-    position: relative;
+    position: absolute;
     text-align: center;
 }
 
@@ -315,10 +343,8 @@ export default {
     margin-top: 20px;
     -webkit-appearance: none;
     appearance: slider-vertical;
-    background-color: transparent;
     width: 5px;
     height: 120px;
-    background-color: #ccc;
 }
 
 #footerRight>.playback>.player>.loudness>.range::-webkit-slider-thumb {
@@ -327,8 +353,6 @@ export default {
     height: 10px;
     width: 10px;
     border-radius: 10%;
-    /* border: 1px solid transparent;
-    border-image: linear-gradient(rgb(0, 150, 255), rgb(0, 150, 255)) 0 fill / 4 0 4 0 / 0px 0px 0 2000px; */
 }
 
 #footerRight>.playback>.player>.loudness>.loudness_percentage {
@@ -337,11 +361,19 @@ export default {
 }
 
 #footerRight>.playback>.player>.loudness>.mute:hover {
-    color:aqua;
+    color:#aaccee;
 }
 
 #footerRight>.playback>.player>.time {
     font-size: 10px;
-    margin-left: 80px;
+    margin-left: 148px;
+}
+
+#footerRight>.playback>.lyrics {
+    width: 16px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 15px;
+    margin-left:5px;
 }
 </style>

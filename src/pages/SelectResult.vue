@@ -122,7 +122,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #selectResult {
     width: 810px;
     height: 535px;

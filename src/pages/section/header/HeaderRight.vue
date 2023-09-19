@@ -114,7 +114,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #headerRight {
     width: 810px;
     height: 80px;

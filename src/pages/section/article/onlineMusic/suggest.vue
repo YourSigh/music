@@ -6,7 +6,20 @@
             <div class="title2">Hi 面向慈善 今日为你推荐</div>
             <div class="suggest_content">
                 <div class="forYou">
-                    <div></div>
+                    <div class="content">
+                        <div class="title">For<br/>You</div>
+                        <div class="img"></div>
+                        <div class="music_message">
+                            <div class="music_name">Fade</div>
+                            <div class="singer">Alan Walker</div>
+                            <div class="function">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
                     <div style="color:white">猜你喜欢</div>
                 </div>
                 <div class="daily">
@@ -54,7 +67,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
     #suggest{
         width: 810px;
         height: 535px;
@@ -111,12 +124,44 @@ export default {
         height: 220px;
     }
 
-    #suggest>.content>.suggest_content>.forYou>:first-child {
+    #suggest>.content>.suggest_content>.forYou>.content {
         width: 360px;
         height: 170px;
         border-radius: 10px;
         margin: 17px 0 10px 0;
         background-color: #aaa;
+        display: flex;
+    }
+
+    #suggest>.content>.suggest_content>.forYou>.content>.title {
+        position: relative;
+        float: left;
+        top:10px;
+        left:10px;
+        z-index: 6;
+        font-size:28px;
+        font-weight: 1000;
+        line-height: 28px;
+        color:white;
+    }
+
+    #suggest>.content>.suggest_content>.forYou>.content>.img {
+        width: 130px;
+        height: 130px;
+        background-color: rgb(41, 35, 35);
+        margin: 20px 0 0 -20px;
+        border-radius: 10px;
+    }
+
+    #suggest>.content>.suggest_content>.forYou>.content>.music_message>.music_name {
+        margin:50px 0 0 20px;
+        color: white;
+    }
+
+    #suggest>.content>.suggest_content>.forYou>.content>.music_message>.singer {
+        font-size:10px;
+        color:#1312127e;
+        margin:10px 0 0 20px;
     }
 
     #suggest>.content>.suggest_content>.daily {

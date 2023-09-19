@@ -1,51 +1,51 @@
 <template>
     <div id="musicHall" @scroll="scrollChange" ref="musicHall">
-        <div class="left"></div>
-        <div class="content">
-            <h1 class="title">音乐馆</h1>
-            <div class="menu" ref="menu">
-                <div class="t_music">歌曲</div>
-                <div class="t_singer">歌手</div>
-                <div class="t_album">专辑</div>
-                <div class="t_time">时长</div>
-            </div>
-            <ul>
-                <li v-for="i in selectResults" :key="i.name + 'musicHall'" class="iconfont">
-                    <div class="like"></div>
-                    <div class="musicName">
-                        {{ i.name }}
-                    </div>
-                    <div class="play" v-html="play_icon" @click="play($event, i)"></div>
-                    <div class="singer">
-                        {{ i.singer }}
-                    </div>
-                    <div class="album">
-                        {{ i.album }}
-                    </div>
-                    <div class="time">
-                        {{ i.time }}
-                    </div>
-                </li>
-            </ul>
+        <div class="left" ref="left"></div>
+        <div class="right" ref="right"></div>
+        <h1 class="title">音乐馆</h1>
+        <div class="menu" ref="menu">
+            <div class="t_music">歌曲</div>
+            <div class="t_singer">歌手</div>
+            <div class="t_album">专辑</div>
+            <div class="t_time">时长</div>
         </div>
-        <div class="right"></div>
+        <ul ref="music_list">
+            <li v-for="i in selectResults" :key="i.name + 'musicHall'" class="iconfont">
+                <div class="like"></div>
+                <div class="musicName">
+                    {{ i.name }}
+                </div>
+                <div class="play" v-html="play_icon" @click="play($event, i)"></div>
+                <div class="singer">
+                    {{ i.singer }}
+                </div>
+                <div class="album">
+                    {{ i.album }}
+                </div>
+                <div class="time">
+                    {{ i.time }}
+                </div>
+            </li>
+        </ul>
+
     </div>
 </template>
 
 <script>
-import bus from '../../../../bus'
+import bus from "../../../../bus";
 export default {
-    name: 'MusicHall',
+    name: "MusicHall",
 
     data() {
         return {
             selectResults: [],
             selectContent: this.$route.params.name,
-            play_icon: '&#xe7fe;',
-            stop_icon: '&#xe7fd;',
+            play_icon: "&#xe7fe;",
+            stop_icon: "&#xe7fd;",
             play_target: null,
             isRefresh: false,
             isPlay: false,
+            height: 0,
         };
     },
     props: {
@@ -56,19 +56,26 @@ export default {
     created() {
         this.selectResults = this.music;
         var that = this;
-        bus.$on('isPlay', isPlay => {
+        bus.$on("isPlay", (isPlay) => {
             that.isPlay = isPlay;
         });
     },
 
     mounted() {
+        this.height = this.$refs.music_list.offsetHeight;
+    },
+
+    updated() {
+        this.$nextTick(() => {
+            this.height = this.$refs.music_list.offsetHeight;
+        });
     },
 
     methods: {
         scrollChange() {
-            if (this.$refs['musicHall'].scrollTop < 50) {
-                var str = '-248px ' + (this.$refs['musicHall'].scrollTop - 125) + 'px';
-                this.$refs['menu'].style.backgroundPosition = str;
+            if (this.$refs["musicHall"].scrollTop < 50) {
+                var str = "-248px " + (this.$refs["musicHall"].scrollTop - 125) + "px";
+                this.$refs["menu"].style.backgroundPosition = str;
             }
         },
         play(e, i) {
@@ -80,21 +87,21 @@ export default {
                     this.play_target = e.target;
                     this.play_target.innerHTML = this.play_icon; // 使当前的选中的图标为播放
                     this.isPlay = true;
-                    bus.$emit('music', i, true);
-                    bus.$emit('music', i, true);
+                    bus.$emit("music", i, true);
+                    bus.$emit("music", i, true);
                 } else {
                     this.play_target.innerHTML = this.stop_icon;
                     this.isPlay = false;
-                    bus.$emit('music', i, false);
+                    bus.$emit("music", i, false);
                 }
             } else {
                 // 没有歌曲在播放
                 e.target.innerHTML = this.play_icon;
                 this.isPlay = true;
                 this.play_target = e.target;
-                bus.$emit('music', i, false);
+                bus.$emit("music", i, false);
             }
-        }
+        },
     },
     watch: {
         isPlay() {
@@ -108,7 +115,11 @@ export default {
         },
         music() {
             this.selectResults = this.music;
-        }
+        },
+        height() {
+            this.$refs.left.style.height = this.$refs.music_list.offsetHeight + "px";
+            this.$refs.right.style.height = this.$refs.music_list.offsetHeight + "px";
+        },
     },
 };
 </script>
@@ -118,19 +129,19 @@ export default {
     width: 810px;
     height: 535px;
     overflow: auto;
-    display: flex;
+    position: relative;
 }
 
 @font-face {
     font-family: "iconfont logo";
-    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834');
-    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834#iefix') format('embedded-opentype'),
-        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.woff?t=1545807318834') format('woff'),
-        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.ttf?t=1545807318834') format('truetype'),
-        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.svg?t=1545807318834#iconfont') format('svg');
+    src: url("https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834");
+    src: url("https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834#iefix") format("embedded-opentype"),
+        url("https://at.alicdn.com/t/font_985780_km7mi63cihi.woff?t=1545807318834") format("woff"),
+        url("https://at.alicdn.com/t/font_985780_km7mi63cihi.ttf?t=1545807318834") format("truetype"),
+        url("https://at.alicdn.com/t/font_985780_km7mi63cihi.svg?t=1545807318834#iconfont") format("svg");
 }
 
-#musicHall::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 10px;
 }
 
@@ -141,27 +152,29 @@ export default {
 
 #musicHall>.left {
     width: 38px;
-    height: 535px;
+    float: left;
+    position: relative;
 }
 
-#musicHall>.content {
-    width: 724px;
-    height: 1000px;
+#musicHall>.right {
+    width: 38px;
+    float: right;
+    position: relative;
 }
 
-#musicHall>.content>.menu {
+#musicHall>.menu {
     width: 724px;
     height: 50px;
     display: flex;
     line-height: 50px;
     position: sticky;
     margin-left: 0;
-    background-image: url('../../../../assets/img/background.jpg');
+    background-image: url("../../../../assets/img/background.jpg");
     background-position: -248px -125px;
     top: 0px;
 }
 
-#musicHall>.content>.menu:after {
+#musicHall>.menu:after {
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 0;
@@ -172,29 +185,29 @@ export default {
     height: 100%;
 }
 
-#musicHall>.content>.menu>div {
+#musicHall>.menu>div {
     color: white;
     z-index: 2;
     font-size: 14px;
 }
 
-#musicHall>.content>.menu>.t_music {
+#musicHall>.menu>.t_music {
     margin-left: 10px;
 }
 
-#musicHall>.content>.menu>.t_singer {
+#musicHall>.menu>.t_singer {
     margin-left: 290px;
 }
 
-#musicHall>.content>.menu>.t_album {
+#musicHall>.menu>.t_album {
     margin-left: 100px;
 }
 
-#musicHall>.content>.menu>.t_time {
+#musicHall>.menu>.t_time {
     margin-left: 120px;
 }
 
-#musicHall>.content>ul>li {
+#musicHall>ul>li {
     width: 724px;
     height: 50px;
     line-height: 50px;
@@ -205,54 +218,49 @@ export default {
     z-index: 0;
 }
 
-#musicHall>.content>ul>li>div {
+#musicHall>ul>li>div {
     overflow: hidden;
 }
 
-#musicHall>.content>ul>li:hover {
+#musicHall>ul>li:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-#musicHall>.content>ul>li>.like {
+#musicHall>ul>li>.like {
     width: 30px;
     height: 50px;
 }
 
-#musicHall>.content>ul>li>.musicName {
+#musicHall>ul>li>.musicName {
     width: 200px;
     height: 50px;
 }
 
-#musicHall>.content>ul>li>.play {
+#musicHall>ul>li>.play {
     width: 100px;
     height: 50px;
     visibility: hidden;
 }
 
-#musicHall>.content>ul>li>.play:hover {
+#musicHall>ul>li>.play:hover {
     color: aqua;
 }
 
-#musicHall>.content>ul>li:hover>.play {
+#musicHall>ul>li:hover>.play {
     visibility: visible;
 }
 
-#musicHall>.content>ul>li>.singer {
+#musicHall>ul>li>.singer {
     width: 130px;
     height: 50px;
 }
 
-#musicHall>.content>ul>li>.album {
+#musicHall>ul>li>.album {
     width: 145px;
     height: 50px;
 }
 
-#musicHall>.right {
-    width: 38px;
-    height: 535px;
-}
-
-#musicHall>.content>.title {
+#musicHall>.title {
     font-size: 34px;
     color: white;
 }
