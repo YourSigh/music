@@ -54,7 +54,6 @@ export default {
     async fetchDataAsync() {
       await this.fetchMusic();
       this.music = this.$store.state.music;
-      // console.log(this.music);
     },
     stopBubbling(e) {
       this.$refs.footComponents.$refs.loudness.style.visibility = 'hidden';

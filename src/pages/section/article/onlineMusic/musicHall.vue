@@ -16,6 +16,9 @@
                     {{ i.name }}
                 </div>
                 <div class="play" v-html="play_icon" @click="play($event, i)"></div>
+                <div class="add">&#xe604;</div>
+                <div class="downLoad">&#xe646;</div>
+                <div class="more">&#xe626;</div>
                 <div class="singer">
                     {{ i.singer }}
                 </div>
@@ -83,7 +86,9 @@ export default {
                 // 有歌曲在播放
                 if (e.target != this.play_target) {
                     // 当前播放的歌曲不是该歌曲
-                    this.play_target.innerHTML = this.play_icon; // 使之前的图标换成暂停播放
+                    if (this.play_target != null) {
+                        this.play_target.innerHTML = this.play_icon; // 使之前的图标换成暂停播放
+                    }
                     this.play_target = e.target;
                     this.play_target.innerHTML = this.play_icon; // 使当前的选中的图标为播放
                     this.isPlay = true;
@@ -117,14 +122,14 @@ export default {
             this.selectResults = this.music;
         },
         height() {
-            this.$refs.left.style.height = this.$refs.music_list.offsetHeight + "px";
-            this.$refs.right.style.height = this.$refs.music_list.offsetHeight + "px";
+            this.$refs.left.style.height = this.$refs.music_list.offsetHeight + 90 + "px";
+            this.$refs.right.style.height = this.$refs.music_list.offsetHeight + 90 + "px";
         },
     },
 };
 </script>
 
-<style>
+<style scoped>
 #musicHall {
     width: 810px;
     height: 535px;
@@ -236,17 +241,30 @@ export default {
     height: 50px;
 }
 
-#musicHall>ul>li>.play {
-    width: 100px;
+#musicHall>ul>li>.play,.downLoad,.add,.more{
+    font-size:16px;
+    width: 25px;
     height: 50px;
     visibility: hidden;
 }
 
-#musicHall>ul>li>.play:hover {
+#musicHall>ul>li>.play:hover,.add:hover, .downLoad:hover, .more:hover {
     color: aqua;
 }
 
-#musicHall>ul>li:hover>.play {
+#musicHall>ul>li:hover>.play{
+    visibility: visible;
+}
+
+#musicHall>ul>li:hover>.downLoad {
+    visibility: visible;
+}
+
+#musicHall>ul>li:hover>.add {
+    visibility: visible;
+}
+
+#musicHall>ul>li:hover>.more {
     visibility: visible;
 }
 

@@ -8,7 +8,7 @@
                 @timeupdate="update"></audio>
             <div class="musicMsg">
                 <div class="img">
-                    <img src="../../../assets/img/playback.png" alt="">
+                    <img :src="music_img" alt="">
                 </div>
                 <div class="message">
                     <div class="title">{{ music_name }}</div>
@@ -63,7 +63,7 @@ export default {
     data() {
         return {
             b_play: '&#xe658',
-            music_url: '/music/Alan Walker - Fade.ogg',
+            music_url: 'music/Alan Walker - Fade.ogg',
             isPlay: false,
             nowTime: 0,
             totalTime: 0,
@@ -71,7 +71,8 @@ export default {
             isMouseDown: false,
             mute_icon:'&#xe641;',
             kind_icon:'&#xe871;',
-            music_name:'QQ音乐 听我想听'
+            music_name:'QQ音乐 听我想听',
+            music_img:require('../../../assets/img/playback.png')
         };
     },
     props:{
@@ -93,6 +94,7 @@ export default {
         bus.$on('music', (music, isPlay) => {
             that.music_url = music.src;
             that.music_name = music.name;
+            that.music_img = music.img;
             setTimeout(() => {
                 that.play();
             }, 100);
@@ -101,10 +103,14 @@ export default {
 
     methods: {
         play() {
-            if(this.music_name == 'QQ音乐 听我想听')
+            if(this.music_name == 'QQ音乐 听我想听') {
                 this.music_name = 'Fade';
+                this.music_img = '/music-img/Faded.png';
+            }
+                
             this.b_play == '&#xe658' ? this.b_play = '&#xe6f7' : this.b_play = '&#xe658';
             let audio = this.$refs.audio;
+
             if (this.isPlay) {
                 audio.pause();
                 this.isPlay = false;
@@ -300,6 +306,7 @@ export default {
     border-radius: 10px;
     position: absolute;
     text-align: center;
+    z-index: 3;
 }
 
 #footerRight>.playback>.player>.kind>div {
@@ -337,6 +344,7 @@ export default {
     border-radius: 10px;
     position: absolute;
     text-align: center;
+    z-index: 10;
 }
 
 #footerRight>.playback>.player>.loudness>.range {

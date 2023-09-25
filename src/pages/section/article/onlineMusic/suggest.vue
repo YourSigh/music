@@ -8,9 +8,9 @@
                 <div class="forYou">
                     <div class="forYou_content">
                         <div class="title">For<br/>You</div>
-                        <div class="img"></div>
+                        <div class="img" ref="forYou"></div>
                         <div class="music_message">
-                            <div class="music_name">Fade</div>
+                            <div class="music_name">Faded</div>
                             <div class="singer">Alan Walker</div>
                             <div class="function">
                                 <div></div>
@@ -24,12 +24,16 @@
                 </div>
                 <div class="daily">
                     <div class="content">
+                        <div class="title">Daily<br/>30</div>
+                        <div class="img" ref="daily"></div>
                         <div class="play" v-html="play_icon"></div>
                     </div>
                     <div style="color:white">每日30首</div>
                 </div>
                 <div class="hot">
                     <div class="content">
+                        <div class="title">Hot</div>
+                        <div class="img" ref="hot"></div>
                         <div class="play" v-html="play_icon"></div>
                     </div>
                     <div style="color:white">百万收藏</div>
@@ -37,39 +41,12 @@
             </div>
             <div class="title3">你的歌单补给站</div>
             <div class="playlist">
-                <div>
+                <div v-for="i in play_list">
                     <div class="content">
+                        <div class="img" :ref="i"></div>
                         <div class="play" v-html="play_icon"></div>
                     </div>
-                </div>
-                <div>
-                    <div class="content">
-                        <div class="play" v-html="play_icon"></div>
-                    </div>
-                </div><div>
-                    <div class="content">
-                        <div class="play" v-html="play_icon"></div>
-                    </div>
-                </div><div>
-                    <div class="content">
-                        <div class="play" v-html="play_icon"></div>
-                    </div>
-                </div><div>
-                    <div class="content">
-                        <div class="play" v-html="play_icon"></div>
-                    </div>
-                </div><div>
-                    <div class="content">
-                        <div class="play" v-html="play_icon"></div>
-                    </div>
-                </div><div>
-                    <div class="content">
-                        <div class="play" v-html="play_icon"></div>
-                    </div>
-                </div><div>
-                    <div class="content">
-                        <div class="play" v-html="play_icon"></div>
-                    </div>
+                    <div style="color:white;overflow: hidden;width: 100%;" :ref="i + 'title'"></div>
                 </div>
             </div>
         </div>
@@ -84,16 +61,55 @@ export default {
     data() {
         return {
             play_icon:'&#xe658;',
+            play_list:[]
         };
     },
 
+    props: {
+        music: Array,
+        required: true,
+    },
+
+    created() {
+        for (var i = 0;i < 8; i++) {
+            this.play_list.push('list' + i); 
+        }
+    },
+
     mounted() {
-        
+        if (this.music.length != 0) {
+            this.setImg();
+        } 
     },
 
     methods: {
-        
+        setImg() {
+            var reandoms = [];
+            for (var i = 0; i < 10; i++) {
+                while(true) {
+                    let r = parseInt(Math.random() * this.music.length);
+                    if (reandoms.indexOf(r) == -1) {
+                        reandoms.push(r);
+                        break;
+                    }
+                }
+            }
+            
+            for (var i = 0; i < 8; i++) {
+                var s = 'list' + i;
+                this.$refs[s][0].style.backgroundImage = "url(" + this.music[reandoms[i]].img + ")";
+                this.$refs[s + 'title'][0].innerHTML = this.music[reandoms[i]].name;
+            }
+            this.$refs.daily.style.backgroundImage = "url(" + this.music[reandoms[8]].img + ")";
+            this.$refs.hot.style.backgroundImage = "url(" + this.music[reandoms[9]].img + ")";
+        }
     },
+
+    watch:{
+        music() {
+            this.setImg();
+        }
+    }
 };
 </script>
 
@@ -163,13 +179,13 @@ export default {
 
     #suggest>.content>div>div>.content:hover>.play {
         visibility: visible;
-        position: relative;
+        position: absolute;
         float:left;
         color:white;
         top: calc(50% - 25px);
         left: calc(50% - 25px);
         font-size:50px;
-        z-index: 10;
+        z-index: 2;
     }
 
     #suggest>.content>div>div>.content>.play:hover{
@@ -188,7 +204,7 @@ export default {
         border-radius: 10px;
         background-color: rgba(0, 0, 0, 0.5);
         position: absolute;
-        z-index:10;
+        z-index:2;
     }
 
     #suggest>.content>.suggest_content {
@@ -208,7 +224,7 @@ export default {
         height: 170px;
         border-radius: 10px;
         margin: 17px 0 10px 0;
-        background-color: #aaa;
+        background-color: #aaccee;
         display: flex;
         position: relative;
         bottom:0;
@@ -234,9 +250,11 @@ export default {
     #suggest>.content>.suggest_content>.forYou>.forYou_content>.img {
         width: 130px;
         height: 130px;
-        background-color: rgb(41, 35, 35);
+        background-color: #aaccee;
         margin: 20px 0 0 -20px;
         border-radius: 10px;
+        background-image: url('../../../../../public/music-img/Faded.png');
+        background-size: auto 100%;
     }
 
     #suggest>.content>.suggest_content>.forYou>.forYou_content>.music_message>.music_name {
@@ -255,17 +273,48 @@ export default {
         height: 220px;
     }
 
+    #suggest>.content>.suggest_content>.daily>.content>.title {
+        position: relative;
+        float: left;
+        top:10px;
+        left:10px;
+        z-index: 6;
+        font-size:28px;
+        font-weight: 1000;
+        line-height: 28px;
+        color:white;
+    }
+
+    #suggest>.content>.suggest_content>.daily>.content>.img {
+        background-size: 100% 100%;
+        width: 100%;
+        height: 100%;
+    }
+
     #suggest>.content>.suggest_content>.daily>:first-child {
         width: 160px;
         height: 170px;
         border-radius: 10px;
         margin: 17px 0 10px 0;
         background-color: #aaa;
+        overflow: hidden;
     }
 
     #suggest>.content>.suggest_content>.hot {
         width: 160px;
         height: 220px;
+    }
+
+    #suggest>.content>.suggest_content>.hot>.content>.title {
+        position: relative;
+        float: left;
+        top:10px;
+        left:10px;
+        z-index: 6;
+        font-size:28px;
+        font-weight: 1000;
+        line-height: 28px;
+        color:white;
     }
 
     #suggest>.content>.suggest_content>.hot>:first-child {
@@ -274,6 +323,13 @@ export default {
         border-radius: 10px;
         margin: 17px 0 10px 0;
         background-color: #aaa;
+        overflow: hidden;
+    }
+
+    #suggest>.content>.suggest_content>.hot>.content>.img {
+        background-size: 100% 100%;
+        width: 100%;
+        height: 100%;
     }
 
     #suggest>.content>.title3{
@@ -290,11 +346,23 @@ export default {
         flex-flow:row wrap;
     }
 
+    #suggest>.content>.playlist>div {
+        width: 160px;
+        height: 250px;
+    }
+
     #suggest>.content>.playlist>div>.content{
         width: 160px;
         height: 170px;
         background-color: #aaa;
         margin: 17px 0 10px 0;
         border-radius: 10px;
+        overflow: hidden;
+    }
+
+    #suggest>.content>.playlist>div>.content>.img {
+        background-size: 100% 100%;
+        width: 100%;
+        height: 100%;
     }
 </style>

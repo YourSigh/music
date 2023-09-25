@@ -39,7 +39,6 @@ export default {
                 document.querySelector("." + o).style.background = null;
             }
             document.querySelector("." + n).style.background = 'rgba(0, 0, 0, 0.2)';
-            console.log(n+o);
         }
     },
     computed:{

@@ -15,6 +15,9 @@
                         {{ i.name }}
                     </div>
                     <div class="play" v-html="play_icon" @click="play($event, i)"></div>
+                    <div class="add">&#xe604;</div>
+                    <div class="downLoad">&#xe646;</div>
+                    <div class="more">&#xe626;</div>
                     <div class="singer">
                         {{ i.singer }}
                     </div>
@@ -235,17 +238,30 @@ export default {
     height: 50px;
 }
 
-#selectResult>.content>ul>li>.play {
-    width: 100px;
+#selectResult>.content>ul>li>.play, .add, .downLoad, .more{
+    font-size:16px;
+    width: 25px;
     height: 50px;
     visibility: hidden;
 }
 
-#selectResult>.content>ul>li>.play:hover{
+#selectResult>.content>ul>li>.play:hover, .add:hover, .downLoad:hover, .more:hover{
     color:aqua;
 }
 
 #selectResult>.content>ul>li:hover>.play{
+    visibility: visible;
+}
+
+#selectResult>.content>ul>li:hover>.add{
+    visibility: visible;
+}
+
+#selectResult>.content>ul>li:hover>.downLoad{
+    visibility: visible;
+}
+
+#selectResult>.content>ul>li:hover>.more{
     visibility: visible;
 }
 
