@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "577381",
+      "name": "喜欢-fill",
+      "font_class": "xihuanfill",
+      "unicode": "e760",
+      "unicode_decimal": 59232
+    },
+    {
       "icon_id": "577382",
       "name": "喜欢",
       "font_class": "xihuan",

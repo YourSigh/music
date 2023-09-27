@@ -11,7 +11,7 @@
         </div>
         <ul ref="music_list">
             <li v-for="i in selectResults" :key="i.name + 'musicHall'" class="iconfont">
-                <div class="like"></div>
+                <div class="like" v-html="like_icon" @click="changeLike($event, i)"></div>
                 <div class="musicName">
                     {{ i.name }}
                 </div>
@@ -45,6 +45,8 @@ export default {
             selectContent: this.$route.params.name,
             play_icon: "&#xe7fe;",
             stop_icon: "&#xe7fd;",
+            like_icon: "&#xe761;",
+            dislike_icon: "&#xe760;",
             play_target: null,
             isRefresh: false,
             isPlay: false,
@@ -107,6 +109,18 @@ export default {
                 bus.$emit("music", i, false);
             }
         },
+        changeLike(e, i) {
+            // 改变歌曲喜欢图标
+            if (e.target.islike != "true") {
+                e.target.innerHTML = this.dislike_icon;
+                e.target.style.color = "rgb(255, 100, 100)";
+                e.target.islike = "true";
+            } else {
+                e.target.innerHTML = this.like_icon;
+                e.target.style.color = null;
+                e.target.islike = "false"
+            }
+        }
     },
     watch: {
         isPlay() {
@@ -232,8 +246,16 @@ export default {
 }
 
 #musicHall>ul>li>.like {
-    width: 30px;
+    width: 20px;
+    margin-left:5px;
+    margin-right: 5px;
     height: 50px;
+    text-align: center;
+    font-size: 20px;
+}
+
+#musicHall>ul>li>.like:hover{
+    color:rgb(255, 100, 100);
 }
 
 #musicHall>ul>li>.musicName {

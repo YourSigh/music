@@ -10,7 +10,7 @@
         <div class="content">
             <ul>
                 <li v-for="i in selectResults" :key="i.name" class="iconfont">
-                    <div class="like"></div>
+                    <div class="like" v-html="like_icon" @click="changeLike($event, i)"></div>
                     <div class="musicName">
                         {{ i.name }}
                     </div>
@@ -45,6 +45,8 @@ export default {
             selectContent: this.$route.params.name,
             play_icon:'&#xe7fe;',
             stop_icon:'&#xe7fd;',
+            like_icon: "&#xe761;",
+            dislike_icon: "&#xe760;",
             play_target:null,
             isRefresh:false,
             isPlay:false
@@ -99,6 +101,18 @@ export default {
                 this.isPlay = true;
                 this.play_target = e.target;
                 bus.$emit('music', i, false);
+            }
+        },
+        changeLike(e, i) {
+            // 改变歌曲喜欢图标
+            if (e.target.islike != "true") {
+                e.target.innerHTML = this.dislike_icon;
+                e.target.style.color = "rgb(255, 100, 100)";
+                e.target.islike = "true";
+            } else {
+                e.target.innerHTML = this.like_icon;
+                e.target.style.color = null;
+                e.target.islike = "false"
             }
         }
     },
