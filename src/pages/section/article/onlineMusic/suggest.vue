@@ -26,7 +26,7 @@
                     <div class="content">
                         <div class="title">Daily<br/>30</div>
                         <div class="img" ref="daily"></div>
-                        <div class="play" v-html="play_icon"></div>
+                        <div class="play" v-html="stop_icon"></div>
                     </div>
                     <div style="color:white">每日30首</div>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="content">
                         <div class="title">Hot</div>
                         <div class="img" ref="hot"></div>
-                        <div class="play" v-html="play_icon"></div>
+                        <div class="play" v-html="stop_icon"></div>
                     </div>
                     <div style="color:white">百万收藏</div>
                 </div>
@@ -44,7 +44,7 @@
                 <div v-for="i in play_list">
                     <div class="content">
                         <div class="img" :ref="i"></div>
-                        <div class="play" v-html="play_icon"></div>
+                        <div class="play" v-html="stop_icon" @click="play($event, i)" :ref="i + 'play'"></div>
                     </div>
                     <div style="color:white;overflow: hidden;width: 100%;" :ref="i + 'title'"></div>
                 </div>
@@ -55,13 +55,18 @@
 </template>
 
 <script>
+import bus from "../../../../bus";
 export default {
     name: 'Suggest',
 
     data() {
         return {
-            play_icon:'&#xe658;',
-            play_list:[]
+            play_icon:'&#xe6f7;',
+            stop_icon:'&#xe658;',
+            play_list:[],
+            isPlay:false,
+            play_target:null,
+            reandoms:[]
         };
     },
 
@@ -74,6 +79,10 @@ export default {
         for (var i = 0;i < 8; i++) {
             this.play_list.push('list' + i); 
         }
+        var that = this;
+        bus.$on("isPlay", (isPlay) => {
+            that.isPlay = isPlay;
+        });
     },
 
     mounted() {
@@ -94,6 +103,8 @@ export default {
                     }
                 }
             }
+
+            this.reandoms = reandoms;
             
             for (var i = 0; i < 8; i++) {
                 var s = 'list' + i;
@@ -102,6 +113,34 @@ export default {
             }
             this.$refs.daily.style.backgroundImage = "url(" + this.music[reandoms[8]].img + ")";
             this.$refs.hot.style.backgroundImage = "url(" + this.music[reandoms[9]].img + ")";
+        },
+
+        play(e, i) {
+            var i = this.music[this.reandoms[i.slice(4, 5)]];
+            if (this.isPlay) {
+                // 有歌曲在播放
+                if (e.target != this.play_target) {
+                    // 当前播放的歌曲不是该歌曲
+                    if (this.play_target != null) {
+                        this.play_target.innerHTML = this.stop_icon; // 使之前的图标换成暂停播放
+                    }
+                    this.play_target = e.target;
+                    this.play_target.innerHTML = this.play_icon; // 使当前的选中的图标为播放
+                    this.isPlay = true;
+                    bus.$emit("music", i, true);
+                    bus.$emit("music", i, true);
+                } else {
+                    this.play_target.innerHTML = this.stop_icon;
+                    this.isPlay = false;
+                    bus.$emit("music", i, false);
+                }
+            } else {
+                // 没有歌曲在播放
+                e.target.innerHTML = this.play_icon;
+                this.isPlay = true;
+                this.play_target = e.target;
+                bus.$emit("music", i, false);
+            }
         }
     },
 
