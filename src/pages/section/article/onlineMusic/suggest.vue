@@ -26,7 +26,7 @@
                     <div class="content">
                         <div class="title">Daily<br/>30</div>
                         <div class="img" ref="daily"></div>
-                        <div class="play" v-html="stop_icon"></div>
+                        <div class="play" v-html="stop_icon" @click="play($event, 'test8')"></div>
                     </div>
                     <div style="color:white">每日30首</div>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="content">
                         <div class="title">Hot</div>
                         <div class="img" ref="hot"></div>
-                        <div class="play" v-html="stop_icon"></div>
+                        <div class="play" v-html="stop_icon" @click="play($event, 'test9')"></div>
                     </div>
                     <div style="color:white">百万收藏</div>
                 </div>

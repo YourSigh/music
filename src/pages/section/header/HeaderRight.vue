@@ -17,12 +17,13 @@
         <div class="img">
             <img src="../../../assets/img/listen.png" alt="听" title="听歌识曲" />
         </div>
-        <div class="user">
+        <div class="user" @click="sign">
             <div class="headshot">
                 <img src="../../../assets/img/headshot.png" alt="" />
             </div>
             <div class="username">面向慈善</div>
         </div>
+        <Sign class="sign" ref="signComponent"></Sign>
         <div class="menu">
             <div></div>
             <div>|</div>
@@ -44,6 +45,7 @@
 
 <script>
 import store from "../../../store";
+import Sign from "../../sign/sign.vue"
 export default {
     name: "HeaderRight",
     store,
@@ -52,6 +54,9 @@ export default {
             timer: null,
             selectResults: [""],
         };
+    },
+    components:{
+        Sign,
     },
 
     props:{
@@ -109,6 +114,9 @@ export default {
         },
         hide(){
             setTimeout(() => this.selectResults = [''], 500);
+        },
+        sign() {
+            this.$refs.signComponent.$refs.sign.style.display = this.$refs.signComponent.$refs.sign.style.display == 'block'?'none':'block';
         }
     },
 };
@@ -230,6 +238,18 @@ export default {
     white-space: nowrap;
     text-align: center;
     font-size: 10px;
+}
+
+#headerRight>.sign {
+    position: absolute;
+    width: 550px;
+    height: 480px;
+    top: 110px;
+    right: 230px;
+    background-color: #aaccee;
+    z-index: 10;
+    border-radius: 10px;
+    display: none;
 }
 
 #headerRight>.menu {
