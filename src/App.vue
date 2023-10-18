@@ -11,13 +11,13 @@
     </nav>
     <section>
       <header>
-        <HeaderRight :music = "music"></HeaderRight>
+        <HeaderRight :music = "music" ref="headComponent"></HeaderRight>
       </header>
       <article>
         <router-view :music = "music"></router-view>
       </article>
       <footer>
-        <FooterRight ref="footComponents"></FooterRight>
+        <FooterRight ref="footComponent"></FooterRight>
       </footer>
     </section>
   </div>
@@ -56,8 +56,9 @@ export default {
       this.music = this.$store.state.music;
     },
     stopBubbling(e) {
-      this.$refs.footComponents.$refs.loudness.style.visibility = 'hidden';
-      this.$refs.footComponents.$refs.kind.style.visibility = 'hidden';
+      this.$refs.footComponent.$refs.loudness.style.visibility = 'hidden';
+      this.$refs.footComponent.$refs.kind.style.visibility = 'hidden';
+      this.$refs.headComponent.$refs.userComponent.$refs.user.style.visibility = 'hidden';
     },
   },
   watch: {

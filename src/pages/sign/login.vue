@@ -38,7 +38,7 @@ export default {
     }
 
     #login>.title {
-        margin:25px;
+        margin:50px 0 20px;
     }
 
     #login>input {

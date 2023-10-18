@@ -38,7 +38,7 @@ export default {
     }
 
     #register>.title {
-        margin:25px;
+        margin:50px 0 20px;
     }
 
     #register>input {

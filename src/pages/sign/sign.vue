@@ -62,7 +62,8 @@ export default {
     height: 400px;
     background-color: white;
     border-radius: 10px;
-    margin: 0 auto;
+    margin: 50px auto;
+    overflow: hidden;
 }
 
 .close {
@@ -75,12 +76,12 @@ export default {
 }
 
 #sign>.title {
-    margin: 50px auto;
+    margin: 20px auto;
     display: flex;
     width: 400px;
-    height: 52px;
+    height: 60px;
     line-height: 50px;
-    border-radius: 25px;
+    border-radius: 30px;
     background-color: #ccc;
 }
 
@@ -89,8 +90,8 @@ export default {
     width: 200px;
     height: 50px;
     line-height: 50px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
+    border-radius: 30px;
+    border: 5px solid #ccc;
     text-align: center;
 }
 

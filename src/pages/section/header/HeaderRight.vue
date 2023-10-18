@@ -23,10 +23,11 @@
             </div>
             <div class="username">面向慈善</div>
         </div>
+        <User class="userInfo" ref="userComponent"></User>
         <Sign class="sign" ref="signComponent"></Sign>
         <div class="menu">
             <div></div>
-            <div>|</div>
+            <div>|</div>  
             <div></div>
         </div>
         <div class="titleBar">
@@ -46,6 +47,7 @@
 <script>
 import store from "../../../store";
 import Sign from "../../sign/sign.vue"
+import User from "../../user/index.vue"
 export default {
     name: "HeaderRight",
     store,
@@ -57,6 +59,7 @@ export default {
     },
     components:{
         Sign,
+        User
     },
 
     props:{
@@ -115,8 +118,10 @@ export default {
         hide(){
             setTimeout(() => this.selectResults = [''], 500);
         },
-        sign() {
-            this.$refs.signComponent.$refs.sign.style.display = this.$refs.signComponent.$refs.sign.style.display == 'block'?'none':'block';
+        sign(e) {
+            this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
+            // this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+            e.stopPropagation();// 阻止事件冒泡，防止无法触发该事件
         }
     },
 };
@@ -128,6 +133,7 @@ export default {
     height: 80px;
     align-items: center;
     display: flex;
+    position: relative;
 }
 
 #headerRight>.back {
@@ -240,16 +246,28 @@ export default {
     font-size: 10px;
 }
 
+#headerRight>.userInfo {
+    position: absolute;
+    width: 250px;
+    height: 420px;
+    top: 50px;
+    right: 230px;
+    background-color: #323264a0;
+    z-index: 10;
+    border-radius: 10px;
+    visibility: hidden;
+}
+
 #headerRight>.sign {
     position: absolute;
     width: 550px;
     height: 480px;
     top: 110px;
     right: 230px;
-    background-color: #aaccee;
+    background-color: #323264a0;
     z-index: 10;
     border-radius: 10px;
-    display: none;
+    visibility: hidden;
 }
 
 #headerRight>.menu {
