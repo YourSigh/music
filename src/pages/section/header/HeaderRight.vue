@@ -17,13 +17,13 @@
         <div class="img">
             <img src="../../../assets/img/listen.png" alt="听" title="听歌识曲" />
         </div>
-        <div class="user" @click="sign">
+        <div class="user" @click="open">
             <div class="headshot">
                 <img src="../../../assets/img/headshot.png" alt="" />
             </div>
-            <div class="username">面向慈善</div>
+            <div class="username">{{ username }}</div>
         </div>
-        <User class="userInfo" ref="userComponent"></User>
+        <User class="userInfo" ref="userComponent" @signout="signout"></User>
         <Sign class="sign" ref="signComponent"></Sign>
         <div class="menu">
             <div></div>
@@ -48,6 +48,7 @@
 import store from "../../../store";
 import Sign from "../../sign/sign.vue"
 import User from "../../user/index.vue"
+import bus from "../../../bus"
 export default {
     name: "HeaderRight",
     store,
@@ -55,6 +56,8 @@ export default {
         return {
             timer: null,
             selectResults: [""],
+            username: '面向慈善',
+            isLogin: true
         };
     },
     components:{
@@ -68,6 +71,14 @@ export default {
     },
 
     mounted() { 
+        bus.$on('sign', () => {
+            this.isLogin = true;
+            this.username = '面向慈善';
+            this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+        });
+        bus.$on('changename', (username) => {
+            this.username = username;
+        })
     },
 
     methods: {
@@ -118,10 +129,21 @@ export default {
         hide(){
             setTimeout(() => this.selectResults = [''], 500);
         },
-        sign(e) {
-            this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
-            // this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+        open(e) {
+            if (this.isLogin) {
+                this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
+            } else {
+                this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+            }
             e.stopPropagation();// 阻止事件冒泡，防止无法触发该事件
+        },
+        signout() {
+            this.isLogin = false;
+            this.username = '点我登录';
+            this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
+        },
+        changename(username) {
+            this.username = username;
         }
     },
 };
@@ -238,12 +260,12 @@ export default {
 #headerRight>.user>.username {
     width: 70px;
     height: 40px;
-    line-height: 40px;
+    line-height: 38px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 #headerRight>.userInfo {

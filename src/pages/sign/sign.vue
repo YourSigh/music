@@ -35,7 +35,7 @@ export default {
 
     methods: {
         close() {
-            this.$refs.sign.style.display = 'none';
+            this.$refs.sign.style.visibility = 'hidden';
         },
         change(kind) {
             if (kind == "login") {

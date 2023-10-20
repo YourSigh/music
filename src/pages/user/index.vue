@@ -11,7 +11,7 @@
             <div class="userid">
                 UID：10001
             </div>
-            <button class="signout">退出登录</button>
+            <button class="signout" @click="signout">退出登录</button>
             <div class="changepwd">修改密码</div>
         </div>
 
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import bus from '../../bus'
 export default {
     name: 'User',
 
@@ -40,7 +41,11 @@ export default {
         },
         hidden(e) {
             this.$refs.changename.style.display = 'none';
+            bus.$emit('changename', this.username);
             e.stopPropagation(); // 阻止事件冒泡，防止无法触发
+        },
+        signout() {
+            this.$emit('signout');
         }
     },
 };

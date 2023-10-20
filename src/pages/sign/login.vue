@@ -3,11 +3,12 @@
         <div class="title">密码登录</div>
         <input type="text" placeholder="请输入您的账号"><br>
         <input type="text" placeholder="请输入您的密码"><br>
-        <button>登录</button>
+        <button @click="sign">登录</button>
     </div>
 </template>
 
 <script>
+import bus from '../../bus'
 export default {
     name: 'Login',
 
@@ -22,7 +23,9 @@ export default {
     },
 
     methods: {
-        
+        sign() {
+            bus.$emit('sign');
+        }
     },
 };
 </script>
