@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios'
 import './assets/fonts/iconfont.css'
-import store from './store'
+import store from './store/store'
 
 Vue.prototype.$axios = axios
 

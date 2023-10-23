@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import bus from '../bus.js'
+import bus from '../utils/bus.js'
 export default {
     name: 'SelectResult',
 

@@ -28,6 +28,7 @@ export default {
     },
 
     mounted() {
+        // 设置被选中的nav菜单项的样式
         document.querySelector('.' + this.selectComponent).style.background = 'rgba(0, 0, 0, 0.2)';
     },
 

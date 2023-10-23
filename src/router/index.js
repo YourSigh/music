@@ -1,8 +1,6 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
-import MusicHall from "../pages/section/article/onlineMusic/musicHall.vue"
-import Suggest from "../pages/section/article/onlineMusic/suggest.vue"
-import SelectResult from "../pages/SelectResult.vue"
+import routes from './routes'
 
 Vue.use(VueRouter)
 
@@ -16,24 +14,7 @@ VueRouter.prototype.replace = function replace (to) {
 }
 
 const router = new VueRouter({
-    routes:[
-        {
-            component:SelectResult,
-            path:"/selectResult/:name"
-        },
-        {
-            component:MusicHall,
-            path:"/musicHall"
-        },
-        {
-            component:Suggest,
-            path:"/suggest"
-        },
-        {
-            path:"/",
-            redirect:"/suggest"
-        },
-    ]
+    routes
 })
 
 export default router

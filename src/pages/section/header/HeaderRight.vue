@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import store from "../../../store";
+import store from "../../../store/store";
 import Sign from "../../sign/sign.vue"
 import User from "../../user/index.vue"
-import bus from "../../../bus"
+import bus from "../../../utils/bus"
 export default {
     name: "HeaderRight",
     store,
@@ -337,3 +337,4 @@ export default {
     width: 10px;
 }
 </style>
+../../../store/store

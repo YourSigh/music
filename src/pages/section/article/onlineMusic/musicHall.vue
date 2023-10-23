@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import bus from "../../../../bus";
+import bus from "../../../../utils/bus";
 export default {
     name: "MusicHall",
 
