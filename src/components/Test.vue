@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import http from '../utils/http'
+import axios from 'axios'
 export default {
     name: 'Test',
 
@@ -17,7 +19,17 @@ export default {
     },
 
     mounted() {
-
+        // axios
+        //     .get("/test/test")
+        //     .then(response => {
+        //         console.log(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     })
+        http.get('/test/test').then(res => {
+            console.log(res);
+        });
     },
 
     methods: {

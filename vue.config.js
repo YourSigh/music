@@ -32,16 +32,6 @@ module.exports = defineConfig({
       .end()
   },
   devServer: {
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://localhost:8080',
-    //     changeOrigin: true, //是否跨域
-    //     pathRewrite: {
-    //       '^/api': ''
-    //     }
-    //   },
-
-    // },
     proxy: {
       '/api': { // 请求的代称，写在Axios里的BaseUrl
         target: 'http://yoursigh.top', // 真实请求URl
@@ -50,11 +40,14 @@ module.exports = defineConfig({
         pathRewrite: { 
           '^/api': '' 
         }
+      },
+      '/test': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: { 
+          '^/test': '' 
+        }
       }
     },
-    // host: 'localhost', //
-    // port: 8080, //
   },
-
-
 })
