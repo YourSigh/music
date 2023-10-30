@@ -25,10 +25,10 @@ export default {
 
     methods: {
         sign() {
-            http.get('/test/test').then(res => {
+            http.get('/serve/getUser').then(res => {
                 let sign = false;
                 res.forEach(res => {
-                    if (res.id == this.$refs.loginid.value && res.password == this.$refs.loginpwd.value) {
+                    if (res.uid == this.$refs.loginid.value && res.password == this.$refs.loginpwd.value) {
                         bus.$emit('sign');
                         sign = true;
                         return sign;

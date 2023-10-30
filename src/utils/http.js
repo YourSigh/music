@@ -25,6 +25,10 @@ function get(url, parmas) {
     return service.get(url, { parmas });
 }
 
-const http = { get };
+function post(url, parmas) {
+    return service.post(url, { parmas });
+}
+
+const http = { get, post };
 
 export default http;

@@ -7,9 +7,9 @@
             <div class="username" @click="changename">
                 {{ username }}
             </div>
-            <input type="text" v-model="username" ref="changename" class="changename" @keyup.enter="hidden" @blur="hidden">
+            <input type="text" :value="username" ref="changename" class="changename" @keyup.enter="hidden" @blur="hidden">
             <div class="userid">
-                UID：10001
+                UID：{{ uid }}
             </div>
             <button class="signout" @click="signout">退出登录</button>
             <div class="changepwd">修改密码</div>
@@ -25,8 +25,16 @@ export default {
 
     data() {
         return {
-            username: '面向慈善'
         };
+    },
+
+    props:{
+        username:{
+            type:String
+        },
+        uid:{
+            type:String
+        }
     },
 
     mounted() {
@@ -40,8 +48,8 @@ export default {
             e.stopPropagation(); // 阻止事件冒泡，防止无法触发
         },
         hidden(e) {
+            bus.$emit('changename', this.$refs.changename.value);
             this.$refs.changename.style.display = 'none';
-            bus.$emit('changename', this.username);
             e.stopPropagation(); // 阻止事件冒泡，防止无法触发
         },
         signout() {

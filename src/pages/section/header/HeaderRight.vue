@@ -23,7 +23,7 @@
             </div>
             <div class="username">{{ username }}</div>
         </div>
-        <User class="userInfo" ref="userComponent" @signout="signout"></User>
+        <User class="userInfo" ref="userComponent" @signout="signout" :username="username" :uid="uid"></User>
         <Sign class="sign" ref="signComponent"></Sign>
         <div class="menu">
             <div></div>
@@ -57,6 +57,7 @@ export default {
             timer: null,
             selectResults: [""],
             username: '面向慈善',
+            uid: '10001',
             isLogin: true
         };
     },
@@ -74,6 +75,12 @@ export default {
         bus.$on('sign', () => {
             this.isLogin = true;
             this.username = '面向慈善';
+            this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+        });
+        bus.$on('register', (uid, username) => {
+            this.isLogin = true;
+            this.username = username;
+            this.uid = uid;
             this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
         });
         bus.$on('changename', (username) => {

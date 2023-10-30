@@ -41,11 +41,11 @@ module.exports = defineConfig({
           '^/api': '' 
         }
       },
-      '/test': {
+      '/serve': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         pathRewrite: { 
-          '^/test': '' 
+          '^/serve': '' 
         }
       }
     },
