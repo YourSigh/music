@@ -2,6 +2,8 @@
     <div id="test">
         <div id="content">
             <h1>测试页面</h1>
+            <button @click="getUser">请求http://121.40.211.209:3000/getUser</button>
+            <button @click="nginx">请求/serve,nginx代理</button>
         </div>
     </div>
 </template>
@@ -27,13 +29,23 @@ export default {
         //     .catch(error => {
         //         console.log(error);
         //     })
-        http.get('/test/test').then(res => {
-            console.log(res);
-        });
     },
 
     methods: {
-
+        getUser() {
+            axios.get('http://121.40.211.209:3000/getUser').then(res => {
+                console.log(res);
+            }).catch(e => {
+                console.log(e);
+            })
+        },
+        nginx() {
+            axios.get('/serve').then(res => {
+                console.log(res);
+            }).catch(e => {
+                console.log(e);
+            })
+        }
     },
 };
 </script>

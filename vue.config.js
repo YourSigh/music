@@ -33,16 +33,16 @@ module.exports = defineConfig({
   },
   devServer: {
     proxy: {
-      '/api': { // 请求的代称，写在Axios里的BaseUrl
-        target: 'http://yoursigh.top', // 真实请求URl
-        ws: true,
-        changeOrigin: true, // 允许跨域
-        pathRewrite: { 
-          '^/api': '' 
-        }
-      },
+      // '/api': { // 请求的代称，写在Axios里的BaseUrl
+      //   target: 'http://yoursigh.top', // 真实请求URl
+      //   ws: true,
+      //   changeOrigin: true, // 允许跨域
+      //   pathRewrite: { 
+      //     '^/api': '' 
+      //   }
+      // },
       '/serve': {
-        target: 'http://localhost:3000',
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         pathRewrite: { 
           '^/serve': '' 

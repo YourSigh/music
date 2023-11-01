@@ -23,12 +23,14 @@ export default {
     },
     data() {
         return {
-            selectComponent:this.$route.path.slice(1),
+            selectComponent:'suggest',// 默认选中
+            selectComponentArray:['suggest', 'musicHall'] // 可以被选中的组件名
         };
     },
 
     mounted() {
         // 设置被选中的nav菜单项的样式
+        this.selectComponent = !this.selectComponentArray.includes(this.$route.path.slice(1)) ? 'suggest' : this.$route.path.slice(1);
         document.querySelector('.' + this.selectComponent).style.background = 'rgba(0, 0, 0, 0.2)';
     },
 

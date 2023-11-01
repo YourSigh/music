@@ -29,7 +29,7 @@ export default {
                 let sign = false;
                 res.forEach(res => {
                     if (res.uid == this.$refs.loginid.value && res.password == this.$refs.loginpwd.value) {
-                        bus.$emit('sign');
+                        bus.$emit('sign', res.uid, res.username);
                         sign = true;
                         return sign;
                     }

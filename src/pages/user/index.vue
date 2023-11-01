@@ -33,7 +33,7 @@ export default {
             type:String
         },
         uid:{
-            type:String
+            type:Number|String
         }
     },
 

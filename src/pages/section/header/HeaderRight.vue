@@ -72,9 +72,10 @@ export default {
     },
 
     mounted() { 
-        bus.$on('sign', () => {
+        bus.$on('sign', (uid, username) => {
             this.isLogin = true;
-            this.username = '面向慈善';
+            this.username = username;
+            this.uid = uid;
             this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
         });
         bus.$on('register', (uid, username) => {
