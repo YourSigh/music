@@ -69,7 +69,7 @@ export default {
             totalTime: 0,
             loudness: 0,
             isMouseDown: false,
-            mute_icon:'&#xe641;',
+            mute_icon:'&#xe642;',
             kind_icon:'&#xe871;',
             music_name:'QQ音乐 听我想听',
             music_img:require('../../../assets/img/playback.png')
@@ -170,10 +170,10 @@ export default {
             var audio = this.$refs.audio;
             if (audio.muted) {
                 audio.muted = false;
-                this.mute_icon = '&#xe641;';
+                this.mute_icon = '&#xe642;';
             } else {
                 audio.muted = true;
-                this.mute_icon = '&#xe640;';
+                this.mute_icon = '&#xe641;';
             }
         },
         getDuration() {

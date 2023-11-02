@@ -1,6 +1,5 @@
 <template>
-    <div id="onlineMusic">
-        <div class="test" style="height: 0px;"></div>
+    <div id="onlineMusic" class="iconfont">
         <div class="title">
             <div>
                 在线音乐
@@ -8,20 +7,32 @@
         </div>
         <div @click="gotoSuggest" class="suggest">
             <div>
+                &#xe681;
+            </div>
+            <div>
                 推荐
             </div>
         </div>
         <div @click="gotoMusicHall" class="musicHall">
+            <div>
+                &#xe667;
+            </div>
             <div>
                 音乐馆
             </div>
         </div>
         <div>
             <div>
+                &#xe629;
+            </div>
+            <div>
                 视频
             </div>
         </div>
         <div>
+            <div>
+                &#xe640;
+            </div>
             <div>
                 雷达
             </div>
@@ -65,6 +76,10 @@ export default {
         margin-bottom:18px;
         width: 160px;
         color:white;
+    }
+
+    #onlineMusic>div {
+        display: flex;
     }
 
     #onlineMusic>div:first-child{
