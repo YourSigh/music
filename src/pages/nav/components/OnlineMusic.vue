@@ -6,34 +6,34 @@
             </div>
         </div>
         <div @click="gotoSuggest" class="suggest">
-            <div>
+            <div class="suggest-icon">
                 &#xe681;
             </div>
-            <div>
+            <div class="suggest-text">
                 推荐
             </div>
         </div>
         <div @click="gotoMusicHall" class="musicHall">
-            <div>
+            <div class="musicHall-icon">
                 &#xe667;
             </div>
-            <div>
+            <div class="musicHall-text">
                 音乐馆
             </div>
         </div>
-        <div>
-            <div>
+        <div class="video">
+            <div class="video-icon">
                 &#xe629;
             </div>
-            <div>
+            <div class="video-text">
                 视频
             </div>
         </div>
-        <div>
-            <div>
+        <div class="radar">
+            <div class="radar-icon">
                 &#xe640;
             </div>
-            <div>
+            <div class="radar-text">
                 雷达
             </div>
         </div>
@@ -86,6 +86,7 @@ export default {
         width: 160px;
         height: 38px;
         line-height: 50px;
+        font-size:13.5px;
     }
 
     #onlineMusic>div:not(:first-child){
@@ -96,9 +97,20 @@ export default {
         border-radius: 5px;
     }
 
-    #onlineMusic>div>div{
-        font-size:13.5px;
+    #onlineMusic>.video>.video-icon {
+        font-size:10px;
+    }
+
+    #onlineMusic>div:not(:first-child)>div:first-child{
+        width: 25px;
+    }
+
+    #onlineMusic>div>div:first-child{
         margin-left:15px;
+    }
+
+    #onlineMusic>div>div:nth-child(2) {
+        font-size:13.5px;
     }
 
     #onlineMusic>.title>div{
