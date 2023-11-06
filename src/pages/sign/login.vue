@@ -25,16 +25,10 @@ export default {
 
     methods: {
         sign() {
-            http.get('/serve/getUser').then(res => {
-                let sign = false;
-                res.forEach(res => {
-                    if (res.uid == this.$refs.loginid.value && res.password == this.$refs.loginpwd.value) {
-                        bus.$emit('sign', res.uid, res.username);
-                        sign = true;
-                        return sign;
-                    }
-                });
-                if (!sign) {
+            http.post('/serve/login', {uid:this.$refs.loginid.value, password:this.$refs.loginpwd.value}).then(res => {
+                if (res.status) {
+                    bus.$emit('sign', this.$refs.loginid.value, res.username);
+                } else {
                     alert('ID不存在或密码错误！');
                 }
             })

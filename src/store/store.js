@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
 import createPersistedstate from 'vuex-persistedstate'
+import http from "../utils/http";
 
 Vue.use(Vuex);
 
@@ -17,17 +17,14 @@ const store = new Vuex.Store({
     },
     actions: {
         fetchMusic({ commit }) {
-            return new Promise((resolve, reject) => {
-                axios
-                .get("/music.json")
-                .then(response => {
-                    commit('getMusic', response.data.data);
-                    resolve();
+            return http
+                .get("/serve/getMusic")
+                .then(res => {
+                    commit('getMusic', res);
                 })
                 .catch(error => {
                     console.log(error);
                 })
-            })
         }
     },
     getters: {
@@ -35,8 +32,8 @@ const store = new Vuex.Store({
     },
     plugins: [
         createPersistedstate({
-          key: 'music',
-          paths: ['music']
+            key: 'music',
+            paths: ['music']
         })
     ]
 })

@@ -34,16 +34,13 @@ export default {
                 this.$refs.registerpwd1.value = '';
                 this.$refs.registerpwd2.value = '';
             } else {
-                http.get('/serve/getUser').then(res => {
-                    let parmas = {
-                        uid: res.length + 10001,
-                        username: this.$refs.registername.value,
-                        password: this.$refs.registerpwd1.value
-                    };
-                    http.post('/serve/setUser', parmas).then(res => {
-                        console.log(res);
-                        bus.$emit('register', parmas.uid, this.$refs.registername.value);
-                    })
+                let parmas = {
+                    username: this.$refs.registername.value,
+                    password: this.$refs.registerpwd1.value
+                };
+                http.post('/serve/register', parmas).then(res => {
+                    console.log(res);
+                    bus.$emit('register', res.uid, this.$refs.registername.value);
                 })
             }
         }

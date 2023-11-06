@@ -4,6 +4,7 @@
             <h1>测试页面</h1>
             <button @click="getUser">请求http://121.40.211.209:3000/getUser</button>
             <button @click="nginx">请求/serve,nginx代理</button>
+            <button @click="setMusic">添加音乐</button>
         </div>
     </div>
 </template>
@@ -11,12 +12,13 @@
 <script>
 import http from '../utils/http'
 import axios from 'axios'
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
     name: 'Test',
 
     data() {
         return {
-
+            music: []
         };
     },
 
@@ -41,6 +43,14 @@ export default {
         },
         nginx() {
             axios.get('/serve').then(res => {
+                console.log(res);
+            }).catch(e => {
+                console.log(e);
+            })
+        },
+        setMusic() {
+            this.music = this.$store.state.music;
+            axios.post('http://localhost:3000/setMusic', this.music).then(res => {
                 console.log(res);
             }).catch(e => {
                 console.log(e);
