@@ -23,8 +23,8 @@
             </div>
             <div class="username">{{ username }}</div>
         </div>
-        <User class="userInfo" ref="userComponent" @signout="signout" :username="username" :uid="uid" :img="img"></User>
-        <Modal :show.sync="isShowSign">
+        <User class="userInfo" ref="userComponent" @signout="signout" :username="username" :uid="uid" :img.sync="img"></User>
+        <Modal :show.sync="isShowSign" :width="'500px'">
             <template v-slot:content>
                 <Sign class="sign"></Sign>
             </template>

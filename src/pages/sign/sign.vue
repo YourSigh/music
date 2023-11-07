@@ -52,21 +52,12 @@ export default {
 
 <style scoped>
 #sign {
-    width: 500px;
-    height: 400px;
+    width: 460px;
+    height: 370px;
     background-color: white;
     border-radius: 10px;
     margin: 0 auto;
     overflow: hidden;
-}
-
-.close {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: 5px;
-    right: 20px;
-    font-size: 30px;
 }
 
 #sign>.title {

@@ -52,7 +52,7 @@ export default {
 <style scoped>
 #register {
     margin: -15px auto;
-    width: 500px;
+    width: 460px;
     height: 300px;
     color: black;
     font-size: 30px;
@@ -60,7 +60,7 @@ export default {
 }
 
 #register>.title {
-    margin: 50px 0 20px;
+    margin: 40px 0 20px;
 }
 
 #register>input {

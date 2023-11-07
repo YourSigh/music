@@ -41,7 +41,7 @@ export default {
 <style scoped>
 #login {
     margin: -15px auto;
-    width: 500px;
+    width: 460px;
     height: 300px;
     color: black;
     font-size: 30px;
@@ -49,7 +49,7 @@ export default {
 }
 
 #login>.title {
-    margin: 50px 0 20px;
+    margin: 40px 0 20px;
 }
 
 #login>input {

@@ -38,7 +38,6 @@ export default {
     data() {
         return {
             isShowimg: false,
-            imageUrl: null,
             title:'头像'
         };
     },
@@ -77,11 +76,10 @@ export default {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = () => {
-                this.imageUrl = reader.result;
-                console.log(this.imageUrl);
+                this.$emit('update:img', reader.result);
             };
-            
             reader.readAsDataURL(file);
+            this.isShowimg = false;
         },
         upload() {
             this.$refs.file.click();
