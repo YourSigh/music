@@ -24,7 +24,11 @@
             <div class="username">{{ username }}</div>
         </div>
         <User class="userInfo" ref="userComponent" @signout="signout" :username="username" :uid="uid" :img="img"></User>
-        <Sign class="sign" ref="signComponent"></Sign>
+        <Modal :show.sync="isShowSign">
+            <template v-slot:content>
+                <Sign class="sign"></Sign>
+            </template>
+        </Modal>
         <div class="menu">
             <div></div>
             <div>|</div>  
@@ -56,10 +60,11 @@ export default {
         return {
             timer: null,
             selectResults: [""],
-            username: '面向慈善',
-            uid: '10001',
-            isLogin: true,
-            img:'music-img/默认头像.png' // ../../../assets/img/headshot.png
+            username: '点我登录',
+            uid: '',
+            isLogin: false,
+            img:'music-img/默认头像.png', // ../../../assets/img/headshot.png
+            isShowSign:false,
         };
     },
     components:{
@@ -78,14 +83,14 @@ export default {
             this.username = username;
             this.uid = uid;
             this.img = img;
-            this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+            this.isShowSign = false;
         });
         bus.$on('register', (uid, username, img) => {
             this.isLogin = true;
             this.username = username;
             this.uid = uid;
             this.img = img;
-            this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+            this.isShowSign = false;
         });
         bus.$on('changename', (username) => {
             this.username = username;
@@ -144,13 +149,14 @@ export default {
             if (this.isLogin) {
                 this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
             } else {
-                this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
+                this.isShowSign?this.isShowSign = false: this.isShowSign = true;
             }
             e.stopPropagation();// 阻止事件冒泡，防止无法触发该事件
         },
         signout() {
             this.isLogin = false;
             this.username = '点我登录';
+            this.img = 'music-img/默认头像.png'
             this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
         },
         changename(username) {
@@ -285,18 +291,6 @@ export default {
     width: 250px;
     height: 420px;
     top: 50px;
-    right: 230px;
-    background-color: #323264a0;
-    z-index: 10;
-    border-radius: 10px;
-    visibility: hidden;
-}
-
-#headerRight>.sign {
-    position: absolute;
-    width: 550px;
-    height: 480px;
-    top: 110px;
     right: 230px;
     background-color: #323264a0;
     z-index: 10;

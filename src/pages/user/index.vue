@@ -7,7 +7,7 @@
             <div class="username" @click="changename">
                 {{ username }}
             </div>
-            <input type="text" :value="username" ref="changename" class="changename" @keyup.enter="hidden" @blur="hidden">
+            <input type="text" :value="username" ref="changename" class="changename" @keyup.enter="hidden" @blur="hidden" name="username">
             <div class="userid">
                 UID：{{ uid }}
             </div>
@@ -118,6 +118,10 @@ export default {
     border-radius: 5px;
     position: relative;
     overflow: hidden;
+}
+
+#user>.head{
+    height: 150px;
 }
 
 #user>.head>img {
