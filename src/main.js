@@ -3,8 +3,9 @@ import App from './App.vue'
 import axios from 'axios'
 import './assets/fonts/iconfont.css'
 import store from './store/store'
+import './components/index'
 
-Vue.prototype.$axios = axios
+Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false;
 

@@ -2,7 +2,7 @@
     <div ref="user" @click=$event.stopPropagation();>
         <div id="user">
             <div class="head">
-                <img src="../../assets/img/headshot.png" alt="">
+                <img :src="img" alt="" @click="isShowimg = true">
             </div>
             <div class="username" @click="changename">
                 {{ username }}
@@ -14,7 +14,19 @@
             <button class="signout" @click="signout">退出登录</button>
             <div class="changepwd">修改密码</div>
         </div>
-
+        <Modal :show.sync="isShowimg" :title="'头像'">
+            <template v-slot:content>
+                <div class="modalContent">
+                    <img :src="img" alt="头像" v-if="img">
+                    <input type="file" @change="handleFileChange" accept="image/*" ref="file" style="display: none;">
+                </div>
+            </template>
+            <template v-slot:footer>
+                <div class="modalFooter" @click="upload">
+                    上传头像
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 
@@ -25,15 +37,21 @@ export default {
 
     data() {
         return {
+            isShowimg: false,
+            imageUrl: null,
+            title:'头像'
         };
     },
 
-    props:{
-        username:{
-            type:String
+    props: {
+        username: {
+            type: String
         },
-        uid:{
-            type:Number|String
+        uid: {
+            type: Number | String
+        },
+        img: {
+            type: String
         }
     },
 
@@ -54,12 +72,43 @@ export default {
         },
         signout() {
             this.$emit('signout');
+        },
+        handleFileChange(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.imageUrl = reader.result;
+                console.log(this.imageUrl);
+            };
+            
+            reader.readAsDataURL(file);
+        },
+        upload() {
+            this.$refs.file.click();
         }
     },
 };
 </script>
 
 <style scoped>
+
+#modal>>>.modalContent>img {
+    margin: 0 auto;
+    width: 400px;
+    height: 400px;
+    display: block;
+}
+
+#modal>>>.modalFooter {
+    margin:0 auto;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 20px;
+    background-color: #aaccee;
+}
+
 #user {
     width: 230px;
     height: 400px;
@@ -75,6 +124,7 @@ export default {
     width: 100px;
     height: 100px;
     margin: 20px auto;
+    border-radius: 50px;
 }
 
 #user>.username {

@@ -25,9 +25,10 @@ export default {
 
     methods: {
         sign() {
+            let that = this;
             http.post('/serve/login', {uid:this.$refs.loginid.value, password:this.$refs.loginpwd.value}).then(res => {
                 if (res.status) {
-                    bus.$emit('sign', this.$refs.loginid.value, res.username);
+                    bus.$emit('sign', res.uid, res.username, res.img);
                 } else {
                     alert('ID不存在或密码错误！');
                 }

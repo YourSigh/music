@@ -19,11 +19,11 @@
         </div>
         <div class="user" @click="open">
             <div class="headshot">
-                <img src="../../../assets/img/headshot.png" alt="" />
+                <img :src="img" alt="" />
             </div>
             <div class="username">{{ username }}</div>
         </div>
-        <User class="userInfo" ref="userComponent" @signout="signout" :username="username" :uid="uid"></User>
+        <User class="userInfo" ref="userComponent" @signout="signout" :username="username" :uid="uid" :img="img"></User>
         <Sign class="sign" ref="signComponent"></Sign>
         <div class="menu">
             <div></div>
@@ -58,7 +58,8 @@ export default {
             selectResults: [""],
             username: '面向慈善',
             uid: '10001',
-            isLogin: true
+            isLogin: true,
+            img:'music-img/默认头像.png' // ../../../assets/img/headshot.png
         };
     },
     components:{
@@ -72,16 +73,18 @@ export default {
     },
 
     mounted() { 
-        bus.$on('sign', (uid, username) => {
+        bus.$on('sign', (uid, username, img) => {
             this.isLogin = true;
             this.username = username;
             this.uid = uid;
+            this.img = img;
             this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
         });
-        bus.$on('register', (uid, username) => {
+        bus.$on('register', (uid, username, img) => {
             this.isLogin = true;
             this.username = username;
             this.uid = uid;
+            this.img = img;
             this.$refs.signComponent.$refs.sign.style.visibility = this.$refs.signComponent.$refs.sign.style.visibility == 'visible'?'hidden':'visible';
         });
         bus.$on('changename', (username) => {
@@ -263,6 +266,7 @@ export default {
 #headerRight>.user>.headshot>img {
     width: 25px;
     height: 25px;
+    border-radius: 12.5px;
 }
 
 #headerRight>.user>.username {

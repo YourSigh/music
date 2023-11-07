@@ -27,6 +27,7 @@ export default {
 
     methods: {
         register() {
+            let that = this;
             if (this.$refs.registerpwd1.value == '' || this.$refs.registerpwd2.value == '' || this.$refs.registername.value == '') {
                 alert('用户名或密码不能为空！');
             } else if (this.$refs.registerpwd1.value != this.$refs.registerpwd2.value) {
@@ -40,7 +41,7 @@ export default {
                 };
                 http.post('/serve/register', parmas).then(res => {
                     console.log(res);
-                    bus.$emit('register', res.uid, this.$refs.registername.value);
+                    bus.$emit('register', res.uid, that.$refs.registername.value, res.img);
                 })
             }
         }

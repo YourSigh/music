@@ -5,12 +5,23 @@
             <button @click="getUser">请求http://121.40.211.209:3000/getUser</button>
             <button @click="nginx">请求/serve,nginx代理</button>
             <button @click="setMusic">添加音乐</button>
+            <button @click="changeShow" >显示模态框</button>
         </div>
+        <Modal :show.sync="isShowModal" :title="title">
+            <template v-slot:content>
+                测试内容
+            </template>
+            <template v-slot:footer>
+                <div>
+                    cs
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 
 <script>
-import http from '../utils/http'
+import http from '../../utils/http'
 import axios from 'axios'
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
@@ -18,7 +29,9 @@ export default {
 
     data() {
         return {
-            music: []
+            music: [],
+            isShowModal:false,
+            title:'测试'
         };
     },
 
@@ -55,6 +68,9 @@ export default {
             }).catch(e => {
                 console.log(e);
             })
+        },
+        changeShow() {
+            this.isShowModal?this.isShowModal = false: this.isShowModal = true;
         }
     },
 };
