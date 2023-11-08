@@ -7,7 +7,8 @@
             <div class="username" @click="changename">
                 {{ username }}
             </div>
-            <input type="text" :value="username" ref="changename" class="changename" @keyup.enter="hidden" @blur="hidden" name="username">
+            <input type="text" :value="username" ref="changename" class="changename" @keyup.enter="hidden" @blur="hidden"
+                name="username">
             <div class="userid">
                 UID：{{ uid }}
             </div>
@@ -32,13 +33,14 @@
 
 <script>
 import bus from '../../utils/bus'
+import http from '@/utils/http';
 export default {
     name: 'User',
 
     data() {
         return {
             isShowimg: false,
-            title:'头像'
+            title: '头像'
         };
     },
 
@@ -76,7 +78,9 @@ export default {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = () => {
-                this.$emit('update:img', reader.result);
+                http.post('/serve/headshot', { uid: this.uid, img: reader.result }).then(res => {
+                    this.$emit('update:img', res.img);
+                })
             };
             reader.readAsDataURL(file);
             this.isShowimg = false;
@@ -89,7 +93,6 @@ export default {
 </script>
 
 <style scoped>
-
 #modal>>>.modalContent>img {
     margin: 0 auto;
     width: 400px;
@@ -98,7 +101,7 @@ export default {
 }
 
 #modal>>>.modalFooter {
-    margin:0 auto;
+    margin: 0 auto;
     width: 300px;
     height: 30px;
     border-radius: 5px;
@@ -118,7 +121,7 @@ export default {
     overflow: hidden;
 }
 
-#user>.head{
+#user>.head {
     height: 150px;
 }
 
