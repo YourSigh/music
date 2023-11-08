@@ -82,7 +82,7 @@ export default {
             // 如果已经登录，刷新页面时从缓存中获取信息
             this.uid = localStorage.getItem('uid');
             this.username = localStorage.getItem('username');
-            this.img = localStorage.getItem('img');
+            this.img = localStorage.getItem('img')  + "?time=" + new Date();
             this.isLogin = true;
         }
         bus.$on('sign', (uid, username, img) => {

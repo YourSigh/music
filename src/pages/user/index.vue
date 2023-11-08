@@ -79,7 +79,8 @@ export default {
             const reader = new FileReader();
             reader.onload = () => {
                 http.post('/serve/headshot', { uid: this.uid, img: reader.result }).then(res => {
-                    this.$emit('update:img', res.img);
+                    this.$emit('update:img', reader.result);
+                    localStorage.setItem('img', res.img);
                 })
             };
             reader.readAsDataURL(file);
