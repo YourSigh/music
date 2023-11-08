@@ -60,10 +60,10 @@ export default {
         return {
             timer: null,
             selectResults: [""],
-            username: '点我登录',
-            uid: '',
             isLogin: false,
-            img:'music-img/默认头像.png', // ../../../assets/img/headshot.png
+            uid: '',
+            username: '点我登录',
+            img:'music-img/默认头像.png',
             isShowSign:false,
         };
     },
@@ -78,6 +78,13 @@ export default {
     },
 
     mounted() { 
+        if (localStorage.getItem('uid')) {
+            // 如果已经登录，刷新页面时从缓存中获取信息
+            this.uid = localStorage.getItem('uid');
+            this.username = localStorage.getItem('username');
+            this.img = localStorage.getItem('img');
+            this.isLogin = true;
+        }
         bus.$on('sign', (uid, username, img) => {
             this.isLogin = true;
             this.username = username;
@@ -155,8 +162,12 @@ export default {
         },
         signout() {
             this.isLogin = false;
+            this.uid = '';
             this.username = '点我登录';
-            this.img = 'music-img/默认头像.png'
+            this.img = 'music-img/默认头像.png';
+            localStorage.removeItem('uid');
+            localStorage.removeItem('username');
+            localStorage.removeItem('img');
             this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
         },
         changename(username) {

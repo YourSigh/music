@@ -28,6 +28,10 @@ export default {
             let that = this;
             http.post('/serve/login', {uid:this.$refs.loginid.value, password:this.$refs.loginpwd.value}).then(res => {
                 if (res.status) {
+                    // 登录后本地存储登录信息
+                    localStorage.setItem('uid', res.uid);
+                    localStorage.setItem('username', res.username);
+                    localStorage.setItem('img', res.img);
                     bus.$emit('sign', res.uid, res.username, res.img);
                 } else {
                     alert('ID不存在或密码错误！');
@@ -67,7 +71,7 @@ export default {
     height: 30px;
     background-color: #aaccee;
     border: 0;
-    margin: 20px;
+    margin: 50px;
     color: white;
 }
 </style>
