@@ -60,6 +60,7 @@ export default {
 <style scoped>
     #modal{
         position: fixed;
+        font-size:16px;
         width: 100%;
         height: 100%;
         top:0;

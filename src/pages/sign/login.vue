@@ -4,6 +4,13 @@
         <input type="text" placeholder="请输入您的ID" ref="loginid"><br>
         <input type="text" placeholder="请输入您的密码" ref="loginpwd"><br>
         <button @click="sign">登录</button>
+        <Modal :title="'提示'" :show.sync = isShowErr>
+            <template v-slot:content>
+                <div>
+                    ID不存在或密码错误！
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 
@@ -15,7 +22,7 @@ export default {
 
     data() {
         return {
-
+            isShowErr:false,
         };
     },
 
@@ -25,7 +32,6 @@ export default {
 
     methods: {
         sign() {
-            let that = this;
             http.post('/serve/login', {uid:this.$refs.loginid.value, password:this.$refs.loginpwd.value}).then(res => {
                 if (res.status) {
                     // 登录后本地存储登录信息
@@ -34,7 +40,7 @@ export default {
                     localStorage.setItem('img', res.img);
                     bus.$emit('sign', res.uid, res.username, res.img);
                 } else {
-                    alert('ID不存在或密码错误！');
+                    this.isShowErr = true;
                 }
             })
         }

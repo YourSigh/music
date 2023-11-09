@@ -5,6 +5,20 @@
         <input type="text" placeholder="请输入您的密码" ref="registerpwd1"><br>
         <input type="text" placeholder="请再次输入您的密码" ref="registerpwd2"><br>
         <button @click="register">注册</button>
+        <Modal :title="'提示'" :show.sync="isShowNull">
+            <template v-slot:content>
+                <div>
+                    用户名或密码不能为空！
+                </div>
+            </template>
+        </Modal>
+        <Modal :title="'提示'" :show.sync="isShowReinput">
+            <template v-slot:content>
+                <div>
+                    两次输入的密码不一致，请重新输入！
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 
@@ -17,7 +31,8 @@ export default {
 
     data() {
         return {
-
+            isShowNull:false,
+            isShowReinput:false
         };
     },
 
@@ -29,9 +44,9 @@ export default {
         register() {
             let that = this;
             if (this.$refs.registerpwd1.value == '' || this.$refs.registerpwd2.value == '' || this.$refs.registername.value == '') {
-                alert('用户名或密码不能为空！');
+                this.isShowNull = true;
             } else if (this.$refs.registerpwd1.value != this.$refs.registerpwd2.value) {
-                alert('两次输入的密码不一致，请重新输入！');
+                this.isShowReinput = true;
                 this.$refs.registerpwd1.value = '';
                 this.$refs.registerpwd2.value = '';
             } else {
