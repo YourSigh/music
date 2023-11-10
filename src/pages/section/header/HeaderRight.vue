@@ -101,6 +101,7 @@ export default {
         });
         bus.$on('changename', (username) => {
             this.username = username;
+            localStorage.setItem('username', this.username);
         })
     },
 
