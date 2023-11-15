@@ -2,7 +2,7 @@
     <div id="login">
         <div class="title">密码登录</div>
         <input type="text" placeholder="请输入您的ID" ref="loginid"><br>
-        <input type="text" placeholder="请输入您的密码" ref="loginpwd"><br>
+        <input type="password" placeholder="请输入您的密码" ref="loginpwd"><br>
         <button @click="sign">登录</button>
         <Modal :title="'提示'" :show.sync = isShowErr>
             <template v-slot:content>

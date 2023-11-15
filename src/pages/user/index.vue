@@ -11,7 +11,7 @@
                 @blur="hidden($event, true)" name="username" />
             <div class="userid">UID：{{ uid }}</div>
             <button class="signout" @click="signout">退出登录</button>
-            <div class="changepwd">修改密码</div>
+            <div class="changepwd" @click="changepwd">修改密码</div>
         </div>
         <Modal :show.sync="isShowimg" :title="'头像'">
             <template v-slot:content>
@@ -24,20 +24,33 @@
                 <div class="modalFooter" @click="upload">上传头像</div>
             </template>
         </Modal>
+        <Modal :show.sync="isShowChangepwd" :title="'修改密码'" :width="'400px'">
+            <template v-slot:content>
+                <div>
+                    <ChangePwd :show.sync="isShowChangepwd" v-if="isShowChangepwd"></ChangePwd>
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 
 <script>
 import bus from "../../utils/bus";
 import http from "@/utils/http";
+import ChangePwd from "./changePwd.vue";
 export default {
     name: "User",
 
     data() {
         return {
             isShowimg: false,
+            isShowChangepwd:false,
             title: "头像",
         };
+    },
+
+    components:{
+        ChangePwd
     },
 
     props: {
@@ -98,6 +111,9 @@ export default {
         upload() {
             this.$refs.file.click();
         },
+        changepwd() {
+            this.isShowChangepwd?this.isShowChangepwd = false:this.isShowChangepwd = true;
+        }
     },
 };
 </script>

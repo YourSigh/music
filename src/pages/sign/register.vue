@@ -2,8 +2,8 @@
     <div id="register">
         <div class="title">账号注册</div>
         <input type="text" placeholder="请输入您的用户名" ref="registername"><br>
-        <input type="text" placeholder="请输入您的密码" ref="registerpwd1"><br>
-        <input type="text" placeholder="请再次输入您的密码" ref="registerpwd2"><br>
+        <input type="password" placeholder="请输入您的密码" ref="registerpwd1"><br>
+        <input type="password" placeholder="请再次输入您的密码" ref="registerpwd2"><br>
         <button @click="register">注册</button>
         <Modal :title="'提示'" :show.sync="isShowNull">
             <template v-slot:content>
