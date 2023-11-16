@@ -27,7 +27,7 @@
         
         <div class="menu">
             <div class="color">
-                <div @click="changecolor">&#xe65e;</div>
+                <div @click="isShowColor = true">&#xe65e;</div>
             </div>
             <div>|</div>  
             <div></div>
