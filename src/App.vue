@@ -20,6 +20,7 @@
         <FooterRight ref="footComponent"></FooterRight>
       </footer>
     </section>
+    <div id="background" ref="background"></div>
   </div>
 </template>
 
@@ -47,7 +48,12 @@ export default {
   created() {
     
   },
-  mounted() {this.fetchDataAsync();
+  computed:{
+    ...mapState(['color'])
+  },
+  mounted() {
+    this.fetchDataAsync();
+    this.$refs.background.style.backgroundColor = this.color;
   },
   methods: {
     ...mapActions(['fetchMusic']),
@@ -62,7 +68,9 @@ export default {
     },
   },
   watch: {
-    
+    color() {
+      this.$refs.background.style.backgroundColor = this.color;
+    },
   }
 };
 </script>
@@ -84,6 +92,19 @@ export default {
   margin: 0 auto;
   display: flex;
   background-image: url(assets/img/background.jpg);
+}
+
+#background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  /* background-image: url(assets/img/background.jpg); */
+  background-size: 100%;
+  background-repeat: no-repeat;
+  z-index: -1;
 }
 
 nav>.header {

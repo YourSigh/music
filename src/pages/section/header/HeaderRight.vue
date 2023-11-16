@@ -1,5 +1,5 @@
 <template>
-    <div id="headerRight">
+    <div id="headerRight" class="iconfont">
         <div class="back" title="后退" @click="back">&lt;</div>
         <div class="forward" title="前进" @click="forward">&gt;</div>
         <div class="select">
@@ -24,13 +24,11 @@
             <div class="username">{{ username }}</div>
         </div>
         <User class="userInfo" ref="userComponent" @signout="signout" :username="username" :uid="uid" :img.sync="img"></User>
-        <Modal :show.sync="isShowSign" :width="'500px'">
-            <template v-slot:content>
-                <Sign class="sign"></Sign>
-            </template>
-        </Modal>
+        
         <div class="menu">
-            <div></div>
+            <div class="color">
+                <div @click="changecolor">&#xe65e;</div>
+            </div>
             <div>|</div>  
             <div></div>
         </div>
@@ -45,6 +43,20 @@
                 <div @click="close">X</div>
             </div>
         </div>
+
+        <Modal :show.sync="isShowSign" :width="'500px'">
+            <template v-slot:content>
+                <Sign class="sign"></Sign>
+            </template>
+        </Modal>
+        <Modal :show.sync="isShowColor" :width="'200px'" :title="'更换背景颜色'">
+            <template v-slot:content>
+                <div style="margin: 0 auto;">
+                    <div :style="{ backgroundColor: color, width: '100px', height:'100px', borderRadius:'50%', margin: '0 auto'}" @click="$refs.color.click()"></div>
+                    <input type="color" v-model="color" style="visibility: hidden; width: 0; height: 0;" ref="color">
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 
@@ -65,6 +77,8 @@ export default {
             username: '点我登录',
             img:'music-img/默认头像.png',
             isShowSign:false,
+            isShowColor:false,
+            color:localStorage.getItem('color')
         };
     },
     components:{
@@ -75,6 +89,13 @@ export default {
     props:{
         music:Array,
         required:true,
+    },
+
+    watch:{
+        color() {
+            this.$store.commit('setColor', this.color);
+            localStorage.setItem('color', this.color);
+        }
     },
 
     mounted() { 
@@ -179,6 +200,15 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: "iconfont logo";
+    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834');
+    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834#iefix') format('embedded-opentype'),
+        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.woff?t=1545807318834') format('woff'),
+        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.ttf?t=1545807318834') format('truetype'),
+        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.svg?t=1545807318834#iconfont') format('svg');
+}
+
 #headerRight {
     width: 810px;
     height: 80px;
@@ -294,8 +324,9 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    text-align: center;
+    margin-left:10px;
     font-size: 12px;
+    overflow: hidden;
 }
 
 #headerRight>.userInfo {
@@ -315,6 +346,13 @@ export default {
     height: 40px;
     display: flex;
     align-items: center;
+}
+
+#headerRight>.menu>.color{
+    width: 35px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
 }
 
 #headerRight>.titleBar {
@@ -355,4 +393,3 @@ export default {
     width: 10px;
 }
 </style>
-../../../store/store

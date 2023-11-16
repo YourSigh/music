@@ -8,11 +8,14 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         music: [],
-
+        color:localStorage.getItem('color')
     },
     mutations: {
         getMusic(state, music) {
             state.music = music;
+        },
+        setColor(state, color) {
+            state.color = color;
         }
     },
     actions: {

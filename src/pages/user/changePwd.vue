@@ -66,7 +66,6 @@ export default {
           newpwd:this.pwd1,
           uid:localStorage.getItem('uid')
         }
-        console.log(params)
         http.post('/serve/changePassword', params).then(res => {
           if (res.results) {
             this.message = '密码修改成功！'
