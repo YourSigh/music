@@ -50,7 +50,6 @@ export default {
             play_target: null,
             isRefresh: false,
             isPlay: false,
-            height: 0,
         };
     },
     props: {
@@ -67,13 +66,6 @@ export default {
     },
 
     mounted() {
-        this.height = this.$refs.music_list.offsetHeight;
-    },
-
-    updated() {
-        this.$nextTick(() => {
-            this.height = this.$refs.music_list.offsetHeight;
-        });
     },
 
     methods: {
@@ -135,10 +127,6 @@ export default {
         music() {
             this.selectResults = this.music;
         },
-        height() {
-            this.$refs.left.style.height = this.$refs.music_list.offsetHeight + 90 + "px";
-            this.$refs.right.style.height = this.$refs.music_list.offsetHeight + 90 + "px";
-        },
     },
 };
 </script>
@@ -148,7 +136,31 @@ export default {
     width: 810px;
     height: 535px;
     overflow: auto;
-    position: relative;
+}
+
+#musicHall::before {
+    width: 724px;
+    height: 50px;
+    background-image: url("../../../../assets/img/background.jpg");
+    background-position: -248px -80px;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 80px;
+    left: 248px;
+    z-index: 1;
+}
+
+#musicHall::after {
+    width: 724px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    content: '';
+    display: block;
+    position: absolute;
+    top: 80px;
+    left: 248px;
+    z-index: 1;
 }
 
 @font-face {
@@ -188,25 +200,12 @@ export default {
     line-height: 50px;
     position: sticky;
     margin-left: 0;
-    background-image: url("../../../../assets/img/background.jpg");
-    background-position: -248px -125px;
-    top: 0px;
-}
-
-#musicHall>.menu:after {
-    background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
     top: 0;
-    left: 0;
-    content: "";
-    z-index: 1;
-    width: 100%;
-    height: 100%;
+    z-index: 2;
 }
 
 #musicHall>.menu>div {
     color: white;
-    z-index: 2;
     font-size: 14px;
 }
 
@@ -234,7 +233,6 @@ export default {
     color: white;
     display: flex;
     font-size: 14px;
-    z-index: 0;
 }
 
 #musicHall>ul>li>div {
@@ -247,15 +245,15 @@ export default {
 
 #musicHall>ul>li>.like {
     width: 20px;
-    margin-left:5px;
+    margin-left: 5px;
     margin-right: 5px;
     height: 50px;
     text-align: center;
     font-size: 20px;
 }
 
-#musicHall>ul>li>.like:hover{
-    color:rgb(255, 100, 100);
+#musicHall>ul>li>.like:hover {
+    color: rgb(255, 100, 100);
 }
 
 #musicHall>ul>li>.musicName {
@@ -263,18 +261,24 @@ export default {
     height: 50px;
 }
 
-#musicHall>ul>li>.play,.downLoad,.add,.more{
-    font-size:16px;
+#musicHall>ul>li>.play,
+.downLoad,
+.add,
+.more {
+    font-size: 16px;
     width: 25px;
     height: 50px;
     visibility: hidden;
 }
 
-#musicHall>ul>li>.play:hover,.add:hover, .downLoad:hover, .more:hover {
+#musicHall>ul>li>.play:hover,
+.add:hover,
+.downLoad:hover,
+.more:hover {
     color: aqua;
 }
 
-#musicHall>ul>li:hover>.play{
+#musicHall>ul>li:hover>.play {
     visibility: visible;
 }
 
@@ -303,5 +307,6 @@ export default {
 #musicHall>.title {
     font-size: 34px;
     color: white;
-}
-</style>
+    position: relative;
+    z-index: 2;
+}</style>

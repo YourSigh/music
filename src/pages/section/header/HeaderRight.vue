@@ -52,7 +52,7 @@
         <Modal :show.sync="isShowColor" :width="'200px'" :title="'更换背景颜色'">
             <template v-slot:content>
                 <div style="margin: 0 auto;">
-                    <div :style="{ backgroundColor: color, width: '100px', height:'100px', borderRadius:'50%', margin: '0 auto'}" @click="$refs.color.click()"></div>
+                    <div :style="{ backgroundColor: color, width: '100px', height:'100px', borderRadius:'50%', margin: '0 auto', border:'1px solid #aaa'}" @click="$refs.color.click()"></div>
                     <input type="color" v-model="color" style="visibility: hidden; width: 0; height: 0;" ref="color">
                 </div>
             </template>

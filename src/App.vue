@@ -11,10 +11,10 @@
     </nav>
     <section>
       <header>
-        <HeaderRight :music = "music" ref="headComponent"></HeaderRight>
+        <HeaderRight :music="music" ref="headComponent"></HeaderRight>
       </header>
       <article>
-        <router-view :music = "music"></router-view>
+        <router-view :music="music"></router-view>
       </article>
       <footer>
         <FooterRight ref="footComponent"></FooterRight>
@@ -29,7 +29,7 @@ import NavLeft from "./pages/nav/NavLeft.vue";
 import FooterRight from "./pages/section/footer/FooterRight.vue";
 import HeaderRight from "./pages/section/header/HeaderRight.vue";
 import router from "./router/index";
-import {mapState,mapMutations,mapGetters, mapActions} from 'vuex'
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "App",
@@ -41,14 +41,14 @@ export default {
   },
   data() {
     return {
-      music:[],
-      window:window
+      music: [],
+      window: window
     }
   },
   created() {
-    
+
   },
-  computed:{
+  computed: {
     ...mapState(['color'])
   },
   mounted() {
@@ -80,18 +80,20 @@ export default {
   margin: 0;
   padding: 0;
   -moz-user-select: -moz-none;
-  -webkit-user-select: none; /* Chrome, Safari, Opera */
-  -ms-user-select: none; /* IE 10+ */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  /* Chrome, Safari, Opera */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Standard syntax */
 }
 
 #app {
   width: 1020px;
   height: 690px;
-  background-color: black;
   margin: 0 auto;
   display: flex;
-  background-image: url(assets/img/background.jpg);
+  position: relative;
 }
 
 #background {
@@ -100,11 +102,32 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
-  /* background-image: url(assets/img/background.jpg); */
   background-size: 100%;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: -999;
+}
+
+nav::after {
+  width: 1020px;
+  height: 690px;
+  background-image: url(assets/img/background.jpg);
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  z-index: -5;
+}
+
+nav::before {
+  width: 810px;
+  height: 690px;
+  background-color: rgba(0, 0, 0, 0.5);
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 210px;
+  z-index: -4;
 }
 
 nav>.header {
@@ -134,7 +157,6 @@ nav>.header>p {
 section {
   width: 810px;
   height: 690px;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 section>header {
