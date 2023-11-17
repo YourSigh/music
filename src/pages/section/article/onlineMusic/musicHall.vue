@@ -50,6 +50,7 @@ export default {
             play_target: null,
             isRefresh: false,
             isPlay: false,
+            height:this.$refs.music_list?.offsetHeight
         };
     },
     props: {
@@ -66,6 +67,13 @@ export default {
     },
 
     mounted() {
+        this.height = this.$refs.music_list.offsetHeight;
+    },
+
+    updated() {
+        this.$nextTick(() => {
+            this.height = this.$refs.music_list.offsetHeight;
+        });
     },
 
     methods: {
@@ -112,7 +120,7 @@ export default {
                 e.target.style.color = null;
                 e.target.islike = "false"
             }
-        }
+        },
     },
     watch: {
         isPlay() {
@@ -127,6 +135,10 @@ export default {
         music() {
             this.selectResults = this.music;
         },
+        height() {
+            this.$refs.left.style.height = this.$refs.music_list.offsetHeight + 95 + 'px';
+            this.$refs.right.style.height = this.$refs.music_list.offsetHeight + 95 + 'px';
+        }
     },
 };
 </script>
@@ -183,6 +195,7 @@ export default {
 
 #musicHall>.left {
     width: 38px;
+    height: 100%;
     float: left;
     position: relative;
 }
@@ -309,4 +322,5 @@ export default {
     color: white;
     position: relative;
     z-index: 2;
-}</style>
+}
+</style>
