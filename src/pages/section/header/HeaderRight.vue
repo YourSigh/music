@@ -270,7 +270,7 @@ export default {
     border-radius: 10px;
     top: 60px;
     position: absolute;
-    z-index: 2;
+    z-index: 5;
     overflow: auto;
 }
 

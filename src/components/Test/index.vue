@@ -7,6 +7,7 @@
             <button @click="setMusic">添加音乐</button>
             <button @click="changeShow" >显示模态框</button>
         </div>
+        <MusicList :music="music"></MusicList>
         <Modal :show.sync="isShowModal" :title="title">
             <template v-slot:content>
                 测试内容
@@ -23,16 +24,21 @@
 <script>
 import http from '../../utils/http'
 import axios from 'axios'
+import MusicList from '../../components/MusicList'
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
     name: 'Test',
 
     data() {
         return {
-            music: [],
+            music: [{name:'test0', singer:'test', album:'test', time:'test'}, {name:'test1', singer:'test', album:'test', time:'test'}],
             isShowModal:false,
             title:'测试'
         };
+    },
+
+    components: {
+        MusicList
     },
 
     mounted() {
@@ -77,12 +83,17 @@ export default {
 </script>
 
 <style scoped>
+#test {
+    width: 100%;
+    height: 535px;
+    overflow: auto;
+    background-color: #aaa;
+    color: white;
+}
 #content {
     margin: 0 auto;
     width: 500px;
-    height: 500px;
-    background-color: #aaa;
-    color: white;
+    background-color: red;
     z-index: 999;
 }
 </style>

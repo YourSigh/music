@@ -1,5 +1,5 @@
 <template>
-    <div id="musicHall" @scroll="scrollChange" ref="musicHall">
+    <div id="musicHall"  ref="musicHall">
         <div class="left" ref="left"></div>
         <div class="right" ref="right"></div>
         <h1 class="title">音乐馆</h1>
@@ -77,12 +77,6 @@ export default {
     },
 
     methods: {
-        scrollChange() {
-            if (this.$refs["musicHall"].scrollTop < 50) {
-                var str = "-248px " + (this.$refs["musicHall"].scrollTop - 125) + "px";
-                this.$refs["menu"].style.backgroundPosition = str;
-            }
-        },
         play(e, i) {
             if (this.isPlay) {
                 // 有歌曲在播放
