@@ -57,6 +57,11 @@ export default {
                 http.post('/serve/register', parmas).then(res => {
                     console.log(res);
                     bus.$emit('register', res.uid, that.$refs.registername.value, res.img);
+                    this.$store.commit('setUserInfo', {
+                        uid: res.uid,
+                        username: that.$refs.registername.value,
+                        img: res.img,
+                    })
                 })
             }
         }

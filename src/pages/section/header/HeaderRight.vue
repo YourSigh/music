@@ -190,6 +190,11 @@ export default {
             localStorage.removeItem('uid');
             localStorage.removeItem('username');
             localStorage.removeItem('img');
+            this.$store.commit('setUserInfo', {
+                uid: '',
+                username: '',
+                img: '',
+            })
             this.$refs.userComponent.$refs.user.style.visibility = this.$refs.userComponent.$refs.user.style.visibility == 'visible'?'hidden':'visible';
         },
         changename(username) {

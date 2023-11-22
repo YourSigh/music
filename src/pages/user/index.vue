@@ -83,6 +83,12 @@ export default {
                     username: this.$refs.changename.value,
                 };
                 http.post("/serve/changeUsername", params).then((res) => {
+                    localStorage.setItem("username", this.$refs.changename.value);
+                    this.$store.commit("setUserInfo", {
+                        uid: this.uid,
+                        username: this.$refs.changename.value,
+                        img: this.img,
+                    });
                     this.$refs.changename.style.display = "none";
                 });
             } else {

@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import store from '@/store/store';
 import bus from '../../utils/bus'
 import http from '../../utils/http'
 export default {
@@ -39,6 +40,11 @@ export default {
                     localStorage.setItem('username', res.username);
                     localStorage.setItem('img', res.img);
                     bus.$emit('sign', res.uid, res.username, res.img);
+                    this.$store.commit('setUserInfo', {
+                        uid: res.uid,
+                        username: res.username,
+                        img: res.img,
+                    })
                 } else {
                     this.isShowErr = true;
                 }

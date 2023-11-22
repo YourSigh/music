@@ -3,7 +3,7 @@
         <div class="left"></div>
         <div class="content iconfont">
             <h1 class="title1">推荐</h1>
-            <div class="title2">Hi 面向慈善 今日为你推荐</div>
+            <div class="title2">Hi {{ userInfo.username }} 今日为你推荐</div>
             <div class="suggest_content">
                 <div class="forYou">
                     <div class="forYou_content">
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import bus from "../../../../utils/bus";
 export default {
     name: 'Suggest',
@@ -63,6 +64,7 @@ export default {
         return {
             play_icon:'&#xe6f7;',
             stop_icon:'&#xe658;',
+            username: "面向慈善",
             play_list:[],
             isPlay:false,
             play_target:null,
@@ -89,6 +91,10 @@ export default {
         if (this.music.length != 0) {
             this.setImg();
         } 
+    },
+
+    computed: {
+        ...mapState(['userInfo'])
     },
 
     methods: {
