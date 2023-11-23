@@ -14,12 +14,12 @@
         <HeaderRight :music="music" ref="headComponent"></HeaderRight>
       </header>
       <article>
-        <keep-alive>
+        <keep-alive :include="aliveArr">
           <router-view :music="music"></router-view>
         </keep-alive>
       </article>
       <footer>
-        <FooterRight ref="footComponent"></FooterRight>
+        <FooterRight ref="footComponent" @alive="alive"></FooterRight>
       </footer>
     </section>
     <div id="background" ref="background"></div>
@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       music: [],
+      aliveArr:[],
       window: window
     }
   },
@@ -68,6 +69,15 @@ export default {
       this.$refs.footComponent.$refs.kind.style.visibility = 'hidden';
       this.$refs.headComponent.$refs.userComponent.$refs.user.style.visibility = 'hidden';
     },
+    alive(path) {
+      // 处理一下path，把/去掉，并且有子路由的话，把子路由以及后面的内容也去掉
+      path = path.replace('/', '');
+      path = path.replace(path[0], path[0].toUpperCase());
+      if (path.indexOf('/') != -1) {
+        path = path.substring(0, path.indexOf('/'));
+      }
+      this.aliveArr = [path];
+    }
   },
   watch: {
     color() {

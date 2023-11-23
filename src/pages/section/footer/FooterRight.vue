@@ -116,8 +116,6 @@ export default {
             this.b_play == '&#xe658' ? this.b_play = '&#xe6f7' : this.b_play = '&#xe658';
             let audio = this.$refs.audio;
 
-
-
             // 判断是否需要对其他页面的歌曲进行暂停与播放
             if (kind == 2 && this.isPlay) {
                 // 如果点击播放按钮时歌曲正在播放，则执行下面的代码
@@ -125,13 +123,19 @@ export default {
             } else if (kind == 2 && !this.isPlay) {
                 bus.$emit('isPlay', true, this.path);
             }
+            // 存储不销毁的页面路径
+            this.$emit('alive', this.$route.path);
+            if (this.isPlay) {
+                this.isPlay = false;
+            } else {
+                this.isPlay = true;
+            }
+
             setTimeout(() => {
                 if (this.isPlay) {
                     audio.pause();
-                    this.isPlay = false;
                 } else {
                     audio.play();
-                    this.isPlay = true;
                 }
             }, 1000);
         },

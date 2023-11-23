@@ -42,7 +42,7 @@ export default {
         bus.$on('isPlay', (isPlay, path) => {
             // 如果是搜索页面，搜不同的内容歌单不同，但是组件是同一个，可能会出现refs获取不到的情况
             if (path == this.$route.path && this.$refs[this.palyTaget]) {
-                this.isPlay = !isPlay;
+                this.isPlay = isPlay;
                 this.$refs[this.palyTaget][0].play();
             }
         });
