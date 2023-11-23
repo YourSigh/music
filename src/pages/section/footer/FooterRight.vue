@@ -31,7 +31,7 @@
                 <div class="b_last">
                     &#xe800;
                 </div>
-                <div class="b_play" @click="play" v-html="b_play"></div>
+                <div class="b_play" @click="play(2)" v-html="b_play"></div>
                 <div class="b_next">
                     &#xe7ff;
                 </div>
@@ -72,7 +72,8 @@ export default {
             mute_icon:'&#xe642;',
             kind_icon:'&#xe871;',
             music_name:'QQ音乐 听我想听',
-            music_img:require('../../../assets/img/playback.png')
+            music_img:require('../../../assets/img/playback.png'),
+            path:'' // 调用当前组件播放的页面路径
         };
     },
     props:{
@@ -91,18 +92,20 @@ export default {
         this.$refs.loudness_range.value = this.$refs.audio.volume * 100;
         var that = this;
         // 组件传值音乐信息
-        bus.$on('music', (music, isPlay) => {
+        bus.$on('music', (music, isPlay, path) => {
             that.music_url = music.src;
             that.music_name = music.name;
             that.music_img = music.img;
+            this.path = path;
             setTimeout(() => {
-                that.play();
+                that.play(1);
             }, 100);
         })
     },
 
     methods: {
-        play() {
+        // kind：1：组件传值播放，2：点击播放按钮播放
+        play(kind) {
             if(this.music_name == 'QQ音乐 听我想听') {
                 this.music_name = 'Fade';
                 this.music_img = '/music-img/Faded.png';
@@ -114,11 +117,17 @@ export default {
             if (this.isPlay) {
                 audio.pause();
                 this.isPlay = false;
-                bus.$emit('isPlay', false);
             } else {
                 audio.play();
                 this.isPlay = true;
-                bus.$emit('isPlay', true);
+            }
+
+            // 判断是否需要对其他页面的歌曲进行暂停与播放
+            if (kind == 2 && this.isPlay) {
+                // 如果点击播放按钮时歌曲正在播放，则执行下面的代码
+                bus.$emit('isPlay', false, this.path);
+            } else if (kind == 2 && !this.isPlay) {
+                bus.$emit('isPlay', true, this.path);
             }
         },
         onChange() {

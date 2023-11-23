@@ -14,7 +14,9 @@
         <HeaderRight :music="music" ref="headComponent"></HeaderRight>
       </header>
       <article>
-        <router-view :music="music"></router-view>
+        <keep-alive>
+          <router-view :music="music"></router-view>
+        </keep-alive>
       </article>
       <footer>
         <FooterRight ref="footComponent"></FooterRight>

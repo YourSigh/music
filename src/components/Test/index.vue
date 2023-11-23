@@ -5,7 +5,7 @@
             <button @click="getUser">请求http://121.40.211.209:3000/getUser</button>
             <button @click="nginx">请求/serve,nginx代理</button>
             <button @click="setMusic">添加音乐</button>
-            <button @click="changeShow" >显示模态框</button>
+            <button @click="changeShow">显示模态框</button>
         </div>
         <MusicList :music="music"></MusicList>
         <Modal :show.sync="isShowModal" :title="title">
@@ -31,9 +31,34 @@ export default {
 
     data() {
         return {
-            music: [{name:'test0', singer:'test', album:'test', time:'test'}, {name:'test1', singer:'test', album:'test', time:'test'}],
-            isShowModal:false,
-            title:'测试'
+            music: [
+                {
+                    "name": "Fade",
+                    "src": "music/Alan Walker - Fade.ogg",
+                    "singer": "Alan Walker",
+                    "album": "",
+                    "img": "music-img/Faded.png",
+                    "time": ""
+                },
+                {
+                    "name": "On My Own",
+                    "src": "music/Ashes Remain - On My Own.ogg",
+                    "singer": "Ashes Remain",
+                    "album": "",
+                    "img": "music-img/OnMyOwn.png",
+                    "time": ""
+                },
+                {
+                    "name": "Nothin' On You (Radio Edit)",
+                    "src": "music/B_o_B _ Bruno Mars - Nothin' On You (Radio Edit).ogg",
+                    "singer": "B_o_B _ Bruno Mars",
+                    "album": "",
+                    "img": "music-img/NothinOnYou.png",
+                    "time": ""
+                },
+            ],
+            isShowModal: false,
+            title: '测试'
         };
     },
 
@@ -76,7 +101,7 @@ export default {
             })
         },
         changeShow() {
-            this.isShowModal?this.isShowModal = false: this.isShowModal = true;
+            this.isShowModal ? this.isShowModal = false : this.isShowModal = true;
         }
     },
 };
@@ -90,6 +115,7 @@ export default {
     background-color: #aaa;
     color: white;
 }
+
 #content {
     margin: 0 auto;
     width: 500px;

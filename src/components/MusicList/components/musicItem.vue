@@ -4,7 +4,7 @@
         <div class="musicName">
             {{ music.name }}
         </div>
-        <div class="play" v-html="play_icon" @click="play"></div>
+        <div class="play" v-html="play_icon" @click="playSon" :ref="music.name + 'target'"></div>
         <div class="add">&#xe604;</div>
         <div class="downLoad">&#xe646;</div>
         <div class="more">&#xe626;</div>
@@ -58,23 +58,27 @@ export default {
                 e.target.islike = false
             }
         },
-        play(e) {
-            if (!e.target.play) {
-                e.target.innerHTML = this.stop_icon;
-                e.target.play = true;
-                this.playTarget = e.target;
-                this.$emit('play', this.music);
+        play() {
+            let target = this.$refs[this.music.name + 'target']
+            if (!target.play) {
+                target.innerHTML = this.stop_icon;
+                target.play = true;
+                this.playTarget = target;
             } else {
-                e.target.innerHTML = this.play_icon;
-                e.target.play = false;
+                target.innerHTML = this.play_icon;
+                target.play = false;
                 this.playTarget = null;
-                this.$emit('stop', this.music);
             }
         },
-        stop() {
-            this.playTarget.innerHTML = this.play_icon;
-            this.playTarget.play = false;
-            this.playTarget = null;
+        // 子组件调用play方法
+        playSon() {
+            this.play();
+            let target = this.$refs[this.music.name + 'target'];
+            if (target.play) {
+                this.$emit('play', this.music);
+            } else {
+                this.$emit('stop', this.music);
+            }
         }
     },
 };

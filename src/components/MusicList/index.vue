@@ -34,25 +34,39 @@ export default {
     data() {
         return {
             palyTaget:null,
+            isPlay:false,
         };
     },
 
     mounted() {
-        
+        bus.$on('isPlay', (isPlay, path) => {
+            // 如果是搜索页面，搜不同的内容歌单不同，但是组件是同一个，可能会出现refs获取不到的情况
+            if (path == this.$route.path && this.$refs[this.palyTaget]) {
+                this.isPlay = !isPlay;
+                this.$refs[this.palyTaget][0].play();
+            }
+        });
+    },
+
+    beforeDestroy() {
+        // 消除切换路由时事件总线会重复触发的问题
+        bus.$off('isPlay');
     },
 
     methods: {
         play(music) {
-            // bus.$emit('play', music, true);
-            if (this.palyTaget != music.name && this.palyTaget != null) {
-                console.log(this.palyTaget);
-                this.$refs[this.palyTaget][0].stop();
+            bus.$emit('music', music, true, this.$route.path);
+            // 如果要播放的歌曲不是当前播放的歌曲
+            if (this.palyTaget != music.name && this.palyTaget != null && this.isPlay) {
+                bus.$emit('music', music, true, this.$route.path);
+                this.$refs[this.palyTaget][0].play();
             }
             this.palyTaget = music.name;
+            this.isPlay = true;
         },
         stop(music) {
-            this.palyTaget = null;
-            // bus.$emit('stop', music, true);
+            this.isPlay = false;
+            bus.$emit('music', music, false, this.$route.path);
         },
     },
 };
@@ -80,8 +94,32 @@ export default {
 #musicList {
     width: 724px;
     height: 1000px;
-    /* overflow: auto; */
-    background-color: blue;
+    /* background-color: blue; */
+}
+
+#musicList::before {
+    width: 724px;
+    height: 50px;
+    background-image: url("../../assets/img/background.jpg");
+    background-position: -248px -80px;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 80px;
+    left: 248px;
+    z-index: 1;
+}
+
+#musicList::after {
+    width: 724px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    content: '';
+    display: block;
+    position: absolute;
+    top: 80px;
+    left: 248px;
+    z-index: 1;
 }
 
 #musicList>.menu {

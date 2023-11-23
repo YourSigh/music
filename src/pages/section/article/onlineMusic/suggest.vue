@@ -81,16 +81,19 @@ export default {
         for (var i = 0;i < 8; i++) {
             this.play_list.push('list' + i); 
         }
-        var that = this;
-        bus.$on("isPlay", (isPlay) => {
-            that.isPlay = isPlay;
-        });
+        // var that = this;
+        // bus.$on("isPlay", (isPlay) => {
+        //     that.isPlay = isPlay;
+        // });
     },
 
     mounted() {
         if (this.music.length != 0) {
             this.setImg();
         } 
+        bus.$on('isPlay', (isPlay, path) => {
+            this.play_(this.play_target)
+        });
     },
 
     computed: {
@@ -133,19 +136,30 @@ export default {
                     this.play_target = e.target;
                     this.play_target.innerHTML = this.play_icon; // 使当前的选中的图标为播放
                     this.isPlay = true;
-                    bus.$emit("music", i, true);
-                    bus.$emit("music", i, true);
+                    bus.$emit("music", i, true, this.$route.path);
+                    bus.$emit("music", i, true, this.$route.path);
                 } else {
                     this.play_target.innerHTML = this.stop_icon;
                     this.isPlay = false;
-                    bus.$emit("music", i, false);
+                    bus.$emit("music", i, false, this.$route.path);
                 }
             } else {
                 // 没有歌曲在播放
                 e.target.innerHTML = this.play_icon;
                 this.isPlay = true;
                 this.play_target = e.target;
-                bus.$emit("music", i, false);
+                bus.$emit("music", i, false, this.$route.path);
+            }
+        },
+        play_(e) {
+            if (this.isPlay) {
+                // 有歌曲在播放
+                e.innerHTML = this.stop_icon;
+                this.isPlay = false;
+            } else {
+                // 没有歌曲在播放
+                e.innerHTML = this.play_icon;
+                this.isPlay = true;
             }
         }
     },
