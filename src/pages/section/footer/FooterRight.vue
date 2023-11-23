@@ -22,7 +22,7 @@
             </div>
             <div class="player">
                 <div class="b_kind" @click="kind_v" v-html="kind_icon"></div>
-                <div class="kind" style="visibility: hidden;" ref="kind" @click = $event.stopPropagation();>
+                <div class="kind" style="visibility: hidden;" ref="kind" @click=$event.stopPropagation();>
                     <div>随机播放</div>
                     <div>顺序播放</div>
                     <div>单曲循环</div>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="b_loudness" @click="loudness_v" v-html="mute_icon"></div>
                 <div class="loudness" style="visibility: hidden;" ref="loudness" @click=$event.stopPropagation();>
-                    <input type="range" class="range" @change="changeLoudness" ref="loudness_range"/>
+                    <input type="range" class="range" @change="changeLoudness" ref="loudness_range" />
                     <div class="loudness_percentage"> {{ loudness }}% </div>
                     <div class="mute" @click="mute" v-html="mute_icon"></div>
                 </div>
@@ -69,20 +69,20 @@ export default {
             totalTime: 0,
             loudness: 0,
             isMouseDown: false,
-            mute_icon:'&#xe642;',
-            kind_icon:'&#xe871;',
-            music_name:'QQ音乐 听我想听',
-            music_img:require('../../../assets/img/playback.png'),
-            path:'' // 调用当前组件播放的页面路径
+            mute_icon: '&#xe642;',
+            kind_icon: '&#xe871;',
+            music_name: 'QQ音乐 听我想听',
+            music_img: require('../../../assets/img/playback.png'),
+            path: '' // 调用当前组件播放的页面路径
         };
     },
-    props:{
-        music:Array,
-        required:true,
+    props: {
+        music: Array,
+        required: true,
     },
 
     created() {
-        
+
     },
 
     mounted() {
@@ -96,31 +96,27 @@ export default {
             that.music_url = music.src;
             that.music_name = music.name;
             that.music_img = music.img;
+            if (this.path != path && this.isPlay) {
+                this.b_play = '&#xe658';
+                this.$refs.audio.pause();
+            }
             this.path = path;
-            setTimeout(() => {
-                that.play(1);
-            }, 100);
+            that.play(1);
         })
     },
 
     methods: {
         // kind：1：组件传值播放，2：点击播放按钮播放
         play(kind) {
-            if(this.music_name == 'QQ音乐 听我想听') {
+            if (this.music_name == 'QQ音乐 听我想听') {
                 this.music_name = 'Fade';
                 this.music_img = '/music-img/Faded.png';
             }
-                
+
             this.b_play == '&#xe658' ? this.b_play = '&#xe6f7' : this.b_play = '&#xe658';
             let audio = this.$refs.audio;
 
-            if (this.isPlay) {
-                audio.pause();
-                this.isPlay = false;
-            } else {
-                audio.play();
-                this.isPlay = true;
-            }
+
 
             // 判断是否需要对其他页面的歌曲进行暂停与播放
             if (kind == 2 && this.isPlay) {
@@ -129,6 +125,15 @@ export default {
             } else if (kind == 2 && !this.isPlay) {
                 bus.$emit('isPlay', true, this.path);
             }
+            setTimeout(() => {
+                if (this.isPlay) {
+                    audio.pause();
+                    this.isPlay = false;
+                } else {
+                    audio.play();
+                    this.isPlay = true;
+                }
+            }, 1000);
         },
         onChange() {
             // 鼠标拖动进度条时改变歌曲的播放进度
@@ -189,8 +194,8 @@ export default {
             this.totalTime = this.$refs.audio.duration;
         }
     },
-    watch:{
-        
+    watch: {
+
     }
 };
 </script>
@@ -232,7 +237,8 @@ export default {
     height: 10px;
     width: 10px;
     border-radius: 50%;
-    border: 1px solid transparent; /*控制滑块的大小*/
+    border: 1px solid transparent;
+    /*控制滑块的大小*/
     border-image: linear-gradient(#aaccee, #aaccee) 0 fill / 4 5 4 0 / 0px 0px 0 2000px;
 }
 
@@ -298,7 +304,7 @@ export default {
     position: relative;
 }
 
-#footerRight>.playback>.player>div:not(:nth-child(2),:nth-child(7),:nth-child(8)):hover {
+#footerRight>.playback>.player>div:not(:nth-child(2), :nth-child(7), :nth-child(8)):hover {
     color: #aaccee;
 }
 
@@ -319,7 +325,7 @@ export default {
 }
 
 #footerRight>.playback>.player>.kind>div {
-    font-size:16px;
+    font-size: 16px;
     height: 45px;
     line-height: 45px;
 }
@@ -378,7 +384,7 @@ export default {
 }
 
 #footerRight>.playback>.player>.loudness>.mute:hover {
-    color:#aaccee;
+    color: #aaccee;
 }
 
 #footerRight>.playback>.player>.time {
@@ -391,6 +397,6 @@ export default {
     height: 60px;
     line-height: 60px;
     font-size: 15px;
-    margin-left:5px;
+    margin-left: 5px;
 }
 </style>
