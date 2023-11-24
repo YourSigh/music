@@ -68,7 +68,8 @@ export default {
             play_list:[],
             isPlay:false,
             play_target:null,
-            reandoms:[]
+            reandoms:[],
+            flag: false,
         };
     },
 
@@ -81,21 +82,29 @@ export default {
         for (var i = 0;i < 8; i++) {
             this.play_list.push('list' + i); 
         }
-        // var that = this;
-        // bus.$on("isPlay", (isPlay) => {
-        //     that.isPlay = isPlay;
-        // });
+        bus.$off('isPlay');
+        bus.$on('isPlay', (isPlay, path) => {
+            this.$nextTick(() => {
+                if (path == '/suggest') {
+                    this.play_(this.play_target)
+                }
+            });
+        });
     },
 
-    mounted() {
-        if (this.music.length != 0) {
-            this.setImg();
-        } 
+    activated() {
+        bus.$off('isPlay');
         bus.$on('isPlay', (isPlay, path) => {
             if (path == '/suggest') {
                 this.play_(this.play_target)
             }
         });
+    },
+
+    mounted() {
+        if (this.music.length != 0) {
+            this.setImg();
+        }
     },
 
     computed: {

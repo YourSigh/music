@@ -20,27 +20,41 @@ import bus from '../../utils/bus';
 
 export default {
     name: 'MusicList',
-    components:{
+    components: {
         MusicItem
     },
 
-    props:{
-        music:{
-            type:Array,
-            required:true
+    props: {
+        music: {
+            type: Array,
+            required: true
         }
     },
 
     data() {
         return {
-            palyTaget:null,
-            isPlay:false,
+            palyTaget: null,
+            isPlay: false,
+            count: 0,
         };
     },
 
-    mounted() {
+    created() {
+        bus.$off('isPlay');
         bus.$on('isPlay', (isPlay, path) => {
             // 如果是搜索页面，搜不同的内容歌单不同，但是组件是同一个，可能会出现refs获取不到的情况
+            this.$nextTick(() => {
+                if (path == this.$route.path && this.$refs[this.palyTaget]) {
+                    this.isPlay = isPlay;
+                    this.$refs[this.palyTaget][0].play();
+                }
+            });
+        });
+    },
+
+    activated() {
+        bus.$off('isPlay');
+        bus.$on('isPlay', (isPlay, path) => {
             if (path == this.$route.path && this.$refs[this.palyTaget]) {
                 this.isPlay = isPlay;
                 this.$refs[this.palyTaget][0].play();
