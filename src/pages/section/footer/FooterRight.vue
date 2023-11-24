@@ -132,7 +132,7 @@ export default {
             }
 
             setTimeout(() => {
-                if (this.isPlay) {
+                if (!this.isPlay) {
                     audio.pause();
                 } else {
                     audio.play();

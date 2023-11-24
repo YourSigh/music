@@ -48,11 +48,6 @@ export default {
         });
     },
 
-    beforeDestroy() {
-        // 消除切换路由时事件总线会重复触发的问题
-        bus.$off('isPlay');
-    },
-
     methods: {
         play(music) {
             bus.$emit('music', music, true, this.$route.path);

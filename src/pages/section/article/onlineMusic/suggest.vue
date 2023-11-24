@@ -92,7 +92,7 @@ export default {
             this.setImg();
         } 
         bus.$on('isPlay', (isPlay, path) => {
-            if (path == this.$route.path) {
+            if (path == '/suggest') {
                 this.play_(this.play_target)
             }
         });
