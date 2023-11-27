@@ -4,7 +4,7 @@
         <input type="text" placeholder="请输入您的ID" ref="loginid"><br>
         <input type="password" placeholder="请输入您的密码" ref="loginpwd"><br>
         <button @click="sign">登录</button>
-        <Modal :title="'提示'" :show.sync = isShowErr>
+        <Modal :title="'提示'" :show.sync=isShowErr>
             <template v-slot:content>
                 <div>
                     ID不存在或密码错误！
@@ -17,13 +17,13 @@
 <script>
 import store from '@/store/store';
 import bus from '../../utils/bus'
-import http from '../../utils/http'
+import { login } from '@/api/user';
 export default {
     name: 'Login',
 
     data() {
         return {
-            isShowErr:false,
+            isShowErr: false,
         };
     },
 
@@ -32,23 +32,22 @@ export default {
     },
 
     methods: {
-        sign() {
-            http.post('/serve/login', {uid:this.$refs.loginid.value, password:this.$refs.loginpwd.value}).then(res => {
-                if (res.status) {
-                    // 登录后本地存储登录信息
-                    localStorage.setItem('uid', res.uid);
-                    localStorage.setItem('username', res.username);
-                    localStorage.setItem('img', res.img);
-                    bus.$emit('sign', res.uid, res.username, res.img);
-                    this.$store.commit('setUserInfo', {
-                        uid: res.uid,
-                        username: res.username,
-                        img: res.img,
-                    })
-                } else {
-                    this.isShowErr = true;
-                }
-            })
+        async sign() {
+            let res = await login({ uid: this.$refs.loginid.value, password: this.$refs.loginpwd.value });
+            if (res.status) {
+                // 登录后本地存储登录信息
+                localStorage.setItem('uid', res.uid);
+                localStorage.setItem('username', res.username);
+                localStorage.setItem('img', res.img);
+                bus.$emit('sign', res.uid, res.username, res.img);
+                this.$store.commit('setUserInfo', {
+                    uid: res.uid,
+                    username: res.username,
+                    img: res.img,
+                })
+            } else {
+                this.isShowErr = true;
+            }
         }
     },
 };

@@ -36,8 +36,8 @@
 
 <script>
 import bus from "../../utils/bus";
-import http from "@/utils/http";
 import ChangePwd from "./changePwd.vue";
+import { changeUsername, headshot } from "@/api/user";
 export default {
     name: "User",
 
@@ -73,7 +73,7 @@ export default {
             this.$refs.changename.focus();
             e.stopPropagation(); // 阻止事件冒泡，防止无法触发
         },
-        hidden(e, flg) {
+        async hidden(e, flg) {
             // flg 表示触发事件的类型
             bus.$emit("changename", this.$refs.changename.value);
 
@@ -82,7 +82,8 @@ export default {
                     uid: this.uid,
                     username: this.$refs.changename.value,
                 };
-                http.post("/serve/changeUsername", params).then((res) => {
+                let res = await changeUsername(params);
+                if (res == "success") {
                     localStorage.setItem("username", this.$refs.changename.value);
                     this.$store.commit("setUserInfo", {
                         uid: this.uid,
@@ -90,7 +91,7 @@ export default {
                         img: this.img,
                     });
                     this.$refs.changename.style.display = "none";
-                });
+                }
             } else {
                 this.$refs.changename.blur();
             }
@@ -103,13 +104,13 @@ export default {
         handleFileChange(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
-            reader.onload = () => {
-                http
-                    .post("/serve/headshot", { uid: this.uid, img: reader.result })
-                    .then((res) => {
-                        this.$emit("update:img", reader.result);
-                        localStorage.setItem("img", res.img);
-                    });
+            reader.onload = async () => {
+                let res = await headshot({
+                    uid: this.uid,
+                    img: reader.result,
+                });
+                this.$emit("update:img", reader.result);
+                localStorage.setItem("img", res.img);
             };
             reader.readAsDataURL(file);
             this.isShowimg = false;

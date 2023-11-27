@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedstate from 'vuex-persistedstate'
-import http from "../utils/http";
+import { getMusic } from "../api/music";
 
 Vue.use(Vuex);
 
@@ -27,15 +27,13 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        fetchMusic({ commit }) {
-            return http
-                .get("/serve/getMusic")
-                .then(res => {
-                    commit('setMusic', res);
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+        async fetchMusic({ commit }) {
+            try {
+                const res = await getMusic();
+                commit('setMusic', res);
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
     getters: {

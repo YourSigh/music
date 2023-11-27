@@ -24,15 +24,15 @@
 
 <script>
 import bus from '../../utils/bus'
-import http from '../../utils/http'
+import { register } from '@/api/user';
 
 export default {
     name: 'Register',
 
     data() {
         return {
-            isShowNull:false,
-            isShowReinput:false
+            isShowNull: false,
+            isShowReinput: false
         };
     },
 
@@ -41,7 +41,7 @@ export default {
     },
 
     methods: {
-        register() {
+        async register() {
             let that = this;
             if (this.$refs.registerpwd1.value == '' || this.$refs.registerpwd2.value == '' || this.$refs.registername.value == '') {
                 this.isShowNull = true;
@@ -54,14 +54,12 @@ export default {
                     username: this.$refs.registername.value,
                     password: this.$refs.registerpwd1.value
                 };
-                http.post('/serve/register', parmas).then(res => {
-                    console.log(res);
-                    bus.$emit('register', res.uid, that.$refs.registername.value, res.img);
-                    this.$store.commit('setUserInfo', {
-                        uid: res.uid,
-                        username: that.$refs.registername.value,
-                        img: res.img,
-                    })
+                let res = await register(parmas);
+                bus.$emit('register', res.uid, that.$refs.registername.value, res.img);
+                this.$store.commit('setUserInfo', {
+                    uid: res.uid,
+                    username: that.$refs.registername.value,
+                    img: res.img,
                 })
             }
         }

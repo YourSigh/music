@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import http from '../../utils/http'
+import { changePassword } from '@/api/user';
 
 export default {
   name: "ChangePwd",
@@ -35,14 +35,14 @@ export default {
       pwd1: "",
       pwd2: "",
       isShowErr: false,
-      message:'',
+      message: '',
       status: false,
     };
   },
 
-  mounted() { 
+  mounted() {
   },
-  watch:{
+  watch: {
     isShowErr(n) {
       if (n == false && this.status == true) {
         this.$emit('update:show', false);
@@ -51,7 +51,7 @@ export default {
   },
 
   methods: {
-    changePwd() {
+    async changePwd() {
       if (this.pwd == '' || this.pwd1 == '' || this.pwd2 == '') {
         this.message = '密码不能为空！'
         this.isShowErr = true;
@@ -62,23 +62,22 @@ export default {
         this.pwd2 = '';
       } else {
         const params = {
-          oldpwd:this.pwd,
-          newpwd:this.pwd1,
-          uid:localStorage.getItem('uid')
+          oldpwd: this.pwd,
+          newpwd: this.pwd1,
+          uid: localStorage.getItem('uid')
+        };
+        let res = await changePassword(params);
+        if (res.results) {
+          this.message = '密码修改成功！'
+          this.isShowErr = true;
+          this.status = true;
+        } else {
+          this.message = '旧密码不正确，请重新输入！'
+          this.Pwd = '';
+          this.pwd1 = '';
+          this.pwd2 = '';
+          this.isShowErr = true;
         }
-        http.post('/serve/changePassword', params).then(res => {
-          if (res.results) {
-            this.message = '密码修改成功！'
-            this.isShowErr = true;
-            this.status = true;
-          } else {
-            this.message = '旧密码不正确，请重新输入！'
-            this.Pwd = '';
-            this.pwd1 = '';
-            this.pwd2 = '';
-            this.isShowErr = true;
-          }
-        });
       }
     }
   },
