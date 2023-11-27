@@ -99,6 +99,11 @@ export default {
                 this.play_(this.play_target)
             }
         });
+        // 如果在其他页面修改了播放状态，需要同步到当前页面
+        const data = this.$parent.$children[3].$data;
+        if (data.isPlay != this.isPlay) {
+            this.play_(this.play_target);
+        }
     },
 
     mounted() {

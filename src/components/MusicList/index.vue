@@ -60,6 +60,12 @@ export default {
                 this.$refs[this.palyTaget][0].play();
             }
         });
+        // 如果在其他页面修改了播放状态，需要同步到当前页面
+        const data = this.$parent.$parent.$children[3].$data;
+        if (data.isPlay != this.isPlay) {
+            this.isPlay = data.isPlay;
+            this.$refs[this.palyTaget][0].play();
+        }
     },
 
     methods: {

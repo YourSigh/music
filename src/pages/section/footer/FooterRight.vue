@@ -1,5 +1,5 @@
 <template>
-    <div id="footerRight">
+    <div id="footerRight" ref="footer">
         <div class="wrapper" @mousedown="isMouseDown = true" @mouseup="isMouseDown = false">
             <input type="range" @change="onChange" ref="range" />
         </div>
@@ -124,15 +124,16 @@ export default {
                 bus.$emit('isPlay', true, this.path);
             }
             // 存储不销毁的页面路径
-            this.$emit('alive', this.$route.path);
+            if (kind == 1) {
+                this.$emit('alive', this.$route.path);
+            }
             if (this.isPlay) {
                 this.isPlay = false;
             } else {
                 this.isPlay = true;
             }
-
             setTimeout(() => {
-                if (!this.isPlay) {
+                if (this.b_play == '&#xe658') {
                     audio.pause();
                 } else {
                     audio.play();
