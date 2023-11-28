@@ -28,11 +28,11 @@
                     <div>单曲循环</div>
                     <div>列表循环</div>
                 </div>
-                <div class="b_last">
+                <div class="b_last" @click="last">
                     &#xe800;
                 </div>
                 <div class="b_play" @click="play(2)" v-html="b_play"></div>
-                <div class="b_next">
+                <div class="b_next" @click="next">
                     &#xe7ff;
                 </div>
                 <div class="b_loudness" @click="loudness_v" v-html="mute_icon"></div>
@@ -63,17 +63,19 @@ export default {
     data() {
         return {
             b_play: '&#xe658',
-            music_url: 'music/Alan Walker - Fade.ogg',
+            kind_icon: '&#xe871;',
             isPlay: false,
             nowTime: 0,
             totalTime: 0,
             loudness: 0,
             isMouseDown: false,
+            musicList: [], // 组件传值的音乐信息
+            music_url: 'music/Alan Walker - Fade.ogg',
             mute_icon: '&#xe642;',
-            kind_icon: '&#xe871;',
             music_name: 'QQ音乐 听我想听',
             music_img: require('../../../assets/img/playback.png'),
-            path: '' // 调用当前组件播放的页面路径
+            path: '', // 调用当前组件播放的页面的路径
+            index: 0, // 当前播放的音乐在音乐列表中的索引
         };
     },
     props: {
@@ -90,18 +92,20 @@ export default {
         this.$refs.audio.volume = 0.1;
         this.loudness = this.$refs.audio.volume * 100;
         this.$refs.loudness_range.value = this.$refs.audio.volume * 100;
-        var that = this;
         // 组件传值音乐信息
-        bus.$on('music', (music, isPlay, path) => {
-            that.music_url = music.src;
-            that.music_name = music.name;
-            that.music_img = music.img;
+        bus.$on('music', (music, index, isPlay, path) => {
+            this.musicList = music;
+            this.music_url = music[index].src;
+            this.music_name = music[index].name;
+            this.music_img = music[index].img;
+            this.index = index;
+            // 如果上一次播放的页面路径与传入的路径不同，则暂停当前页面的歌曲
             if (this.path != path && this.isPlay) {
                 this.b_play = '&#xe658';
                 this.$refs.audio.pause();
             }
             this.path = path;
-            that.play(1);
+            this.play(1);
         })
     },
 
@@ -119,24 +123,53 @@ export default {
             // 判断是否需要对其他页面的歌曲进行暂停与播放
             if (kind == 2 && this.isPlay) {
                 // 如果点击播放按钮时歌曲正在播放，则执行下面的代码
-                bus.$emit('isPlay', false, this.path);
+                bus.$emit('isPlay', false, this.path, this.musicList[this.index].name);
             } else if (kind == 2 && !this.isPlay) {
-                bus.$emit('isPlay', true, this.path);
+                bus.$emit('isPlay', true, this.path, this.musicList[this.index].name);
             }
             // 存储不销毁的页面路径
             if (kind == 1) {
                 this.$emit('alive', this.$route.path);
             }
-            if (this.isPlay) {
-                this.isPlay = false;
-            } else {
-                this.isPlay = true;
-            }
+            this.isPlay? this.isPlay = false : this.isPlay = true;
             setTimeout(() => {
                 if (this.b_play == '&#xe658') {
                     audio.pause();
                 } else {
                     audio.play();
+                }
+            }, 1000);
+        },
+        last() {
+            // 上一首
+            this.checkoutMusic(1);
+        },
+        next() {
+            // 下一首
+            this.checkoutMusic(2);
+            
+        },
+        checkoutMusic(flg) {
+            // 切换歌曲
+            if (this.music_name == 'QQ音乐 听我想听') {return}
+            let audio = this.$refs.audio;
+            if (flg == 1) {
+                // 上一首
+                this.index = --this.index < 0 ? this.musicList.length + this.index : this.index; // 循环播放
+            } else {
+                // 下一首
+                this.index = ++this.index % this.musicList.length; // 循环播放
+            }
+            this.music_url = this.musicList[this.index].src;
+            this.music_name = this.musicList[this.index].name;
+            this.music_img = this.musicList[this.index].img;
+            setTimeout(() => {
+                if (this.isPlay) {
+                    audio.play();
+                    bus.$emit('isPlay', true, this.path, this.musicList[this.index].name);
+                } else {
+                    audio.pause();
+                    bus.$emit('isPlay', false, this.path, this.musicList[this.index].name);
                 }
             }, 1000);
         },

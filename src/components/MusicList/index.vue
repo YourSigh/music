@@ -33,7 +33,7 @@ export default {
 
     data() {
         return {
-            palyTaget: null,
+            playTarget: null,
             isPlay: false,
             count: 0,
         };
@@ -41,12 +41,20 @@ export default {
 
     created() {
         bus.$off('isPlay');
-        bus.$on('isPlay', (isPlay, path) => {
+        bus.$on('isPlay', (isPlay, path, musicName) => {
             // 如果是搜索页面，搜不同的内容歌单不同，但是组件是同一个，可能会出现refs获取不到的情况
             this.$nextTick(() => {
-                if (path == this.$route.path && this.$refs[this.palyTaget]) {
+                if (path == this.$route.path && this.$refs[this.playTarget]) {
                     this.isPlay = isPlay;
-                    this.$refs[this.palyTaget][0].play();
+                    // 如果要播放的歌曲不是当前播放的歌曲
+                    if (this.playTarget != musicName && this.playTarget != null && this.isPlay) {
+                        this.$refs[this.playTarget][0].play();
+                    } else if (this.playTarget != musicName && this.playTarget != null && !this.isPlay) {
+                        this.playTarget = musicName;
+                        return;
+                    }
+                    this.playTarget = musicName;
+                    this.$refs[this.playTarget][0].play();
                 }
             });
         });
@@ -54,34 +62,63 @@ export default {
 
     activated() {
         bus.$off('isPlay');
-        bus.$on('isPlay', (isPlay, path) => {
-            if (path == this.$route.path && this.$refs[this.palyTaget]) {
-                this.isPlay = isPlay;
-                this.$refs[this.palyTaget][0].play();
-            }
+        bus.$on('isPlay', (isPlay, path, musicName) => {
+            if (path == this.$route.path && this.$refs[this.playTarget]) {
+                    this.isPlay = isPlay;
+                    // 如果要播放的歌曲不是当前播放的歌曲
+                    if (this.playTarget != musicName && this.playTarget != null && this.isPlay) {
+                        this.$refs[this.playTarget][0].play();
+                    } else if (this.playTarget != musicName && this.playTarget != null && !this.isPlay) {
+                        this.playTarget = musicName;
+                        return;
+                    }
+                    this.playTarget = musicName;
+                    this.$refs[this.playTarget][0].play();
+                }
         });
         // 如果在其他页面修改了播放状态，需要同步到当前页面
         const data = this.$parent.$parent.$children[3].$data;
-        if (data.isPlay != this.isPlay) {
+        // 如果只是修改了播放状态，不是切换歌曲
+        if (data.isPlay != this.isPlay && data.musicList[data.index].name != this.playTarget) {
             this.isPlay = data.isPlay;
-            this.$refs[this.palyTaget][0].play();
+            this.$refs[this.playTarget][0].play();
+        }
+        // 如果切换了歌曲
+        if (data.musicList[data.index].name != this.playTarget) {
+            if (this.isPlay != data.isPlay) {
+                if (data.isPlay) {
+                    // 播放状态不同，并且当前是在播放
+                    this.$refs[data.musicList[data.index].name][0].play();
+                } else {
+                    // 播放状态不同，并且当前是在暂停
+                    this.$refs[this.playTarget][0].play();
+                }
+            } else {
+                if (data.isPlay) {
+                    // 播放状态相同，并且当前是在播放
+                    this.$refs[this.playTarget][0].play();
+                    this.$refs[data.musicList[data.index].name][0].play();
+                }
+            }
+            this.playTarget = data.musicList[data.index].name;
+            this.isPlay = data.isPlay;
         }
     },
 
     methods: {
         play(music) {
-            bus.$emit('music', music, true, this.$route.path);
+            bus.$emit('music', this.music, this.music.indexOf(music), true, this.$route.path);
             // 如果要播放的歌曲不是当前播放的歌曲
-            if (this.palyTaget != music.name && this.palyTaget != null && this.isPlay) {
-                bus.$emit('music', music, true, this.$route.path);
-                this.$refs[this.palyTaget][0].play();
+            if (this.playTarget != music.name && this.playTarget != null && this.isPlay) {
+                bus.$emit('music', this.music, this.music.indexOf(music), true, this.$route.path);
+                this.$refs[this.playTarget][0].play();
             }
-            this.palyTaget = music.name;
+            this.playTarget = music.name;
             this.isPlay = true;
         },
         stop(music) {
             this.isPlay = false;
-            bus.$emit('music', music, false, this.$route.path);
+            bus.$emit('music', this.music, this.music.indexOf(music), false, this.$route.path);
         },
     },
 };
