@@ -26,7 +26,7 @@
                     <div class="content">
                         <div class="title">Daily<br/>30</div>
                         <div class="img" ref="daily"></div>
-                        <div class="play" v-html="stop_icon" @click="play($event, 'test8')"></div>
+                        <div class="play" v-html="stop_icon" @click="play($event, 'test8')" ref="8play"></div>
                     </div>
                     <div style="color:white">每日30首</div>
                 </div>
@@ -34,17 +34,17 @@
                     <div class="content">
                         <div class="title">Hot</div>
                         <div class="img" ref="hot"></div>
-                        <div class="play" v-html="stop_icon" @click="play($event, 'test9')"></div>
+                        <div class="play" v-html="stop_icon" @click="play($event, 'test9')" ref="9play"></div>
                     </div>
                     <div style="color:white">百万收藏</div>
                 </div>
             </div>
             <div class="title3">你的歌单补给站</div>
             <div class="playlist">
-                <div v-for="i in play_list">
+                <div v-for="(i, item) in play_list">
                     <div class="content">
                         <div class="img" :ref="i"></div>
-                        <div class="play" v-html="stop_icon" @click="play($event, i)" :ref="i + 'play'"></div>
+                        <div class="play" v-html="stop_icon" @click="play($event, i)" :ref="item + 'play'"></div>
                     </div>
                     <div style="color:white;overflow: hidden;width: 100%;" :ref="i + 'title'"></div>
                 </div>
@@ -68,8 +68,9 @@ export default {
             play_list:[],
             isPlay:false,
             play_target:null,
-            reandoms:[],
+            reandoms:[], // 存放随机数在音乐列表中的下标
             flag: false,
+            item: 0, // 当前播放的歌曲在音乐列表中的下标
         };
     },
 
@@ -83,10 +84,25 @@ export default {
             this.play_list.push('list' + i); 
         }
         bus.$off('isPlay');
-        bus.$on('isPlay', (isPlay, path) => {
+        bus.$on('isPlay', (isPlay, path, musicName) => {
             this.$nextTick(() => {
                 if (path == '/suggest') {
-                    this.play_(this.play_target)
+                    // 如果要播放的歌曲不是当前播放的歌曲
+                    let playTarget = this.music[this.reandoms[this.item]].name;
+                    this.item = this.reandoms.indexOf(this.music.findIndex((item) => item.name == musicName));
+                    if (playTarget != musicName && this.isPlay) {
+                        this.play_(this.play_target);
+                        let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == musicName)) + 'play']
+                        this.play_target = Array.isArray(target) ? target[0] : target;
+                        this.play_(this.play_target);
+                        return;
+                    } else if (playTarget != musicName && !this.isPlay) {
+                        let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == musicName)) + 'play']
+                        this.play_target = Array.isArray(target) ? target[0] : target;
+                        return;
+                    }
+                    this.play_(this.play_target);
+                    this.isPlay = isPlay;
                 }
             });
         });
@@ -96,14 +112,29 @@ export default {
         bus.$off('isPlay');
         bus.$on('isPlay', (isPlay, path) => {
             if (path == '/suggest') {
-                this.play_(this.play_target)
-            }
+                    // 如果要播放的歌曲不是当前播放的歌曲
+                    let playTarget = this.music[this.reandoms[this.item]].name;
+                    this.item = this.reandoms.indexOf(this.music.findIndex((item) => item.name == musicName));
+                    if (playTarget != musicName && this.isPlay) {
+                        this.play_(this.play_target);
+                        let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == musicName)) + 'play']
+                        this.play_target = Array.isArray(target) ? target[0] : target;
+                        this.play_(this.play_target);
+                        return;
+                    } else if (playTarget != musicName && !this.isPlay) {
+                        let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == musicName)) + 'play']
+                        this.play_target = Array.isArray(target) ? target[0] : target;
+                        return;
+                    }
+                    this.play_(this.play_target);
+                    this.isPlay = isPlay;
+                }
         });
         // 如果在其他页面修改了播放状态，需要同步到当前页面
-        const data = this.$parent.$children[3].$data;
-        if (data.isPlay != this.isPlay) {
-            this.play_(this.play_target);
-        }
+        // const data = this.$parent.$children[3].$data;
+        // if (data.isPlay != this.isPlay) {
+        //     this.play_(this.play_target);
+        // }
     },
 
     mounted() {
@@ -141,7 +172,11 @@ export default {
         },
 
         play(e, i) {
-            var i = this.music[this.reandoms[i.slice(4, 5)]];
+            let music = [];
+            for (let i = 0; i < this.reandoms.length; i++) {
+                music.push(this.music[this.reandoms[i]]);
+            }
+            this.item = i.slice(4, 5);
             if (this.isPlay) {
                 // 有歌曲在播放
                 if (e.target != this.play_target) {
@@ -152,19 +187,19 @@ export default {
                     this.play_target = e.target;
                     this.play_target.innerHTML = this.play_icon; // 使当前的选中的图标为播放
                     this.isPlay = true;
-                    bus.$emit("music", i, true, this.$route.path);
-                    bus.$emit("music", i, true, this.$route.path);
+                    bus.$emit("music", music, i.slice(4, 5), true, this.$route.path);
+                    bus.$emit("music", music, i.slice(4, 5), true, this.$route.path);
                 } else {
                     this.play_target.innerHTML = this.stop_icon;
                     this.isPlay = false;
-                    bus.$emit("music", i, false, this.$route.path);
+                    bus.$emit("music", music, i.slice(4, 5), false, this.$route.path);
                 }
             } else {
                 // 没有歌曲在播放
                 e.target.innerHTML = this.play_icon;
                 this.isPlay = true;
                 this.play_target = e.target;
-                bus.$emit("music", i, false, this.$route.path);
+                bus.$emit("music", music, i.slice(4, 5), false, this.$route.path);
             }
         },
         play_(e) {
