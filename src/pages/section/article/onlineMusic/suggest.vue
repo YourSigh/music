@@ -69,7 +69,6 @@ export default {
             isPlay:false,
             play_target:null,
             reandoms:[], // 存放随机数在音乐列表中的下标
-            flag: false,
             item: 0, // 当前播放的歌曲在音乐列表中的下标
         };
     },
@@ -110,7 +109,7 @@ export default {
 
     activated() {
         bus.$off('isPlay');
-        bus.$on('isPlay', (isPlay, path) => {
+        bus.$on('isPlay', (isPlay, path, musicName) => {
             if (path == '/suggest') {
                     // 如果要播放的歌曲不是当前播放的歌曲
                     let playTarget = this.music[this.reandoms[this.item]].name;
@@ -131,10 +130,41 @@ export default {
                 }
         });
         // 如果在其他页面修改了播放状态，需要同步到当前页面
-        // const data = this.$parent.$children[3].$data;
-        // if (data.isPlay != this.isPlay) {
-        //     this.play_(this.play_target);
-        // }
+        const data = this.$parent.$children[3].$data;
+        let playTarget = this.music[this.reandoms[this.item]].name;
+        // 如果只是修改了播放状态，不是切换歌曲
+        if (data.isPlay != this.isPlay && data.musicList[data.index].name == playTarget) {
+            this.play_(this.play_target);
+        }
+        // 如果切换了歌曲
+        if (data.musicList[data.index].name != playTarget) {
+            this.item = this.reandoms.indexOf(this.music.findIndex((item) => item.name == data.musicList[data.index].name));
+            if (this.isPlay != data.isPlay) {
+                if (data.isPlay) {
+                    // 播放状态不同，并且当前是在播放
+                    let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == data.musicList[data.index].name)) + 'play']
+                    this.play_target = Array.isArray(target) ? target[0] : target;
+                    this.play_(this.play_target);
+                } else {
+                    // 播放状态不同，并且当前是在暂停
+                    this.play_(this.play_target);
+                    let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == data.musicList[data.index].name)) + 'play']
+                    this.play_target = Array.isArray(target) ? target[0] : target;
+                }
+            } else {
+                if (data.isPlay) {
+                    // 播放状态相同，并且当前是在播放
+                    this.play_(this.play_target);
+                    let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == data.musicList[data.index].name)) + 'play']
+                    this.play_target = Array.isArray(target) ? target[0] : target;
+                    this.play_(this.play_target);
+                } else {
+                    // 播放状态相同，并且当前是在暂停
+                    let target = this.$refs[this.reandoms.indexOf(this.music.findIndex((item) => item.name == data.musicList[data.index].name)) + 'play']
+                    this.play_target = Array.isArray(target) ? target[0] : target;
+                }
+            }
+        }
     },
 
     mounted() {

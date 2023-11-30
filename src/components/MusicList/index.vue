@@ -79,7 +79,7 @@ export default {
         // 如果在其他页面修改了播放状态，需要同步到当前页面
         const data = this.$parent.$parent.$children[3].$data;
         // 如果只是修改了播放状态，不是切换歌曲
-        if (data.isPlay != this.isPlay && data.musicList[data.index].name != this.playTarget) {
+        if (data.isPlay != this.isPlay && data.musicList[data.index].name == this.playTarget) {
             this.isPlay = data.isPlay;
             this.$refs[this.playTarget][0].play();
         }
