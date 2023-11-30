@@ -5,7 +5,7 @@
         </div>
         <div class="playback iconfont">
             <audio style="display: none" :src="music_url" controls ref="audio" @canplay="getDuration"
-                @timeupdate="update"></audio>
+                @timeupdate="update" @ended="ended"></audio>
             <div class="musicMsg">
                 <div class="img">
                     <img :src="music_img" alt="">
@@ -21,12 +21,24 @@
                 </div>
             </div>
             <div class="player">
-                <div class="b_kind" @click="kind_v" v-html="kind_icon"></div>
+                <div class="b_kind" @click="kind_v" v-html="kind_icon" ref="kind_icon"></div>
                 <div class="kind" style="visibility: hidden;" ref="kind" @click=$event.stopPropagation();>
-                    <div>随机播放</div>
-                    <div>顺序播放</div>
-                    <div>单曲循环</div>
-                    <div>列表循环</div>
+                    <div @click="changeLoop(1)">
+                        <span>&#xe622;</span>
+                        随机播放
+                    </div>
+                    <div @click="changeLoop(2)">
+                        <span>&#xe871;</span>
+                        顺序播放
+                    </div>
+                    <div @click="changeLoop(3)">
+                        <span style="font-size: 20px;">&#xe606;</span>
+                        单曲循环
+                    </div>
+                    <div @click="changeLoop(4)">
+                        <span>&#xe66c;</span>
+                        列表循环
+                    </div>
                 </div>
                 <div class="b_last" @click="last">
                     &#xe800;
@@ -63,7 +75,8 @@ export default {
     data() {
         return {
             b_play: '&#xe658',
-            kind_icon: '&#xe871;',
+            kind_icon: '&#xe871;', // 循环方式图标
+            loopKind: 2, // 循环方式
             isPlay: false,
             nowTime: 0,
             totalTime: 0,
@@ -71,7 +84,7 @@ export default {
             isMouseDown: false,
             musicList: [], // 组件传值的音乐信息
             music_url: 'music/Alan Walker - Fade.ogg',
-            mute_icon: '&#xe642;',
+            mute_icon: '&#xe642;', // 静音图标
             music_name: 'QQ音乐 听我想听',
             music_img: require('../../../assets/img/playback.png'),
             path: '', // 调用当前组件播放的页面的路径
@@ -139,6 +152,7 @@ export default {
                     audio.play();
                 }
             }, 1000);
+            this.isEnded = this.$refs.audio.ended;
         },
         last() {
             // 上一首
@@ -147,7 +161,6 @@ export default {
         next() {
             // 下一首
             this.checkoutMusic(2);
-            
         },
         checkoutMusic(flg) {
             // 切换歌曲
@@ -228,12 +241,32 @@ export default {
                 this.mute_icon = '&#xe641;';
             }
         },
+        changeLoop(kind) {
+            if (kind == 1) {
+                this.kind_icon = '&#xe622;';
+            } else if (kind == 2) {
+                this.kind_icon = '&#xe871;';
+            } else if (kind == 3) {
+                this.kind_icon = '&#xe606;';
+            } else if (kind == 4) {
+                this.kind_icon = '&#xe66c;';
+            }
+            if (kind == 3) {
+                this.$refs.kind_icon.style.fontSize = '20px';
+            } else {
+                this.$refs.kind_icon.style.fontSize = '16px';
+            }
+            this.loopKind = kind;
+            this.$refs.kind.style.visibility = 'hidden';
+        },
+        ended() {
+            console.log('播放结束');
+        },
         getDuration() {
             this.totalTime = this.$refs.audio.duration;
         }
     },
     watch: {
-
     }
 };
 </script>
@@ -348,6 +381,7 @@ export default {
 
 #footerRight>.playback>.player>.b_kind {
     margin-left: 27px;
+    width: 20px;
 }
 
 #footerRight>.playback>.player>.kind {
@@ -366,6 +400,10 @@ export default {
     font-size: 16px;
     height: 45px;
     line-height: 45px;
+}
+
+#footerRight>.playback>.player>.kind>div:hover {
+    color: #aaccee;
 }
 
 #footerRight>.playback>.player>.b_last {
