@@ -5,7 +5,7 @@
         </div>
         <div class="playback iconfont">
             <audio style="display: none" :src="music_url" controls ref="audio" @canplay="getDuration"
-                @timeupdate="update" @ended="ended"></audio>
+                @timeupdate="update" @ended="checkoutMusic(2)"></audio>
             <div class="musicMsg">
                 <div class="img">
                     <img :src="music_img" alt="">
@@ -168,10 +168,38 @@ export default {
             let audio = this.$refs.audio;
             if (flg == 1) {
                 // 上一首
-                this.index = --this.index < 0 ? this.musicList.length + this.index : this.index; // 循环播放
-            } else {
+                if (this.loopKind == 1) {
+                    // 随机播放
+                    this.index = Math.floor(Math.random() * this.musicList.length);
+                } else if (this.loopKind == 2) {
+                    // 顺序播放
+                    this.index = --this.index < 0 ? this.musicList.length + this.index : this.index;
+                } else if (this.loopKind == 3) {
+                    // 单曲循环
+                    audio.load();
+                    audio.play();
+                    return;
+                } else if (this.loopKind == 4) {
+                    // 列表循环
+                    this.index = --this.index < 0 ? this.musicList.length + this.index : this.index;
+                }
+            } else if (flg == 2){
                 // 下一首
-                this.index = ++this.index % this.musicList.length; // 循环播放
+                if (this.loopKind == 1) {
+                    // 随机播放
+                    this.index = Math.floor(Math.random() * this.musicList.length);
+                } else if (this.loopKind == 2) {
+                    // 顺序播放
+                    this.index = ++this.index % this.musicList.length;
+                } else if (this.loopKind == 3) {
+                    // 单曲循环
+                    audio.load();
+                    audio.play();
+                    return;
+                } else if (this.loopKind == 4) {
+                    // 列表循环
+                    this.index = ++this.index % this.musicList.length;
+                }
             }
             this.music_url = this.musicList[this.index].src;
             this.music_name = this.musicList[this.index].name;
@@ -258,9 +286,6 @@ export default {
             }
             this.loopKind = kind;
             this.$refs.kind.style.visibility = 'hidden';
-        },
-        ended() {
-            console.log('播放结束');
         },
         getDuration() {
             this.totalTime = this.$refs.audio.duration;
