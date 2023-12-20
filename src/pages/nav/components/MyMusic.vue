@@ -5,7 +5,7 @@
                 我的音乐
             </div>
         </div>
-        <div class="like">
+        <div @click="gotoMyFavorite" class="myFavorite">
             <div class="like-icon">
                 &#xe760;
             </div>
@@ -43,6 +43,11 @@
 <script>
 export default {
     name: 'MyMusic',
+    props:{
+        selectComponent:{
+            type:String,
+        }
+    },
 
     data() {
         return {
@@ -55,7 +60,10 @@ export default {
     },
 
     methods: {
-        
+        gotoMyFavorite() {
+            this.$router.push('/myFavorite');
+            this.$emit('update:selectComponent', 'myFavorite');
+        },
     },
 };
 </script>

@@ -85,15 +85,6 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-    font-family: "iconfont logo";
-    src: url("https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834");
-    src: url("https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834#iefix") format("embedded-opentype"),
-        url("https://at.alicdn.com/t/font_985780_km7mi63cihi.woff?t=1545807318834") format("woff"),
-        url("https://at.alicdn.com/t/font_985780_km7mi63cihi.ttf?t=1545807318834") format("truetype"),
-        url("https://at.alicdn.com/t/font_985780_km7mi63cihi.svg?t=1545807318834#iconfont") format("svg");
-}
-
 #musicItem {
     display: flex;
 }

@@ -1,9 +1,9 @@
 <template>
     <div id="navLeft">
-        <OnlineMusic :selectComponent.sync = "selectComponent" ></OnlineMusic>
-        <MyMusic></MyMusic>
-        <CreatePlayList></CreatePlayList>
-        <FavoritePlayList></FavoritePlayList>
+        <OnlineMusic :selectComponent.sync = "selectComponent"></OnlineMusic>
+        <MyMusic :selectComponent.sync = "selectComponent"></MyMusic>
+        <CreatePlayList :selectComponent.sync = "selectComponent"></CreatePlayList>
+        <FavoritePlayList :selectComponent.sync = "selectComponent"></FavoritePlayList>
     </div>
 </template>
 

@@ -125,16 +125,14 @@ export default {
     methods: {
         // kind：1：组件传值播放，2：点击播放按钮播放
         play(kind) {
-            if (this.music_name == 'QQ音乐 听我想听') {
-                this.music_name = 'Fade';
-                this.music_img = '/music-img/Faded.png';
-            }
-
             this.b_play == '&#xe658' ? this.b_play = '&#xe6f7' : this.b_play = '&#xe658';
             let audio = this.$refs.audio;
 
             // 判断是否需要对其他页面的歌曲进行暂停与播放
-            if (kind == 2 && this.isPlay) {
+            if (this.music_name == 'QQ音乐 听我想听') {
+                this.music_name = 'Fade';
+                this.music_img = '/music-img/Faded.png';
+            } else if (kind == 2 && this.isPlay) {
                 // 如果点击播放按钮时歌曲正在播放，则执行下面的代码
                 bus.$emit('isPlay', false, this.path, this.musicList[this.index].name);
             } else if (kind == 2 && !this.isPlay) {
@@ -152,7 +150,6 @@ export default {
                     audio.play();
                 }
             }, 1000);
-            this.isEnded = this.$refs.audio.ended;
         },
         last() {
             // 上一首
@@ -300,15 +297,6 @@ export default {
 #footerRight {
     width: 810px;
     height: 75px;
-}
-
-@font-face {
-    font-family: "iconfont logo";
-    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834');
-    src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834#iefix') format('embedded-opentype'),
-        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.woff?t=1545807318834') format('woff'),
-        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.ttf?t=1545807318834') format('truetype'),
-        url('https://at.alicdn.com/t/font_985780_km7mi63cihi.svg?t=1545807318834#iconfont') format('svg');
 }
 
 #footerRight>.wrapper {

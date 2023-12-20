@@ -1,6 +1,7 @@
 import test from './test'
 import selectResult from './selectResult'
 import onlineMusic from './onlineMusic'
+import myMusic from './myMusic'
 
 export default [
     {
@@ -8,6 +9,7 @@ export default [
         redirect: "/suggest"
     },
     ...onlineMusic,
+    ...myMusic,
     ...selectResult,
     ...test,
 ]

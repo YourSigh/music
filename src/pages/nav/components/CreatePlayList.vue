@@ -31,6 +31,11 @@
 <script>
 export default {
     name: 'CreatePlayList',
+    props:{
+        selectComponent:{
+            type:String,
+        }
+    },
 
     data() {
         return {

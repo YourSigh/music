@@ -31,6 +31,11 @@
 <script>
 export default {
     name: 'FavoritePlayList',
+    props:{
+        selectComponent:{
+            type:String,
+        }
+    },
 
     data() {
         return {
