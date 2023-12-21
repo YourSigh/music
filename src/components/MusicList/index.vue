@@ -137,7 +137,6 @@ export default {
 #musicList {
     width: 724px;
     height: 1000px;
-    /* background-color: blue; */
 }
 
 #musicList::before {

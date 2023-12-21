@@ -15,7 +15,9 @@
       </header>
       <article>
         <keep-alive :include="aliveArr">
-          <router-view :music="music"></router-view>
+          <transition name="fade">
+            <router-view :music="music"></router-view>
+          </transition>
         </keep-alive>
       </article>
       <footer>
@@ -44,7 +46,7 @@ export default {
   data() {
     return {
       music: [],
-      aliveArr:[],
+      aliveArr: [],
       window: window
     }
   },
@@ -98,6 +100,14 @@ export default {
   /* IE 10+ */
   user-select: none;
   /* Standard syntax */
+}
+
+.fade-enter-active {
+  transition: opacity 1s ease;
+}
+
+.fade-enter {
+  opacity: 0;
 }
 
 #app {
@@ -180,6 +190,7 @@ section>header {
 section>article {
   width: 810px;
   height: 535px;
+  overflow: hidden;
 }
 
 section>footer {
